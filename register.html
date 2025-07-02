@@ -17,15 +17,18 @@
     <header id="header-menu">
       <div class="left-menu">
         <img src="imgs/agape-logo.png" alt="" />
-        <div class="">Início</div>
+        <a href="index.html">Início</a>
         <div class="">Funcionalidades</div>
         <div class="">Sobre</div>
         <div class="">Contato</div>
       </div>
       <div class="right-menu">
         <a href="login.html" class="btn-logar Nunito-Font">Logar</a>
-        <button type="submit" class="btn-cadastrar">Cadastrar</button>
+        <button onclick="goToLogin()" type="submit" class="btn-cadastrar">
+          Cadastrar
+        </button>
       </div>
+      <script src="script.js" defer></script>
     </header>
 
     <main class="main-Register Nunito-Font">
@@ -41,24 +44,24 @@
           <div class="Register-name-form">
             <div>
               <p>Nome</p>
-              <input type="password" name="" id="" required />
+              <input type="text" name="" id="" class="validacao" required />
             </div>
             <div>
               <p>Sobrenome</p>
-              <input type="password" name="" id="" required />
+              <input type="text" name="" id="" class="validacao" required />
             </div>
           </div>
 
           Email
-          <input type="email" required />
+          <input type="email" required class="validacao"/>
           Senha
-          <input type="password" name="" id="" required />
+          <input type="password" name="" id="" class="validacao" required />
           Confirmar senha
           <input
             type="password"
             name=""
             id=""
-            class="Register-space"
+            class="Register-space validacao"
             required
           />
 
@@ -67,6 +70,7 @@
             id="btn-Cadastrar-Register"
             type="submit"
             value="Cadastrar"
+            onclick="goToLogin()"
           />
           <div class="checkbox-Register">
             <input type="checkbox" />

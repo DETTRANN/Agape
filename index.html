@@ -11,6 +11,7 @@
       href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
       rel="stylesheet"
     />
+    <script src="script.js" defer></script>
   </head>
 
   <body>
@@ -24,7 +25,7 @@
       </div>
       <div class="right-menu">
         <a href="login.html" class="btn-logar Nunito-Font">Logar</a>
-        <button type="submit" class="btn-cadastrar">Cadastrar</button>
+        <button onclick="goToCadastro()" type="button" class="btn-cadastrar">Cadastrar</button>
       </div>
     </header>
 
@@ -37,7 +38,7 @@
           dia e decisões mais rápidas — tudo na palma da sua mão.
         </p>
 
-        <button type="submit" class="btn-comecar">Começar</button>
+        <button onclick="goToCadastro()" type="submit" class="btn-comecar">Começar</button>
       </section>
       <section class="right-section">
         <img src="imgs/SuperCavaloi.png" alt="" />
@@ -64,35 +65,38 @@
       <h1>Por que escolher <span>Agape</span></h1>
       <nav>
         <section>
-          <img src="imgs/image-removebg-preview.png" alt="">
+          <img src="imgs/image-removebg-preview.png" alt="" />
           <h2>Simples, rápido e sem complicação</h2>
         </section>
         <section>
-          <img src="imgs/image-removebg-preview (1).png" alt="">
+          <img src="imgs/image-removebg-preview (1).png" alt="" />
           <h2>Rastreio inteligente de produtos</h2>
         </section>
         <section>
-          <img src="imgs/image-removebg-preview (2).png" alt="">
+          <img src="imgs/image-removebg-preview (2).png" alt="" />
           <h2>Suporte humano</h2>
         </section>
       </nav>
     </main>
 
-    <main class="main-fourth-content">
-    </main>
+    <main class="main-fourth-content"></main>
 
     <main class="main-fifth-content">
       <nav class="left-fifth-content">
         <div>Sobre Nós</div>
-        <div>Transformamos a <span>gestão de estoque</span> em algo simples e eficiente</div>
+        <div>
+          Transformamos a <span>gestão de estoque</span> em algo simples e
+          eficiente
+        </div>
         <p>
-          Gerenciar estoque não precisa ser complicado. Na Ágape, tornamos esse processo mais simples e 
-          eficiente com um sistema prático de acompanhamento por etapas. Ajudamos negócios de todos os 
-          tamanhos a organizar melhor seus produtos e otimizar sua operação diária.
+          Gerenciar estoque não precisa ser complicado. Na Ágape, tornamos esse
+          processo mais simples e eficiente com um sistema prático de
+          acompanhamento por etapas. Ajudamos negócios de todos os tamanhos a
+          organizar melhor seus produtos e otimizar sua operação diária.
         </p>
       </nav>
       <nav class="right-fifth-content">
-        <img src="imgs/main-fifth-content-imagemmain.png" alt="">
+        <img src="imgs/main-fifth-content-imagemmain.png" alt="" />
       </nav>
     </main>
 
@@ -102,15 +106,15 @@
 
     <main class="main-sixth-content">
       <nav class="left-sixth-content">
-        <img src="imgs/main-sixth-content-imagemmain.png" alt="">
+        <img src="imgs/main-sixth-content-imagemmain.png" alt="" />
       </nav>
       <nav class="right-sixth-content">
         <h1>Comece grátis</h1>
         <p>
-          Se você chegou até aqui, deve estar pelo menos um pouco curioso. 
+          Se você chegou até aqui, deve estar pelo menos um pouco curioso.
           Inscreva-se e dê o primeiro passo em direção aos seus objetivos.
         </p>
-        <button type="submit" class="btn-register-now">Começar</button>
+        <button onclick="goToCadastro()" type="submit" class="btn-register-now">Começar</button>
       </nav>
     </main>
 
@@ -153,7 +157,12 @@
         <h2>Fale Conosco</h2>
         <form class="contact-form">
           <input type="text" id="nome" placeholder="Digite seu nome" required />
-          <input type="email" id="email" placeholder="Digite seu email" required />
+          <input
+            type="email"
+            id="email"
+            placeholder="Digite seu email"
+            required
+          />
           <button type="submit" class="btn-enviar">Enviar</button>
         </form>
       </nav>
