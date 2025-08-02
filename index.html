@@ -2,7 +2,7 @@
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" />
     <title>Agape</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -17,15 +17,23 @@
   <body>
     <header id="header-menu">
       <div class="left-menu">
-        <img src="imgs/agape-logo.png" alt="" />
-        <div class="">Início</div>
-        <div class="">Funcionalidades</div>
-        <div class="">Sobre</div>
-        <div class="">Contato</div>
+        <img
+          src="imgs/aurando.png"
+          alt=""
+          onclick="scrollToSection('.main-content')"
+        />
+        <div onclick="scrollToSection('.main-content')">Início</div>
+        <div onclick="scrollToSection('.main-third-content')">
+          Funcionalidades
+        </div>
+        <div onclick="scrollToSection('.main-fifth-content')">Sobre</div>
+        <div onclick="scrollToSection('footer')">Contato</div>
       </div>
       <div class="right-menu">
-        <a href="login.html" class="btn-logar Nunito-Font">Logar</a>
-        <button onclick="goToCadastro()" type="button" class="btn-cadastrar">Cadastrar</button>
+        <a href="login.html" class="btn-logar Nunito-Font">Log In</a>
+        <button onclick="goToCadastro()" type="button" class="btn-cadastrar">
+          Cadastrar
+        </button>
       </div>
     </header>
 
@@ -38,10 +46,12 @@
           dia e decisões mais rápidas — tudo na palma da sua mão.
         </p>
 
-        <button onclick="goToCadastro()" type="submit" class="btn-comecar">Começar</button>
+        <button onclick="goToCadastro()" type="submit" class="btn-comecar">
+          Começar
+        </button>
       </section>
       <section class="right-section">
-        <img src="imgs/SuperCavaloi.png" alt="" />
+        <img src="imgs/Mulher_e_prateleira_rosa_com_caixas.png" alt="" />
       </section>
     </main>
 
@@ -57,29 +67,121 @@
         </p>
       </nav>
       <nav class="nav-organizador-estoque-img">
-        <img src="imgs/Captura de tela 2025-06-29 211831.png" alt="" />
+        <img
+          src="imgs/Captura_de_tela_2025-06-29_211831-removebg-preview.png"
+          alt=""
+        />
       </nav>
     </main>
 
     <main class="main-third-content">
       <h1>Por que escolher <span>Agape</span></h1>
-      <nav>
-        <section>
+
+      <!-- Indicador de modo automático -->
+      <div id="autoIndicator" class="auto-indicator">
+        <span>🔄 Navegação automática ativa</span>
+      </div>
+
+      <!-- Barra de indicadores -->
+      <div id="barraItens"></div>
+
+      <!-- Container do carrossel -->
+      <div id="carrossel" class="container scrollx">
+        <section class="carousel-item">
           <img src="imgs/image-removebg-preview.png" alt="" />
-          <h2>Simples, rápido e sem complicação</h2>
+          <div>
+            <h2>Simples, rápido e sem complicação</h2>
+            <p>
+              • Interface intuitiva para cadastro e controle de produtos<br />
+              • Acompanhamento em tempo real sem complicações
+            </p>
+          </div>
         </section>
-        <section>
+        <section class="carousel-item">
           <img src="imgs/image-removebg-preview (1).png" alt="" />
-          <h2>Rastreio inteligente de produtos</h2>
+          <div>
+            <h2>Rastreio inteligente de produtos</h2>
+            <p>
+              • Controle total sobre movimentações e estoque<br />
+              • Alertas automáticos para produtos em falta ou vencidos
+            </p>
+          </div>
         </section>
-        <section>
-          <img src="imgs/image-removebg-preview (2).png" alt="" />
-          <h2>Suporte humano</h2>
+        <section class="carousel-item">
+          <img src="imgs/caca.png" alt="" />
+          <div>
+            <h2>Suporte humano</h2>
+            <p>
+              • Atendimento rápido e personalizado<br />
+              • Equipe dedicada ao sucesso do seu negócio
+            </p>
+          </div>
         </section>
-      </nav>
+      </div>
     </main>
 
-    <main class="main-fourth-content"></main>
+    <main class="main-fourth-content">
+      <!-- Nova seção Requisitos do Sistema -->
+      <div class="top-courses-section">
+        <div class="top-courses-header">
+          <h2>Requisitos do Sistema</h2>
+        </div>
+
+        <div class="courses-grid">
+          <div class="course-card career-path">
+            <div class="course-badge">Gerencial</div>
+            <h3>Controle Administrativo Completo</h3>
+            <p>
+              Gerencie usuários, permissões e configurações do sistema com
+              ferramentas administrativas avançadas e interface intuitiva.
+            </p>
+            <div class="course-meta">
+              <span class="difficulty">� Administrativo</span>
+              <span class="duration">Alto nível</span>
+            </div>
+          </div>
+
+          <div class="course-card course">
+            <div class="course-badge">Core System</div>
+            <h3>Arquitetura do Sistema Agape</h3>
+            <p>
+              Sistema robusto com tecnologia moderna, banco de dados otimizado e
+              arquitetura escalável para atender empresas de todos os tamanhos.
+            </p>
+            <div class="course-meta">
+              <span class="difficulty">⚙️ Tecnologia Core</span>
+              <span class="duration">Base do Sistema</span>
+            </div>
+          </div>
+
+          <div class="course-card certification-path">
+            <div class="course-badge">Proteção</div>
+            <h3>Segurança e Proteção de Dados</h3>
+            <p>
+              Criptografia avançada, autenticação de dois fatores, backup
+              automático e conformidade com LGPD para máxima proteção.
+            </p>
+            <div class="course-meta">
+              <span class="difficulty">� Segurança</span>
+              <span class="duration">Premium</span>
+            </div>
+          </div>
+
+          <div class="course-card skill-path">
+            <div class="course-badge">Autenticação</div>
+            <h3>Sistema de Autenticação</h3>
+            <p>
+              Cadastro simplificado, login seguro, recuperação de senha e
+              gerenciamento de sessões para acesso rápido e protegido.
+            </p>
+            <div class="course-meta">
+              <span class="difficulty">� Cadastro/Login</span>
+              <span class="duration">Essencial</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
 
     <main class="main-fifth-content">
       <nav class="left-fifth-content">
@@ -106,7 +208,10 @@
 
     <main class="main-sixth-content">
       <nav class="left-sixth-content">
-        <img src="imgs/main-sixth-content-imagemmain.png" alt="" />
+        <img
+          src="imgs/main-sixth-content-imagemmain-removebg-preview.png"
+          alt=""
+        />
       </nav>
       <nav class="right-sixth-content">
         <h1>Comece grátis</h1>
@@ -114,7 +219,9 @@
           Se você chegou até aqui, deve estar pelo menos um pouco curioso.
           Inscreva-se e dê o primeiro passo em direção aos seus objetivos.
         </p>
-        <button onclick="goToCadastro()" type="submit" class="btn-register-now">Começar</button>
+        <button onclick="goToCadastro()" type="submit" class="btn-register-now">
+          Começar
+        </button>
       </nav>
     </main>
 
