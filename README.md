@@ -12,12 +12,12 @@
 ## Checklist de Funcionalidades da Segunda Entrega
 
 - [x] Design Intuitivo
-- [ ] Cadastro e login de usuários
-- [ ] Redefinição de senha
-- [ ] Notificações por Email
-- [ ] Sistema de gerenciamento de entrada e saída de estoque
-- [ ] Ordem automática
-- [ ] filtragem de produtos
-- [ ] Gerenciamento de quantidade de estoques
-- [ ] Alertas de Estoque Baixo
-- [ ] Gestão de Preços
+- [x] Cadastro e login de usuários
+- [x] Redefinição de senha
+- [x] Notificações por Email
+- [x] Sistema de gerenciamento de entrada e saída de estoque
+- [x] Ordem automática
+- [x] filtragem de produtos
+- [x] Gerenciamento de quantidade de estoques
+- [x] Alertas de Estoque Baixo
+- [x] Gestão de Preços
