@@ -3,13 +3,14 @@
   margin: 0;
   padding: 0;
 }
-
 body {
   font-family: 'Nunito', sans-serif;
   background-color: #0a0d1c;
   color: white;
   line-height: 1.4;
+  height: 100%;
 }
+
 /* Header Principal */
 header {
   font-family: "Nunito", sans-serif;
@@ -160,8 +161,12 @@ header.scrolled .right-menu a {
 a {
   text-decoration: none;
 }
-
 /* CONTATO - Main */
+main.contact-main {
+  flex: 1;
+  padding-top: 9vh; 
+}
+
 .contact-main {
   display: flex;
   justify-content: center;
@@ -215,7 +220,6 @@ a {
 }
 
 /* Formulário */
-
 .contact-main-form {
   display: flex;
   flex-direction: column;
@@ -279,14 +283,14 @@ a {
   transform: translateY(2px);
 }
 
-/* Footer */
 footer {
-  background-color: #000;
+  background-color: black;
   display: flex;
   justify-content: space-between;
   padding: 40px 15%;
+  margin-top: 0;
   font-family: "Nunito", sans-serif;
-  border-top: 2px solid #fff;
+  border-top: 2px solid white;
 }
 
 footer nav {
@@ -295,9 +299,9 @@ footer nav {
 }
 
 footer h2 {
-  color: #fff;
+  color: white;
   margin-bottom: 20px;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
 }
 
@@ -306,7 +310,6 @@ footer h2 {
   color: #ccc;
   cursor: pointer;
   transition: color 0.3s ease;
-  font-size: 14px;
 }
 
 .Left-footer div:hover {
@@ -318,65 +321,76 @@ footer h2 {
   align-items: center;
   margin-bottom: 15px;
   color: #ccc;
-  font-size: 14px;
-  cursor: pointer;
   transition: color 0.3s ease;
+  cursor: pointer;
 }
 
 .Middle-footer div:hover {
-  color: #ffd300;
+  color: white;
 }
 
 .Middle-footer svg {
-  width: 18px;
-  height: 18px;
-  fill: #fff;
-  margin-right: 8px;
+  width: 20px;
+  height: 20px;
+  fill: white;
+  margin-right: 10px;
+  transition: all 0.3s ease;
   opacity: 0.9;
 }
 
-.Right-footer .contact-form {
+.Middle-footer svg:hover {
+  fill: #00bfa5;
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.Middle-footer span {
+  font-size: 14px;
+  color: #ccc;
+}
+.contact-form {
   display: flex;
   flex-direction: column;
+  gap: 15px;
+  max-width: 300px;
 }
 
-.Right-footer input {
-  background-color: #222;
-  border: none;
-  padding: 10px;
-  margin-bottom: 10px;
-  color: #fff;
+.contact-form input {
+  padding: 8px 11px;
+  border: 2px solid #333;
+  border-radius: 8px;
   font-size: 14px;
-  border-radius: 4px;
+  font-family: "Nunito", sans-serif;
+  transition: border-color 0.3s ease;
+  background-color: #1a1a1a;
+  color: white;
 }
 
-.Right-footer button {
-  background-color: #ffd300;
-  color: #000;
-  border: none;
-  padding: 10px;
-  font-weight: bold;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
+.contact-form input:focus {
+  outline: none;
+  border-color: #ffd300;
 }
 
-.Right-footer button:hover {
-  background-color: #e6be00;
+.contact-form input::placeholder {
+  color: #999;
 }
-
 .btn-enviar {
-  padding: 12px 25px;
-  border: none;
-  border-radius: 10px;
+  padding: 5px 13px;
   background-color: #ffd300;
   color: black;
-  font-weight: 700;
+  border: none;
+  border-radius: 8px;
   font-size: 16px;
+  font-weight: 600;
+  font-family: "Nunito", sans-serif;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 .btn-enviar:hover {
-  background-color: #d1b10e;
+  background-color: #d1b10e;
+}
+
+.btn-enviar:active {
+  transform: translateY(1px);
 }
