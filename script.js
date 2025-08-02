@@ -6,6 +6,10 @@ function goToLogin() {
   window.location.href = "login.html";
 }
 
+function goToSystem() {
+  window.location.href = "system.html";
+}
+
 // Função para navegação suave entre seções
 function scrollToSection(sectionClass) {
   const section = document.querySelector(sectionClass);

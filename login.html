@@ -25,9 +25,10 @@
       </div>
       <div class="right-menu">
         <a href="login.html" class="btn-logar Nunito-Font">Logar</a>
-        <button onclick="goToCadastro()" type="submit" class="btn-cadastrar">Cadastrar</button>
+        <button onclick="goToCadastro()" type="submit" class="btn-cadastrar">
+          Cadastrar
+        </button>
       </div>
-      
     </header>
 
     <main class="main-login Nunito-Font">
@@ -47,12 +48,14 @@
           <div class="Login-text-color-form login-space">
             Esqueceu sua Senha?
           </div>
-          <input
+          <button
             class="login-space"
             id="btn-logar-login"
-            type="submit"
-            value="Logar"
-          />
+            type="button"
+            onclick="goToSystem()"
+          >
+            Logar
+          </button>
           <div class="checkbox-login">
             <input type="checkbox" />
             <div>

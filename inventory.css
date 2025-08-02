@@ -1,0 +1,77 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Nunito", sans-serif;
+  background-color: black;
+}
+
+Header {
+  background-color: #0a0d1c;
+  width: 100%;
+  height: 9vh;
+  border-bottom: 1px solid white;
+  color: white;
+  font-size: 20px;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  height: 100%;
+  width: 100%;
+}
+
+.img-logo {
+  width: 140px;
+  height: auto;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.header-sections {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.header-sections:hover {
+  color: #ffd300;
+}
+
+.header-sections img {
+  width: 30px;
+  height: 30px;
+  transition: transform 0.3s ease;
+}
+
+.header-sections:hover img {
+  transform: scale(1.1);
+}
+
+.header-sections-notification > img{
+    width: 27px;
+    height: 27px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.header-sections-person > img{
+    width: 33px;
+    height: 33px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}

@@ -44,7 +44,7 @@ header.scrolled {
 }
 
 #header-menu.scrolled {
-  border-bottom: 2px solid rgb(255, 255, 255);
+  border-bottom: 1px solid rgb(255, 255, 255);
   background-color: rgba(16, 22, 47, 1);
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
 }
@@ -1145,11 +1145,13 @@ login-space {
   color: white;
   border: none;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   font-family: "Nunito", sans-serif;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  width: 417.5px;
+  height: 38.48px;
 }
 
 #btn-logar-login:hover {
