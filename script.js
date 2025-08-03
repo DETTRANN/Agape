@@ -473,4 +473,74 @@ document.addEventListener("DOMContentLoaded", function () {
   // Inicializar controle do header
   handleHeaderScroll(); // Executa uma vez para definir estado inicial
   window.addEventListener("scroll", optimizedHeaderScroll);
+
+  // Inicializar dropdown do usuário
+  initUserDropdown();
 });
+
+// Função para inicializar o dropdown do usuário
+function initUserDropdown() {
+  const dropdown = document.querySelector(".header-sections-person.dropdown");
+  const userIcon = dropdown?.querySelector(".user-icon");
+  const userMenu = dropdown?.querySelector(".user-menu");
+
+  if (!dropdown || !userIcon || !userMenu) return;
+
+  // Toggle do menu ao clicar no ícone
+  userIcon.addEventListener("click", (e) => {
+    e.stopPropagation();
+    userMenu.classList.toggle("menu-open");
+  });
+
+  // Fechar menu ao clicar em qualquer item
+  const menuItems = userMenu.querySelectorAll(".menu-item");
+  menuItems.forEach((item) => {
+    item.addEventListener("click", (e) => {
+      e.stopPropagation();
+
+      // Verificar qual item foi clicado
+      const itemText = item.querySelector("span").textContent;
+
+      switch (itemText) {
+        case "Perfil":
+          console.log("Navegando para perfil...");
+          // window.location.href = 'profile.html';
+          break;
+        case "Configurações":
+          console.log("Abrindo configurações...");
+          // window.location.href = 'settings.html';
+          break;
+        case "Contato":
+          console.log("Abrindo contato...");
+          // window.location.href = 'contact.html';
+          break;
+        case "Termos de Uso":
+          console.log("Mostrando termos de uso...");
+          // window.location.href = 'terms.html';
+          break;
+        case "Log out":
+          console.log("Fazendo logout...");
+          // Aqui você pode adicionar a lógica de logout
+          // window.location.href = 'login.html';
+          break;
+      }
+
+      // Fechar o menu após clique
+      userMenu.classList.remove("menu-open");
+    });
+  });
+
+  // Fechar menu ao clicar fora
+  document.addEventListener("click", (e) => {
+    if (!dropdown.contains(e.target)) {
+      userMenu.classList.remove("menu-open");
+    }
+  });
+
+  // Fechar menu com tecla ESC
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && userMenu.classList.contains("menu-open")) {
+      userMenu.classList.remove("menu-open");
+    }
+  });
+}

@@ -1,38 +1,115 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sistema</title>
-    <link rel="stylesheet" href="inventory.css">
-</head>
-<body>
-    <Header>
-        <section class="header-left">
-            <img class="img-logo" src="imgs/aurando.png" alt="">  
-            <div class="header-sections">
-                <img src="imgs/casa-simples-fina.png" alt="">
-                <div>Início</div>
-            </div>
-            <div class="header-sections">
-                <img src="imgs/grafico-de-barras.png" alt="">
-                <div>Relatórios</div>
-            </div>
-            <div class="header-sections">
-                <img src="imgs/estoque-pronto.png" alt="">
-                <div>Estoque</div>
-            </div>
-            <div class="header-sections">
-                <img src="imgs/localizacao.png" alt="">
-                <div>Rastreio</div>
-            </div>
-            <div class="header-sections header-sections-notification">
-                <img src="imgs/notificacao.png" alt="">
-            </div>
-            <div class="header-sections header-sections-person">
-                <img src="imgs/do-utilizador.png" alt="">
-            </div>
+    <link rel="stylesheet" href="inventory.css" />
+    <script src="dropdown-test.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <section class="header-left">
+        <img class="img-logo" src="imgs/aurando.png" alt="" />
+        <div class="header-sections">
+          <img src="imgs/casa-simples-fina.png" alt="" />
+          <div>Início</div>
+        </div>
+        <div class="header-sections">
+          <img src="imgs/grafico-de-barras.png" alt="" />
+          <div>Relatórios</div>
+        </div>
+        <div class="header-sections">
+          <img src="imgs/estoque-pronto.png" alt="" />
+          <div>Estoque</div>
+        </div>
+        <div class="header-sections">
+          <img src="imgs/localizacao.png" alt="" />
+          <div>Rastreio</div>
+        </div>
+        <div class="header-sections header-sections-notification">
+          <img src="imgs/notificacao.png" alt="" />
+        </div>
+        <div class="header-sections header-sections-person dropdown">
+          <img src="imgs/user-alien.png" alt="" class="user-icon" />
+          <ul class="user-menu">
+            <li class="menu-item">
+              <img src="imgs/icons8-robot-50.png" alt="" class="menu-icon" />
+              <span>Perfil</span>
+            </li>
+            <li class="menu-item">
+              <img src="imgs/configuracoes.png" alt="" class="menu-icon" />
+              <span>Configurações</span>
+            </li>
+            <li class="menu-item">
+              <img src="imgs/contato.png" alt="" class="menu-icon" />
+              <span>Contato</span>
+            </li>
+            <li class="menu-item">
+              <img src="imgs/termos-e-condicoes.png" alt="" class="menu-icon" />
+              <span>Termos de Uso</span>
+            </li>
+            <li class="menu-divider"></li>
+            <li class="menu-item logout">
+              <span>Log out</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </header>
+
+    <main>
+      <nav>
+        <section class="section-title-1">
+          <h1>Relatórios</h1>
         </section>
-    </Header>
-</body>
+        <section class="section-img-reports">
+          <h3>Resumo mensal</h3>
+          <img src="imgs/bar-graph 2.png" alt="" />
+        </section>
+        <section>
+          <p>Vendas e movimentações</p>
+        </section>
+        <section>
+          <button class="btn-view-reports">Visualizar Relatórios</button>
+        </section>
+      </nav>
+      <nav>
+        <section class="section-title-2">
+          <h1>Estoque</h1>
+        </section>
+        <section class="section-img-stock">
+          <img src="imgs/caixas.png" alt="" />
+        </section>
+        <section>
+          <p><span class="item-count-stock">0</span> Itens cadastrados</p>
+        </section>
+        <section>
+          <button class="btn-stock">Consultar Estoque</button>
+        </section>
+      </nav>
+      <nav>
+        <section class="section-title-3">
+          <h1>Rastreio</h1>
+        </section>
+        <section class="section-img-tracking">
+          <img src="imgs/entrega-rapida (1).png" alt="" />
+        </section>
+        <section>
+          <p><span class="item-count-tracking">0</span> entregas a caminhho</p>
+        </section>
+        <section>
+          <button class="btn-tracking">Acompanhar Rastreio</button>
+        </section>
+      </nav>
+    </main>
+    <article>
+      <nav>
+        <section>
+          <h1>Histórico de Transferências</h1>
+        </section>
+        <section></section>
+      </nav>
+    </article>
+  </body>
 </html>

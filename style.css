@@ -929,14 +929,14 @@ footer h2 {
 }
 
 .left-fifth-content div:nth-child(2) {
-  font-size: 48px;
+  font-size: 44px;
   font-weight: bold;
   width: 100%;
   text-align: left;
 }
 
 .left-fifth-content div:nth-child(2) + p {
-  font-size: 26px;
+  font-size: 22px;
   width: 90%;
   text-align: justify;
 }
@@ -946,7 +946,7 @@ footer h2 {
 }
 
 .main-fifth-content nav img {
-  width: 900px;
+  width: 800px;
   height: auto;
   cursor: pointer;
   transition: transform 0.3s ease;
