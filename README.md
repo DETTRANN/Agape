@@ -193,4 +193,4 @@ Este projeto está sob a licença MIT. Consulte o arquivo [LICENSE](LICENSE) par
 
 ---
 
-**Desenvolvido pela equipe Agape - © 2024 Sistema de Gestão de Estoque**
+**Desenvolvido pela equipe Agape - © 2025 Sistema de Gestão de Estoque**
