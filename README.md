@@ -1,6 +1,10 @@
-# Agape - Sistema de Gerecniamento de Estoque
+# Agape - Sistema de Gerenciamento de Estoque
 
-# Objetivos
+## Sobre o Projeto
+
+O **Agape** é um sistema completo de gestão de estoque desenvolvido para simplificar o controle de produtos, oferecendo uma interface intuitiva e funcionalidades robustas para empresas de todos os portes. O sistema proporciona controle total dos produtos, organização eficiente no dia a dia e tomada de decisões mais rápidas e assertivas.
+
+## Objetivos
 
 -   Facilitar o gerenciamento de estoque para pequenas e médias empresas
 -   Oferecer uma interface moderna e intuitiva
@@ -8,37 +12,37 @@
 -   Fornecer alertas inteligentes para gestão eficiente
 -   Garantir escalabilidade e performance
 
-## Funcionalidades
+## Funcionalidades Principais
 
 ### Autenticação e Segurança
 
--   [x] Sistema de cadastro e login de usuários
--   [x] Autenticação segura com validação
--   [x] Redefinição de senha via email
--   [x] Proteção de rotas e sessões
+-   Sistema de cadastro e login de usuários
+-   Autenticação segura com validação
+-   Redefinição de senha via email
+-   Proteção de rotas e sessões
 
 ### Gestão de Estoque
 
--   [x] Controle completo de entrada e saída de produtos
--   [x] Gerenciamento de quantidades em tempo real
--   [x] Sistema de alertas para estoque baixo
--   [x] Ordem automática de reposição
--   [x] Filtros avançados de produtos
--   [x] Gestão integrada de preços
+-   Controle completo de entrada e saída de produtos
+-   Gerenciamento de quantidades em tempo real
+-   Sistema de alertas para estoque baixo
+-   Ordem automática de reposição
+-   Filtros avançados de produtos
+-   Gestão integrada de preços
 
-### Interface e Experiência
+### Interface e Experiência do Usuário
 
--   [x] Design responsivo e intuitivo
--   [x] Interface moderna com paleta de cores consistente
--   [x] Animações suaves e transições
--   [x] Navegação otimizada para desktop e mobile
--   [x] Sistema de notificações visuais
+-   Design responsivo e intuitivo
+-   Interface moderna com paleta de cores consistente
+-   Animações suaves e transições
+-   Navegação otimizada para desktop e mobile
+-   Sistema de notificações visuais
 
 ### Comunicação
 
--   [x] Sistema de notificações por email
--   [x] Formulário de contato integrado
--   [x] Alertas automáticos do sistema
+-   Sistema de notificações por email
+-   Formulário de contato integrado
+-   Alertas automáticos do sistema
 
 ## Tecnologias Utilizadas
 
@@ -89,17 +93,70 @@ agape-laravel/
 └── storage/                # Armazenamento de arquivos
 ```
 
+## Instalação e Configuração
+
+### Pré-requisitos
+
+-   PHP 8.2 ou superior
+-   Composer
+-   Node.js 16+ (para build do frontend)
+
+### Passos para Instalação
+
+1. **Clone o repositório**
+
+    ```bash
+    git clone https://github.com/DETTRANN/Agape.git
+    cd Agape
+    ```
+
+2. **Instale as dependências PHP**
+
+    ```bash
+    composer install
+    ```
+
+3. **Configure o ambiente**
+
+    ```bash
+    cp .env.example .env
+    php artisan key:generate
+    ```
+
+4. **Configure o banco de dados**
+
+    ```bash
+    php artisan migrate
+    php artisan db:seed
+    ```
+
+5. **Instale dependências do frontend**
+
+    ```bash
+    npm install
+    npm run build
+    ```
+
+6. **Inicie o servidor**
+
+    ```bash
+    php artisan serve
+    ```
+
+7. **Acesse a aplicação**
+    ```
+    http://localhost:8000
+    ```
+
 ## Responsividade
 
-O sistema foi desenvolvido com abordagem **mobile-first**, garantindo uma experiência otimizada em:
+O sistema foi desenvolvido com abordagem mobile-first, garantindo uma experiência otimizada em:
 
--    **Mobile**: < 768px
--    **Tablet**: 768px - 1024px
--    **Desktop**: > 1024px
+-   **Mobile**: Dispositivos com largura menor que 768px
+-   **Tablet**: Dispositivos entre 768px e 1024px
+-   **Desktop**: Dispositivos com largura superior a 1024px
 
-## Funcionalidades Implementadas
-
-### Checklist da Segunda Entrega
+## Checklist de Funcionalidades - Segunda Entrega
 
 -   [x] **Design Intuitivo** - Interface moderna e responsiva
 -   [x] **Cadastro e Login** - Sistema completo de autenticação
@@ -114,37 +171,26 @@ O sistema foi desenvolvido com abordagem **mobile-first**, garantindo uma experi
 
 ## Equipe de Desenvolvimento
 
-| Nome                | Matrícula | 
-| ------------------- | --------  | 
-| **Daniel Heber**    | 12301647  | 
-| **Daniel Pereira**  | 12303011  | 
-| **Gabriel Dias**    | 12301620  | 
+| Nome                | Matrícula |
+| ------------------- | --------- |
+| **Daniel Heber**    | 12301647  |
+| **Daniel Pereira**  | 12303011  |
+| **Gabriel Dias**    | 12301620  |
 | **Gabriel Lacerda** | 12302457  |
-| **Matheus Vieira**  | 12302988  | 
+| **Matheus Vieira**  | 12302988  |
 
 **Turma**: 3E1
 
 ## Licença
 
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+Este projeto está sob a licença MIT. Consulte o arquivo [LICENSE](LICENSE) para mais detalhes.
 
-<div align="center">
-  Desenvolvido com ❤️ pela equipe Agape
-  
-  **© 2024 Agape - Sistema de Gestão de Estoque**
-</div>que
+## Contato
 
-<div align="center">
-  <img src="public/frontend/img/logo-agape.png" alt="Agape Logo" width="200"/>
-  
-  **Gestão de estoque descomplicada, eficiente e acessível**
-  
-  [![Laravel](https://img.shields.io/badge/Laravel-11.x-red.svg)](https://laravel.com)
-  [![PHP](https://img.shields.io/badge/PHP-8.2+-blue.svg)](https://php.net)
-  [![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow.svg)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-  [![CSS3](https://img.shields.io/badge/CSS3-Responsive-blue.svg)](https://www.w3.org/Style/CSS/)
-</div>
+-   **Email**: agapeinventory@gmail.com
+-   **WhatsApp**: (31) 1 2345-6789
+-   **Instagram**: @agape_inventory
 
-## Sobre o Projeto
+---
 
-O **Agape** é um sistema completo de gestão de estoque desenvolvido para simplificar o controle de produtos, oferecendo uma interface intuitiva e funcionalidades robustas para empresas de todos os portes. Com o Agape, você tem controle total dos seus produtos, mais organização no dia a dia e decisões mais rápidas — tudo na palma da sua mão.Projeto\*\*: Agape
+**Desenvolvido pela equipe Agape - © 2024 Sistema de Gestão de Estoque**
