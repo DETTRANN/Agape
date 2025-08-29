@@ -16,6 +16,14 @@
 
   <body>
     <header id="header-menu">
+      <!-- Logo Mobile -->
+      <img 
+        src="{{url('frontend/img/logo-agape.png')}}" 
+        alt="Agape" 
+        class="mobile-logo"
+        onclick="scrollToSection('.main-content')"
+      />
+      
       <div class="left-menu">
         <img
           src="{{url('frontend/img/logo-agape.png')}}"
@@ -35,7 +43,35 @@
           Cadastrar
         </button>
       </div>
+      
+      <!-- Botão Hamburger Mobile -->
+      <div class="hamburger-menu" id="hamburger-btn">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </header>
+
+    <!-- Menu Lateral Mobile -->
+    <div class="mobile-menu" id="mobile-menu">
+      <div class="mobile-menu-header">
+        <img src="{{url('frontend/img/logo-agape.png')}}" alt="Agape" />
+        <button class="close-btn" id="close-btn">&times;</button>
+      </div>
+      <nav class="mobile-menu-nav">
+        <a href="#" onclick="scrollToSection('.main-content'); closeMobileMenu()">Início</a>
+        <a href="#" onclick="scrollToSection('.main-third-content'); closeMobileMenu()">Funcionalidades</a>
+        <a href="#" onclick="scrollToSection('.main-fifth-content'); closeMobileMenu()">Sobre</a>
+        <a href="{{url('views/contato')}}">Contato</a>
+      </nav>
+      <div class="mobile-menu-buttons">
+        <a href="{{url('views/login')}}" class="mobile-btn-login">Log In</a>
+        <button onclick="goToCadastro()" class="mobile-btn-register">Cadastrar</button>
+      </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="mobile-menu-overlay" id="mobile-overlay"></div>
 
     <main class="main-content">
       <section class="left-section">

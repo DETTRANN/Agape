@@ -10,6 +10,10 @@ function goToSystem() {
     window.location.href = "/views/system";
 }
 
+function goToResetPassword() {
+    window.location.href = "/views/pwdreset";
+}
+
 // Função para navegação suave entre seções
 function scrollToSection(sectionClass) {
     const section = document.querySelector(sectionClass);
@@ -71,6 +75,54 @@ function initializeValidationElements() {
     return validationElements;
 }
 
+// Cache de elementos DOM para validação da página de redefinição de senha
+let pwdRedefinitionValidationElements = null;
+
+function initializePwdRedefinitionValidationElements() {
+    if (!pwdRedefinitionValidationElements) {
+        pwdRedefinitionValidationElements = {
+            campos: document.querySelectorAll("#resetForm .validacao"),
+            checkbox: document.querySelectorAll(
+                "#resetForm .checkbox-validacao"
+            ),
+            botao: document.getElementById("btn-reset-password"),
+        };
+    }
+    return pwdRedefinitionValidationElements;
+}
+
+// Cache de elementos DOM para validação da página de nova senha
+let pwdResetValidationElements = null;
+
+function initializePwdResetValidationElements() {
+    if (!pwdResetValidationElements) {
+        pwdResetValidationElements = {
+            campos: document.querySelectorAll("#newPasswordForm .validacao"),
+            checkbox: document.querySelectorAll(
+                "#newPasswordForm .checkbox-validacao"
+            ),
+            botao: document.getElementById("btn-new-password"),
+        };
+    }
+    return pwdResetValidationElements;
+}
+
+// Cache de elementos DOM para validação da página de login
+let loginValidationElements = null;
+
+function initializeLoginValidationElements() {
+    if (!loginValidationElements) {
+        loginValidationElements = {
+            campos: document.querySelectorAll("#loginForm .validacao"),
+            checkbox: document.querySelectorAll(
+                "#loginForm .checkbox-validacao"
+            ),
+            botao: document.getElementById("btn-logar-login"),
+        };
+    }
+    return loginValidationElements;
+}
+
 function validateFields() {
     const { campos, checkbox, botao } = initializeValidationElements();
 
@@ -95,6 +147,64 @@ function validateFields() {
         } else {
             botao.disabled = false;
             console.log("Botão habilitado");
+        }
+    }
+}
+
+// Função de validação para página de redefinição de senha
+function validatePwdRedefinitionFields() {
+    const { campos, checkbox, botao } =
+        initializePwdRedefinitionValidationElements();
+
+    const temCampoVazio = Array.from(campos).some(
+        (campo) => campo.value.trim() === ""
+    );
+
+    const CheckboxNaoMarcado = Array.from(checkbox).some((cb) => !cb.checked);
+
+    if (botao) {
+        if (temCampoVazio || CheckboxNaoMarcado) {
+            botao.disabled = true;
+        } else {
+            botao.disabled = false;
+        }
+    }
+}
+
+// Função de validação para página de nova senha
+function validatePwdResetFields() {
+    const { campos, checkbox, botao } = initializePwdResetValidationElements();
+
+    const temCampoVazio = Array.from(campos).some(
+        (campo) => campo.value.trim() === ""
+    );
+
+    const CheckboxNaoMarcado = Array.from(checkbox).some((cb) => !cb.checked);
+
+    if (botao) {
+        if (temCampoVazio || CheckboxNaoMarcado) {
+            botao.disabled = true;
+        } else {
+            botao.disabled = false;
+        }
+    }
+}
+
+// Função de validação para página de login
+function validateLoginFields() {
+    const { campos, checkbox, botao } = initializeLoginValidationElements();
+
+    const temCampoVazio = Array.from(campos).some(
+        (campo) => campo.value.trim() === ""
+    );
+
+    const CheckboxNaoMarcado = Array.from(checkbox).some((cb) => !cb.checked);
+
+    if (botao) {
+        if (temCampoVazio || CheckboxNaoMarcado) {
+            botao.disabled = true;
+        } else {
+            botao.disabled = false;
         }
     }
 }
@@ -467,6 +577,70 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    // Validação para página de redefinição de senha
+    const camposPwdRedefinition = document.querySelectorAll(
+        "#resetForm .validacao"
+    );
+    const checkboxesPwdRedefinition = document.querySelectorAll(
+        "#resetForm .checkbox-validacao"
+    );
+
+    if (camposPwdRedefinition.length > 0) {
+        validatePwdRedefinitionFields();
+
+        // Event listeners para campos de input da redefinição
+        camposPwdRedefinition.forEach((campo) => {
+            campo.addEventListener("input", validatePwdRedefinitionFields);
+        });
+
+        // Event listeners para checkboxes da redefinição
+        checkboxesPwdRedefinition.forEach((checkbox) => {
+            checkbox.addEventListener("change", validatePwdRedefinitionFields);
+        });
+    }
+
+    // Validação para página de nova senha
+    const camposPwdReset = document.querySelectorAll(
+        "#newPasswordForm .validacao"
+    );
+    const checkboxesPwdReset = document.querySelectorAll(
+        "#newPasswordForm .checkbox-validacao"
+    );
+
+    if (camposPwdReset.length > 0) {
+        validatePwdResetFields();
+
+        // Event listeners para campos de input da nova senha
+        camposPwdReset.forEach((campo) => {
+            campo.addEventListener("input", validatePwdResetFields);
+        });
+
+        // Event listeners para checkboxes da nova senha
+        checkboxesPwdReset.forEach((checkbox) => {
+            checkbox.addEventListener("change", validatePwdResetFields);
+        });
+    }
+
+    // Validação para página de login
+    const camposLogin = document.querySelectorAll("#loginForm .validacao");
+    const checkboxesLogin = document.querySelectorAll(
+        "#loginForm .checkbox-validacao"
+    );
+
+    if (camposLogin.length > 0) {
+        validateLoginFields();
+
+        // Event listeners para campos de input do login
+        camposLogin.forEach((campo) => {
+            campo.addEventListener("input", validateLoginFields);
+        });
+
+        // Event listeners para checkboxes do login
+        checkboxesLogin.forEach((checkbox) => {
+            checkbox.addEventListener("change", validateLoginFields);
+        });
+    }
+
     // Inicializar carrossel horizontal (para página inicial)
     initHorizontalCarousel();
 
@@ -751,4 +925,58 @@ function showContactSuccess() {
 // Inicializar formulário de contato quando a página carregar
 document.addEventListener("DOMContentLoaded", function () {
     initContactForm();
+    initMobileMenu();
 });
+
+/* ===============================================
+   MENU HAMBURGER MOBILE
+   =============================================== */
+
+function initMobileMenu() {
+    const hamburgerBtn = document.getElementById("hamburger-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const mobileOverlay = document.getElementById("mobile-overlay");
+    const closeBtn = document.getElementById("close-btn");
+
+    if (hamburgerBtn && mobileMenu && mobileOverlay && closeBtn) {
+        // Abrir menu
+        hamburgerBtn.addEventListener("click", openMobileMenu);
+
+        // Fechar menu
+        closeBtn.addEventListener("click", closeMobileMenu);
+        mobileOverlay.addEventListener("click", closeMobileMenu);
+
+        // Fechar menu com ESC
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape" && mobileMenu.classList.contains("active")) {
+                closeMobileMenu();
+            }
+        });
+    }
+}
+
+function openMobileMenu() {
+    const hamburgerBtn = document.getElementById("hamburger-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const mobileOverlay = document.getElementById("mobile-overlay");
+
+    hamburgerBtn.classList.add("active");
+    mobileMenu.classList.add("active");
+    mobileOverlay.classList.add("active");
+
+    // Prevenir scroll do body
+    document.body.style.overflow = "hidden";
+}
+
+function closeMobileMenu() {
+    const hamburgerBtn = document.getElementById("hamburger-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const mobileOverlay = document.getElementById("mobile-overlay");
+
+    hamburgerBtn.classList.remove("active");
+    mobileMenu.classList.remove("active");
+    mobileOverlay.classList.remove("active");
+
+    // Restaurar scroll do body
+    document.body.style.overflow = "";
+}

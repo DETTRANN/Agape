@@ -21,11 +21,13 @@
 
 html {
     scroll-behavior: smooth;
+    min-width: 320px; /* Evita compressão excessiva da página */
 }
 
 body {
     background-color: var(--background-dark);
     padding-top: 8.5vh; /* Compensa o header fixo */
+    min-width: 320px; /* Evita compressão excessiva da página */
 }
 
 .Nunito-Font {
@@ -305,95 +307,6 @@ footer h2 {
 
 .btn-enviar:active {
     transform: translateY(1px);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    footer {
-        flex-direction: column;
-        text-align: center;
-        gap: 30px;
-    }
-
-    .contact-form {
-        max-width: 100%;
-    }
-
-    /* Header Responsivo */
-    #header-menu {
-        height: auto;
-        min-height: 8.5vh;
-        padding: 10px 0;
-    }
-
-    #header-menu.scrolled {
-        background-color: rgba(16, 22, 47, 0.98) !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-    }
-
-    .left-menu {
-        width: 100%;
-        margin-left: 5%;
-        margin-right: 5%;
-        flex-wrap: wrap;
-        gap: 15px;
-        font-size: 14px;
-    }
-
-    .left-menu > img {
-        width: 120px;
-    }
-
-    .right-menu {
-        width: 100%;
-        margin: 10px 5% 0 5%;
-        justify-content: center;
-        gap: 15px;
-    }
-
-    .btn-cadastrar {
-        font-size: 15px;
-        padding: 5px 12px;
-    }
-
-    body {
-        padding-top: auto;
-    }
-
-    .main-content {
-        height: auto;
-        min-height: calc(100vh - 120px);
-        flex-direction: column;
-        padding: 20px 5%;
-        text-align: center;
-    }
-
-    .left-section,
-    .right-section {
-        width: 100%;
-    }
-
-    .main-content img {
-        width: 90%;
-        max-width: 500px;
-        margin: 20px 0;
-    }
-}
-
-@media (max-width: 480px) {
-    .left-menu {
-        font-size: 12px;
-        gap: 10px;
-    }
-
-    .left-menu > img {
-        width: 100px;
-    }
-
-    .btn-cadastrar {
-        font-size: 12px;
-        padding: 4px 10px;
-    }
 }
 
 /* Pagina Inicial */
@@ -1082,30 +995,6 @@ footer h2 {
     font-weight: 500;
 }
 
-/* Responsive para Top Courses */
-@media (max-width: 1200px) {
-    .courses-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
-    }
-}
-
-@media (max-width: 768px) {
-    .courses-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .top-courses-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 16px;
-    }
-
-    .top-courses-header h2 {
-        font-size: 24px;
-    }
-}
-
 /* Página Inicial 5 */
 .main-fifth-content {
     display: flex;
@@ -1349,6 +1238,7 @@ login-space {
 .checkbox-login {
     display: flex;
     column-gap: 10px;
+    margin-top: 2px;
 }
 
 .checkbox-login input {
@@ -1369,10 +1259,21 @@ login-space {
     transition: background-color 0.3s ease;
     width: 417.5px;
     height: 38.48px;
+    margin-top: 2px;
 }
 
 #btn-logar-login:hover {
     background-color: #e6bd00; /* Dourado mais escuro no hover */
+}
+
+#btn-logar-login:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#btn-logar-login:disabled:hover {
+    background-color: #ffd300;
+    transform: none;
 }
 
 .title-login {
@@ -1385,7 +1286,8 @@ login-space {
 }
 
 .Login-text-color-form {
-    color: #ffd300; /* Dourado da paleta principal */
+    color: #ffd300;
+    margin-top: 2px;
 }
 
 /*Tela de cadastro*/
@@ -1397,7 +1299,7 @@ login-space {
     width: 30%;
     padding: 40px;
     width: 540px;
-    height: 700px;
+    height: 660px;
     row-gap: 10px;
     background-color: #1a1a1a; /* Background escuro do formulário */
 }
@@ -1728,23 +1630,21 @@ login-space {
     }
 }
 
-/* ======================================================================== */
-/* PÁGINA DE CONTATO - Baseada no design da página de cadastro */
-/* ======================================================================== */
+/* Página de Contato*/
 
 .main-contact {
     display: flex;
     align-items: center;
     justify-content: center;
-    column-gap: 60px;
+    column-gap: 20px;
     height: 100vh;
     background-color: var(--primary-black);
     color: var(--primary-white);
-    padding: 0 5%;
+    padding: 0 3%;
 }
 
 .main-right-contact {
-    width: 45%;
+    width: 40%;
     height: 90vh;
     display: flex;
     flex-direction: column;
@@ -1752,11 +1652,12 @@ login-space {
 }
 
 .main-left-contact {
-    width: 45%;
+    width: 34%;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 90vh;
+    margin-left: 7%;
 }
 
 .form-contact {
@@ -1800,9 +1701,8 @@ login-space {
 
 #img-contact {
     width: 100%;
-    max-width: 500px;
-    height: 600px;
-    object-fit: cover;
+    max-width: 470px;
+    height: auto;
     border-radius: 12px;
     transition: transform 0.3s ease;
 }
@@ -1851,6 +1751,225 @@ login-space {
     margin-bottom: 20px;
 }
 
+/* Botão específico para página de redefinição */
+#btn-reset-password {
+    background-color: #ffd300;
+    color: black;
+    border: none;
+    border-radius: 8px;
+    font-size: 17px;
+    font-weight: 600;
+    font-family: "Nunito", sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    height: 38.48px;
+    margin: 20px 0 15px 0;
+}
+
+#btn-reset-password:hover {
+    background-color: #e6bd00;
+}
+
+#btn-reset-password:active {
+    transform: translateY(0);
+}
+
+#btn-reset-password:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#btn-reset-password:disabled:hover {
+    background-color: #ffd300;
+    transform: none;
+}
+
+/* Formulário específico para página de redefinição */
+#resetForm {
+    height: 390px;
+    max-width: 450px;
+    padding: 35px;
+    row-gap: 5px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 1px solid #404040;
+}
+
+#resetForm .checkbox-contact {
+    margin: 15px 0;
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+#resetForm a {
+    color: var(--primary-gold);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+#resetForm a:hover {
+    color: #e6c200;
+}
+
+#resetForm > div:last-child {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: var(--primary-white);
+}
+
+/* Melhorias específicas para o título da página de redefinição */
+.main-right-contact .title-contact {
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.main-right-contact .title-contact div {
+    font-size: 2.2rem;
+    line-height: 1.1;
+}
+
+/* Melhorias para o input da página de redefinição */
+#resetForm input[type="email"] {
+    padding: 12px 14px;
+    border: 2px solid #333333;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: "Nunito", sans-serif;
+    transition: border-color 0.3s ease;
+    background-color: #1a1a1a;
+    color: white;
+}
+
+#resetForm input[type="email"]:focus {
+    outline: none;
+    border-color: #ffd300;
+    box-shadow: 0 0 5px rgba(255, 211, 0, 0.5);
+}
+
+#resetForm p {
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #ffffff;
+}
+
+/* Responsividade específica para página de redefinição */
+@media (max-width: 768px) {
+    .main-right-contact .title-contact div {
+        font-size: 1.8rem;
+    }
+
+    #resetForm {
+        max-width: 100% !important;
+        padding: 25px !important;
+    }
+
+    #btn-reset-password {
+        padding: 16px 20px;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-right-contact .title-contact div {
+        font-size: 1.5rem;
+    }
+
+    #resetForm {
+        padding: 20px !important;
+    }
+
+    #resetForm .checkbox-contact {
+        font-size: 0.8rem;
+    }
+}
+
+/* Estilos específicos para página de nova senha */
+#newPasswordForm {
+    height: auto;
+    max-width: 450px;
+    padding: 35px;
+    row-gap: 5px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 1px solid #404040;
+}
+
+#newPasswordForm .checkbox-contact {
+    margin: 15px 0;
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+#newPasswordForm a {
+    color: var(--primary-gold);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+#newPasswordForm a:hover {
+    color: #e6c200;
+}
+
+#newPasswordForm > div:last-child {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: var(--primary-white);
+}
+
+#newPasswordForm input[type="password"] {
+    padding: 10px 14px;
+    border: 2px solid #333333;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: "Nunito", sans-serif;
+    transition: border-color 0.3s ease;
+    background-color: #1a1a1a;
+    color: white;
+    height: 38.48px;
+    box-sizing: border-box;
+}
+
+#newPasswordForm input[type="password"]:focus {
+    outline: none;
+    border-color: #ffd300;
+    box-shadow: 0 0 5px rgba(255, 211, 0, 0.5);
+}
+
+#newPasswordForm p {
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #ffffff;
+}
+
+#btn-new-password {
+    background-color: #ffd300;
+    color: black;
+    border: none;
+    border-radius: 8px;
+    font-size: 17px;
+    font-weight: 600;
+    font-family: "Nunito", sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    height: 38.48px;
+    margin: 20px 0 15px 0;
+}
+
+#btn-new-password:hover {
+    background-color: #e6bd00;
+}
+
+#btn-new-password:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#btn-new-password:disabled:hover {
+    background-color: #ffd300;
+    transform: none;
+}
 .checkbox-contact {
     display: flex;
     column-gap: 10px;
@@ -2025,5 +2144,751 @@ login-space {
     #img-contact {
         height: 300px;
         max-width: 300px;
+    }
+}
+
+/*Tela de redefinição de senha 2*/
+.new-password-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    padding: 40px;
+    gap: 60px;
+    background-color: #0d0f1c;
+    color: #ffffff;
+    font-family: "Nunito", sans-serif;
+}
+
+.new-password-left {
+    flex: 1;
+    max-width: 400px;
+}
+
+.new-password-left h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.new-password-left h1 span {
+    color: #ffd300;
+}
+
+.new-password-left form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.new-password-left label {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    color: #ffffff;
+}
+
+.new-password-left input {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background: #f9f9f9;
+    color: #000;
+    font-family: "Nunito", sans-serif;
+}
+
+.new-password-left button.confirm {
+    background: #ffd300;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+    margin-top: 10px;
+}
+
+.new-password-left button.confirm:hover {
+    background: #ffd300;
+}
+
+.new-password-right img {
+    width: 350px;
+    max-width: 100%;
+}
+
+/* ===============================================
+   MENU HAMBURGER MOBILE
+   =============================================== */
+
+/* Botão Hamburger */
+.hamburger-menu {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1001;
+}
+
+.mobile-logo {
+    display: none;
+    width: 120px;
+    height: auto;
+    cursor: pointer;
+}
+
+.hamburger-menu span {
+    width: 25px;
+    height: 3px;
+    background-color: #ffd300;
+    margin: 3px 0;
+    transition: 0.3s;
+    border-radius: 2px;
+}
+
+.hamburger-menu.active span:nth-child(1) {
+    transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.hamburger-menu.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-menu.active span:nth-child(3) {
+    transform: rotate(45deg) translate(-5px, -6px);
+}
+
+/* Menu Lateral Mobile */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 280px;
+    height: 100vh;
+    background-color: #000000;
+    color: #ffffff;
+    z-index: 1000;
+    transition: right 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    font-family: "Nunito", sans-serif;
+}
+
+.mobile-menu.active {
+    right: 0;
+}
+
+.mobile-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #333;
+}
+
+.mobile-menu-header img {
+    width: 120px;
+    height: auto;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #ffd300;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 5px;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobile-menu-nav {
+    flex: 1;
+    padding: 20px 0;
+}
+
+.mobile-menu-nav a {
+    display: block;
+    padding: 15px 20px;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    border-bottom: 1px solid #333;
+    transition: background-color 0.3s ease;
+}
+
+.mobile-menu-nav a:hover {
+    background-color: #1a1a1a;
+    color: #ffd300;
+}
+
+.mobile-menu-buttons {
+    padding: 20px;
+    border-top: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.mobile-btn-login {
+    background: none;
+    border: 2px solid #ffd300;
+    color: #ffd300;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    text-align: center;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.mobile-btn-login:hover {
+    background-color: #ffd300;
+    color: #000000;
+}
+
+.mobile-btn-register {
+    background-color: #ffd300;
+    border: none;
+    color: #000000;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: "Nunito", sans-serif;
+}
+
+.mobile-btn-register:hover {
+    background-color: #e6bd00;
+    transform: translateY(-2px);
+}
+
+/* Overlay */
+.mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.mobile-menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ===============================================
+   MEDIA QUERIES - RESPONSIVIDADE
+   =============================================== */
+
+/* Login Page - Mobile */
+@media (max-width: 768px) {
+    .main-login {
+        flex-direction: column;
+        column-gap: 0;
+        row-gap: 20px;
+        padding: 20px;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .main-left-login {
+        width: 100%;
+        justify-content: center;
+        height: auto;
+        order: 2;
+    }
+
+    .main-right-login {
+        width: 100%;
+        height: auto;
+        order: 1;
+    }
+
+    #img-login {
+        width: 300px;
+        height: auto;
+        max-width: 90%;
+    }
+
+    .form-login {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    #btn-logar-login {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .btn-google-login {
+        width: 100%;
+        max-width: 280px;
+    }
+
+    .title-login {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-login {
+        padding: 15px;
+    }
+
+    #img-login {
+        width: 250px;
+    }
+
+    .form-login {
+        max-width: 100%;
+    }
+
+    #btn-logar-login {
+        max-width: 100%;
+        font-size: 16px;
+    }
+
+    .btn-google-login {
+        max-width: 100%;
+        font-size: 14px;
+    }
+
+    .checkbox-login {
+        flex-direction: column;
+        row-gap: 10px;
+    }
+
+    .checkbox-login input {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/* Header e Footer - Geral */
+@media (max-width: 768px) {
+    /* Ocultar menu desktop e mostrar hamburger */
+    .left-menu,
+    .right-menu {
+        display: none;
+    }
+
+    .hamburger-menu {
+        display: flex;
+    }
+
+    .mobile-logo {
+        display: block;
+    }
+
+    #header-menu {
+        justify-content: space-between;
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+        height: auto;
+        min-height: 8.5vh;
+    }
+
+    footer {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+
+    .contact-form {
+        max-width: 100%;
+    }
+
+    #header-menu.scrolled {
+        background-color: rgba(16, 22, 47, 0.98) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    body {
+        padding-top: auto;
+    }
+
+    .main-content {
+        height: auto;
+        min-height: calc(100vh - 120px);
+        flex-direction: column;
+        padding: 20px 5%;
+        text-align: center;
+    }
+
+    .left-section,
+    .right-section {
+        width: 100%;
+    }
+
+    .main-content img {
+        width: 90%;
+        max-width: 500px;
+        margin: 20px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content {
+        padding: 15px 3%;
+    }
+}
+
+/* Carrossel - Responsivo */
+@media (max-width: 1200px) {
+    .carousel-item {
+        width: 75vw;
+    }
+}
+
+@media (max-width: 768px) {
+    .carousel-item {
+        width: 85vw;
+        padding: 30px;
+        gap: 30px;
+    }
+
+    .carousel-item img {
+        max-width: 300px;
+        height: 200px;
+        padding: 15px;
+    }
+
+    .carousel-item h2 {
+        font-size: 22px;
+    }
+
+    .carousel-item p {
+        font-size: 16px;
+    }
+
+    #barraItens {
+        gap: 8px;
+    }
+
+    #barraItens div {
+        width: 30px;
+        height: 4px;
+    }
+
+    #barraItens div.active {
+        width: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .carousel-item {
+        width: 90vw;
+        padding: 25px;
+        gap: 25px;
+    }
+
+    .carousel-item img {
+        max-width: 250px;
+        height: 180px;
+        padding: 10px;
+    }
+
+    .carousel-item h2 {
+        font-size: 20px;
+    }
+
+    .carousel-item p {
+        font-size: 14px;
+    }
+
+    #barraItens {
+        gap: 6px;
+    }
+
+    #barraItens div {
+        width: 25px;
+        height: 3px;
+    }
+
+    #barraItens div.active {
+        width: 35px;
+    }
+}
+
+/* Página de Cadastro - Responsivo */
+@media (max-width: 1200px) {
+    .main-Register {
+        column-gap: 40px;
+    }
+
+    .main-left-Register img {
+        width: 90%;
+        max-width: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-Register {
+        flex-direction: column;
+        column-gap: 0;
+        row-gap: 20px;
+        padding: 20px;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .main-left-Register,
+    .main-right-Register {
+        width: 100%;
+    }
+
+    .main-left-Register {
+        order: 2;
+        display: flex;
+        justify-content: center;
+        height: auto;
+    }
+
+    .main-right-Register {
+        order: 1;
+        height: auto;
+    }
+
+    .main-left-Register img {
+        width: 80%;
+        max-width: 350px;
+        height: auto;
+    }
+
+    .form-Register {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 30px 20px;
+        height: auto;
+    }
+
+    #btn-Cadastrar-Register {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    .title-Register {
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 28px;
+    }
+
+    .Register-name-form {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .Register-name-form div {
+        width: 100%;
+    }
+
+    .form-Register input {
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    .btn-google-Register {
+        width: 100%;
+        max-width: 300px;
+        margin: 10px auto;
+        padding: 12px;
+    }
+
+    .Register-criar-conta {
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+        margin-top: 15px;
+    }
+
+    .checkbox-Register {
+        text-align: center;
+        margin: 15px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-Register {
+        padding: 15px 10px;
+    }
+
+    .main-left-Register img {
+        width: 70%;
+        max-width: 280px;
+    }
+
+    .form-Register {
+        max-width: 100%;
+        padding: 25px 15px;
+        height: auto;
+        margin: 0 auto;
+    }
+
+    .title-Register {
+        font-size: 24px;
+        margin-bottom: 25px;
+    }
+
+    .form-Register input {
+        padding: 10px;
+        font-size: 15px;
+    }
+
+    .Register-name-form {
+        gap: 12px;
+    }
+
+    .btn-google-Register {
+        width: 100%;
+        max-width: 250px;
+        margin: 10px auto;
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .Register-criar-conta {
+        flex-direction: column;
+        text-align: center;
+        gap: 5px;
+        font-size: 14px;
+    }
+
+    .checkbox-Register {
+        font-size: 13px;
+        margin: 12px 0;
+    }
+
+    #btn-Cadastrar-Register {
+        padding: 14px;
+        font-size: 16px;
+        margin-top: 10px;
+    }
+
+    /* Melhorar espaçamento entre campos */
+    .form-Register > * {
+        margin-bottom: 8px;
+    }
+
+    /* Ajustar largura específica para inputs de nome e sobrenome */
+    .Register-name-form input {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+/* Página de Redefinição de Senha - Responsivo */
+@media (max-width: 768px) {
+    .main-contact {
+        flex-direction: column;
+        column-gap: 0;
+        row-gap: 20px;
+        padding: 20px;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .main-left-contact,
+    .main-right-contact {
+        width: 100%;
+    }
+
+    .main-left-contact {
+        order: 2;
+        display: flex;
+        justify-content: center;
+    }
+
+    .main-right-contact {
+        order: 1;
+    }
+
+    #img-contact {
+        width: 300px;
+        height: auto;
+        max-width: 90%;
+    }
+
+    .form-contact {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    .title-contact {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-contact {
+        padding: 15px;
+    }
+
+    #img-contact {
+        width: 250px;
+    }
+
+    .form-contact {
+        max-width: 100%;
+    }
+}
+
+/* Página de Contato - Responsivo */
+@media (max-width: 1024px) {
+    .main-contact {
+        column-gap: 15px;
+        padding: 0 2%;
+    }
+
+    .main-left-contact,
+    .main-right-contact {
+        width: 48%;
+    }
+
+    #img-contact {
+        width: 100%;
+        max-width: 450px;
+    }
+}
+
+/* Top Courses - Responsivo */
+@media (max-width: 1200px) {
+    .courses-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    .courses-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .top-courses-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .top-courses-header h2 {
+        font-size: 24px;
     }
 }

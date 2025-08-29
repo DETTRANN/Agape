@@ -16,6 +16,14 @@
 
   <body>
     <header id="header-menu">
+      <!-- Logo Mobile -->
+      <img 
+        src="{{url('frontend/img/logo-agape.png')}}" 
+        alt="Agape" 
+        class="mobile-logo"
+        onclick="window.location.href='{{url('/')}}'"
+      />
+      
       <div class="left-menu">
         <img src="{{url('frontend/img/logo-agape.png')}}" alt="" />
         <a href="{{url('/')}}">Início</a>
@@ -25,11 +33,39 @@
       </div>
       <div class="right-menu">
         <a href="{{url('views/login')}}" class="btn-logar Nunito-Font">Log In</a>
-        <button onclick="goToLogin()" type="button" class="btn-cadastrar">
+        <button onclick="goToCadastro()" type="button" class="btn-cadastrar">
           Cadastrar
         </button>
       </div>
+      
+      <!-- Botão Hamburger Mobile -->
+      <div class="hamburger-menu" id="hamburger-btn">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </header>
+
+    <!-- Menu Lateral Mobile -->
+    <div class="mobile-menu" id="mobile-menu">
+      <div class="mobile-menu-header">
+        <img src="{{url('frontend/img/logo-agape.png')}}" alt="Agape" />
+        <button class="close-btn" id="close-btn">&times;</button>
+      </div>
+      <nav class="mobile-menu-nav">
+        <a href="{{url('/')}}">Início</a>
+        <a href="{{url('/')}}">Funcionalidades</a>
+        <a href="{{url('/')}}">Sobre</a>
+        <a href="{{url('views/contato')}}">Contato</a>
+      </nav>
+      <div class="mobile-menu-buttons">
+        <a href="{{url('views/login')}}" class="mobile-btn-login">Log In</a>
+        <button onclick="goToCadastro()" class="mobile-btn-register">Cadastrar</button>
+      </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="mobile-menu-overlay" id="mobile-overlay"></div>
 
     <main class="main-Register Nunito-Font">
       <div class="main-left-Register">
@@ -128,9 +164,9 @@
           </div>
 
           <div class="Register-criar-conta">
-            <div>Ainda não possui uma conta?</div>
-            <a href="">
-              <div class="Register-text-color-form">Criar conta</div>
+            <div>Já possui uma conta?</div>
+            <a href="{{url('views/login')}}">
+              <div class="Register-text-color-form">Log In</div>
             </a>
           </div>
         </form>

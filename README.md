@@ -181,10 +181,6 @@ O sistema foi desenvolvido com abordagem mobile-first, garantindo uma experiênc
 
 **Turma**: 3E1
 
-## Licença
-
-Este projeto está sob a licença MIT. Consulte o arquivo [LICENSE](LICENSE) para mais detalhes.
-
 ## Contato
 
 -   **Email**: agapeinventory@gmail.com
@@ -193,4 +189,4 @@ Este projeto está sob a licença MIT. Consulte o arquivo [LICENSE](LICENSE) par
 
 ---
 
-**Desenvolvido pela equipe Agape - © 2024 Sistema de Gestão de Estoque**
+**Desenvolvido pela equipe Agape - © 2025 Sistema de Gestão de Estoque**

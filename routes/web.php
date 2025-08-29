@@ -21,3 +21,17 @@ use Illuminate\Support\Facades\Route;
     Route::get('/views/contato', function () {
         return view('contato');
     });
+
+    Route::get('/views/pwdredefinition', function () {
+        return view('pwdredefinition');
+    });
+
+    Route::get('/views/pwdreset', function () {
+        return view('pwdreset');
+    });
+
+    // Rota POST para processar redefinição de senha (se necessário)
+    Route::post('/views/pwdredefinition', function () {
+        // Aqui você pode adicionar lógica para processar o email
+        return redirect('/views/pwdreset');
+    });
