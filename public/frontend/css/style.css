@@ -26,7 +26,7 @@ html {
 
 body {
     background-color: var(--background-dark);
-    padding-top: 8.5vh; /* Compensa o header fixo */
+    padding-top: 70px; /* Compensa o header fixo */
     min-width: 320px; /* Evita compressão excessiva da página */
 }
 
@@ -47,10 +47,11 @@ header {
 
 #header-menu {
     width: 100%;
-    height: 9vh;
+    height: 70px;
     border-bottom: 1px solid transparent;
     background-color: var(--primary-black);
     display: flex;
+    align-items: center;
     transition: var(--transition-standard);
 }
 
@@ -64,6 +65,7 @@ header.scrolled {
     border-bottom: 1px solid rgb(255, 255, 255);
     background-color: rgba(16, 22, 47, 1);
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    align-items: center;
 }
 
 /* Efeito de gradiente sutil para transição mais suave */
@@ -103,7 +105,7 @@ header.scrolled .right-menu a {
 }
 
 .left-menu > img {
-    width: 140px;
+    width: 120px;
     height: auto;
     cursor: pointer;
     transition: var(--transition-transform);
@@ -123,11 +125,11 @@ header.scrolled .right-menu a {
     width: 50%;
     display: flex;
     flex-direction: row;
-    column-gap: 40px;
+    column-gap: 30px;
     align-items: center;
-    height: 100%;
-    margin-left: 13%;
-    font-size: 22px;
+    height: 70px;
+    margin-left: 10%;
+    font-size: 18px;
     color: var(--primary-white);
     transition: var(--transition-color);
 }
@@ -135,6 +137,10 @@ header.scrolled .right-menu a {
 .left-menu div {
     cursor: pointer;
     transition: var(--transition-color);
+    height: auto;
+    display: flex;
+    align-items: center;
+    line-height: 1;
 }
 
 .left-menu div:hover {
@@ -149,21 +155,22 @@ header.scrolled .right-menu a {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: right;
+    justify-content: flex-end;
     width: 50%;
-    margin-right: 15%;
-    column-gap: 25px;
-    font-size: 17px;
+    margin-right: 10%;
+    column-gap: 20px;
+    font-size: 16px;
     color: var(--primary-white);
+    height: 70px;
 }
 
 .btn-cadastrar {
-    padding: 6px 16px;
+    padding: 8px 18px;
     background-color: var(--primary-gold);
     color: var(--primary-black);
     border: none;
     border-radius: 8px;
-    font-size: 22px;
+    font-size: 16px;
     font-weight: 600;
     font-family: "Nunito", sans-serif;
     cursor: pointer;
@@ -178,8 +185,8 @@ header.scrolled .right-menu a {
 .btn-logar {
     color: var(--primary-white);
     text-decoration: none;
-    font-size: 22px;
-    padding: 8px 18px;
+    font-size: 16px;
+    padding: 8px 16px;
     border-radius: 8px;
 }
 
@@ -197,16 +204,36 @@ a {
 footer {
     background-color: black;
     display: flex;
-    justify-content: space-between;
-    padding: 40px 15%;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding: 40px 11%;
     margin-top: 0;
     font-family: "Nunito", sans-serif;
     border-top: 2px solid white;
+    flex-wrap: wrap;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.Left-footer {
+    flex: 0 1 300px;
+    min-width: 200px;
+}
+
+.Middle-footer {
+    flex: 0 1 350px;
+    min-width: 250px;
+}
+
+.Right-footer {
+    flex: 0 1 350px;
+    min-width: 300px;
+    max-width: 400px;
 }
 
 footer nav {
-    flex: 1;
-    margin: 0 20px;
+    margin: 0;
 }
 
 footer h2 {
@@ -264,8 +291,9 @@ footer h2 {
 .contact-form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    max-width: 300px;
+    gap: 12px;
+    max-width: 350px;
+    width: 100%;
 }
 
 .contact-form input {
@@ -314,9 +342,10 @@ footer h2 {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: calc(100vh - 8.5vh);
+    height: calc(100vh - 70px);
     background-color: black;
     color: white;
+    padding: 20px 0;
 }
 
 .left-section {
@@ -391,10 +420,11 @@ footer h2 {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: calc(100vh - 8.5vh);
+    height: calc(100vh - 70px);
     background-color: black;
     font-family: "Nunito", sans-serif;
     color: white;
+    padding: 20px 0;
 }
 
 .nav-organizador-estoque {
@@ -459,41 +489,11 @@ footer h2 {
     font-size: 26px;
 }
 
-/* ========================================================================
-   PÁGINA INICIAL 3 - CARROSSEL DE FUNCIONALIDADES
-   ======================================================================== */
-
-/* 
-   ✅ MELHORIAS ULTRA FLUIDAS IMPLEMENTADAS:
-   
-   🚀 PERFORMANCE:
-   - Will-change otimizado para compositing
-   - Transições reduzidas para 0.3s-0.4s (antes 0.6s-0.8s)
-   - RequestAnimationFrame para animações 60fps
-   - Easing otimizado (ease-out ao invés de cubic-bezier complexo)
-   
-   🎨 VISUAL:
-   - Título com cor sólida (removido gradiente pesado)
-   - Gradiente mantido apenas na barra de indicadores
-   - Glassmorphism mais sutil (blur reduzido)
-   - Hover effects mais sutis e responsivos
-   
-   ⚡ INTERAÇÃO:
-   - Scroll horizontal ultra responsivo
-   - Indicadores com animação 150ms (antes 300ms)
-   - Transições de carrossel 350ms (antes 600ms)
-   - Easing otimizado (ease-out-quart)
-   
-   📱 RESPONSIVIDADE:
-   - Performance mantida em todos os dispositivos
-   - Touch gestures ultra fluidos
-   - Transições adaptativas para mobile
-*/
-
+/* Página Inicial 3 */
 .main-third-content {
     font-family: "Nunito", sans-serif;
     color: white;
-    min-height: calc(100vh - 8.5vh);
+    min-height: calc(100vh - 70px);
     background: linear-gradient(135deg, #0a0d1c 0%, #1a1f3a 50%, #0a0d1c 100%);
     display: flex;
     flex-direction: column;
@@ -842,7 +842,8 @@ footer h2 {
 /* Página Inicial 4 */
 .main-fourth-content {
     font-family: "Nunito", sans-serif;
-    height: calc(100vh - 8.5vh);
+    height: auto;
+    min-height: calc(100vh - 70px);
     background-color: black;
     width: 100%;
     display: flex;
@@ -850,13 +851,13 @@ footer h2 {
     justify-content: center;
     align-items: center;
     color: white;
-    padding: 0 5%;
+    padding: 60px 5%;
 }
 
 .main-fourth-content h1 {
     font-size: 40px;
     text-align: center;
-    margin-bottom: 60px;
+    margin-bottom: 80px;
     font-weight: 600;
 }
 
@@ -867,7 +868,7 @@ footer h2 {
 /* Top Courses Section */
 .top-courses-section {
     background-color: black;
-    padding: 80px 5%;
+    padding: 40px 5% 80px 5%;
     font-family: "Nunito", sans-serif;
 }
 
@@ -899,14 +900,16 @@ footer h2 {
 .courses-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 30px;
+    gap: 24px;
     max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
 }
 
 .course-card {
     background: #10162f;
     border-radius: 12px;
-    padding: 30px;
+    padding: 20px;
     color: white;
     position: relative;
     transition: all 0.3s ease;
@@ -916,6 +919,9 @@ footer h2 {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .course-card:hover {
@@ -930,11 +936,11 @@ footer h2 {
 
 .course-badge {
     display: inline-block;
-    padding: 6px 12px;
-    border-radius: 16px;
-    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 14px;
+    font-size: 10px;
     font-weight: 600;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
     text-transform: uppercase;
     width: fit-content;
 }
@@ -960,51 +966,69 @@ footer h2 {
 }
 
 .course-card h3 {
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 600;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
     line-height: 1.3;
+    word-wrap: break-word;
+    hyphens: auto;
+    height: auto;
+    min-height: 40px;
 }
 
 .course-card p {
-    font-size: 15px;
+    font-size: 13px;
     line-height: 1.5;
     color: #d1d5db;
-    margin-bottom: 24px;
-    text-align: justify;
+    margin-bottom: 16px;
+    text-align: left;
     flex-grow: 1;
+    word-wrap: break-word;
+    hyphens: auto;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
 }
 
 .course-meta {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 13px;
+    font-size: 11px;
     color: #ffd300;
     margin-top: auto;
-    padding-top: 10px;
+    padding-top: 6px;
+    flex-wrap: wrap;
+    gap: 5px;
+    min-height: 20px;
 }
 
 .difficulty {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 3px;
+    font-size: 10px;
 }
 
 .duration {
     font-weight: 500;
+    font-size: 10px;
 }
 
 /* Página Inicial 5 */
 .main-fifth-content {
     display: flex;
-    height: calc(100vh - 8.5vh);
+    height: calc(85vh);
     font-family: "Nunito", sans-serif;
     justify-content: center;
     align-items: center;
     width: 100%;
     background-color: #0a0d1c;
     color: white;
+    padding: 40px 0;
+    overflow: hidden;
 }
 
 .left-fifth-content {
@@ -1045,10 +1069,12 @@ footer h2 {
 }
 
 .main-fifth-content nav img {
-    width: 800px;
+    width: 700px;
     height: auto;
+    max-height: 500px;
     cursor: pointer;
     transition: transform 0.3s ease;
+    object-fit: contain;
 }
 
 .main-fifth-content nav img:hover {
@@ -1058,7 +1084,7 @@ footer h2 {
 /* Página Inicial 6 */
 .main-sixth-05-content {
     width: 100%;
-    height: calc(20vh - 8.5vh);
+    height: calc(20vh);
     background-color: #ffd300;
     display: flex;
     justify-content: center;
@@ -1066,27 +1092,39 @@ footer h2 {
     font-family: "Nunito", sans-serif;
     color: black;
     text-align: center;
-    font-size: 16 px;
+    padding: 30px 5%;
+    min-height: 120px;
+    margin-top: 20px;
+}
+
+.main-sixth-05-content h1 {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0;
+    padding: 20px 0;
+    line-height: 1.3;
 }
 
 .main-sixth-content {
     width: 100%;
-    height: calc(89vh - 8.5vh);
+    height: calc(80vh - 70px);
     background-color: black;
     display: flex;
     justify-content: center;
     align-items: center;
     font-family: "Nunito", sans-serif;
     color: white;
+    padding: 60px 5%;
 }
 
 .right-sixth-content {
     width: 50%;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
     gap: 22px;
+    text-align: center;
 }
 
 .left-sixth-content {
@@ -1097,17 +1135,17 @@ footer h2 {
 }
 
 .btn-register-now {
-    padding: 10px 30px;
+    padding: 8px 20px;
     background-color: #ffd300;
     color: black;
     border: none;
     border-radius: 8px;
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 600;
     font-family: "Nunito", sans-serif;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    align-self: flex-start;
+    align-self: center;
 }
 
 .btn-register-now:hover {
@@ -1132,8 +1170,8 @@ footer h2 {
 .right-sixth-content p {
     font-size: 27px;
     font-weight: lighter;
-    width: 60%;
-    text-align: justify;
+    width: 80%;
+    text-align: center;
 }
 
 /*Tela de Login*/
@@ -1288,6 +1326,103 @@ login-space {
 .Login-text-color-form {
     color: #ffd300;
     margin-top: 2px;
+}
+
+/* Estilos Mobile para Login */
+@media (max-width: 768px) {
+    .main-login {
+        padding: 20px;
+        column-gap: 40px;
+    }
+
+    .form-login {
+        width: 100%;
+        max-width: 380px;
+        padding: 30px 20px;
+        height: auto;
+        min-height: 550px;
+    }
+
+    .checkbox-login {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        gap: 8px !important;
+        margin-bottom: 18px;
+        width: 100%;
+    }
+
+    .checkbox-login input[type="checkbox"] {
+        width: 16px !important;
+        height: 16px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        flex-shrink: 0 !important;
+    }
+
+    .checkbox-login label {
+        flex: 1 !important;
+        font-size: 14px !important;
+        line-height: 1.3 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        text-align: left !important;
+        display: block !important;
+    }
+
+    .btn-google-login {
+        width: 200px !important;
+        font-size: 14px;
+        padding: 14px 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-login {
+        column-gap: 20px;
+        padding: 15px;
+    }
+
+    .form-login {
+        max-width: 100%;
+        padding: 25px 15px;
+        min-height: 500px;
+    }
+
+    .checkbox-login {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        gap: 6px !important;
+        margin-bottom: 15px;
+        width: 100%;
+    }
+
+    .checkbox-login input[type="checkbox"] {
+        width: 15px !important;
+        height: 15px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        flex-shrink: 0 !important;
+    }
+
+    .checkbox-login label {
+        flex: 1 !important;
+        font-size: 13px !important;
+        line-height: 1.2 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        text-align: left !important;
+        display: block !important;
+    }
+
+    .btn-google-login {
+        width: 180px !important;
+        font-size: 13px;
+        padding: 12px 10px;
+    }
 }
 
 /*Tela de cadastro*/
@@ -1456,6 +1591,114 @@ login-space {
 
 .Register-name-form p {
     margin-bottom: 10px;
+}
+
+/* Estilos Mobile para Cadastro */
+@media (max-width: 768px) {
+    .main-Register {
+        padding: 20px;
+        column-gap: 40px;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .form-Register {
+        width: 100%;
+        max-width: 380px;
+        padding: 30px 20px;
+        height: auto;
+        min-height: 600px;
+    }
+
+    .checkbox-Register {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        gap: 8px !important;
+        margin-bottom: 18px;
+        width: 100%;
+    }
+
+    .checkbox-Register input {
+        width: 16px !important;
+        height: 16px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        flex-shrink: 0 !important;
+    }
+
+    .checkbox-Register label {
+        flex: 1 !important;
+        font-size: 14px !important;
+        line-height: 1.3 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        text-align: left !important;
+        display: block !important;
+    }
+
+    .btn-google-Register {
+        width: 200px !important;
+        font-size: 14px;
+        padding: 14px 12px;
+    }
+
+    .Register-name-form {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .Register-name-form div {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-Register {
+        padding: 15px;
+        column-gap: 20px;
+    }
+
+    .form-Register {
+        max-width: 100%;
+        padding: 25px 15px;
+        min-height: 550px;
+    }
+
+    .checkbox-Register {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        gap: 6px !important;
+        margin-bottom: 15px;
+        width: 100%;
+    }
+
+    .checkbox-Register input {
+        width: 15px !important;
+        height: 15px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        flex-shrink: 0 !important;
+    }
+
+    .checkbox-Register label {
+        flex: 1 !important;
+        font-size: 13px !important;
+        line-height: 1.2 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        text-align: left !important;
+        display: block !important;
+    }
+
+    .btn-google-Register {
+        width: 180px !important;
+        font-size: 13px;
+        padding: 12px 10px;
+    }
 }
 
 /* Responsividade para o carrossel */
@@ -2074,6 +2317,20 @@ login-space {
     }
 }
 
+/* Footer responsivo para tablets */
+@media (max-width: 1024px) {
+    footer {
+        gap: 30px;
+        padding: 40px 3%;
+    }
+
+    .Left-footer,
+    .Middle-footer,
+    .Right-footer {
+        min-width: 250px;
+    }
+}
+
 /* Responsividade para a página de contato */
 @media (max-width: 1024px) {
     .main-contact {
@@ -2281,10 +2538,16 @@ login-space {
 
 .mobile-menu-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     padding: 20px;
     border-bottom: 1px solid #333;
+    min-height: 60px;
+}
+
+/* When logo is present */
+.mobile-menu-header:has(img) {
+    justify-content: space-between;
 }
 
 .mobile-menu-header img {
@@ -2499,35 +2762,18 @@ login-space {
         padding: 10px 20px;
         display: flex;
         align-items: center;
-        height: auto;
-        min-height: 8.5vh;
+        height: 70px;
+        min-height: 70px;
     }
 
-    footer {
-        flex-direction: column;
-        text-align: center;
-        gap: 30px;
-    }
-
-    .contact-form {
-        max-width: 100%;
-    }
-
-    #header-menu.scrolled {
-        background-color: rgba(16, 22, 47, 0.98) !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-    }
-
-    body {
-        padding-top: auto;
-    }
-
+    /* SEÇÃO PRINCIPAL - main-content */
     .main-content {
         height: auto;
-        min-height: calc(100vh - 120px);
+        min-height: calc(100vh - 140px);
         flex-direction: column;
-        padding: 20px 5%;
+        padding: 40px 5%;
         text-align: center;
+        gap: 30px;
     }
 
     .left-section,
@@ -2535,16 +2781,432 @@ login-space {
         width: 100%;
     }
 
+    .left-section {
+        order: 1;
+    }
+
+    .right-section {
+        order: 2;
+    }
+
+    .main-content h1 {
+        font-size: 2.5rem;
+        line-height: 1.2;
+        margin-bottom: 20px;
+    }
+
+    .main-content p {
+        font-size: 18px;
+        line-height: 1.6;
+        margin-bottom: 30px;
+        max-width: 100%;
+    }
+
     .main-content img {
         width: 90%;
         max-width: 500px;
+        height: auto;
         margin: 20px 0;
+    }
+
+    .btn-comecar {
+        width: 100%;
+        max-width: 300px;
+        padding: 15px 30px;
+        font-size: 18px;
+    }
+
+    /* SEGUNDA SEÇÃO - main-second-content */
+    .main-second-content {
+        flex-direction: column;
+        padding: 60px 5%;
+        gap: 40px;
+        text-align: center;
+    }
+
+    .nav-organizador-estoque,
+    .nav-organizador-estoque-img {
+        width: 100%;
+    }
+
+    .nav-organizador-estoque h1 {
+        font-size: 2.2rem;
+        margin-bottom: 25px;
+    }
+
+    .nav-organizador-estoque p {
+        font-size: 16px;
+        line-height: 1.6;
+    }
+
+    .main-second-content nav img {
+        width: 90%;
+        max-width: 400px;
+        height: auto;
+    }
+
+    /* TERCEIRA SEÇÃO - main-third-content */
+    .main-third-content {
+        padding: 60px 5%;
+    }
+
+    .main-third-content h1 {
+        font-size: 2.2rem;
+        margin-bottom: 40px;
+    }
+
+    /* QUARTA SEÇÃO - main-fourth-content - MOBILE ONLY */
+    .main-fourth-content {
+        padding: 60px 5%;
+        height: auto;
+        min-height: 80vh;
+    }
+
+    .main-fourth-content h1 {
+        font-size: 2rem;
+        margin-bottom: 40px;
+    }
+
+    .top-courses-section {
+        padding: 40px 5%;
+    }
+
+    .top-courses-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        margin-bottom: 40px;
+    }
+
+    .top-courses-header h2 {
+        font-size: 1.8rem;
+    }
+
+    .courses-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .course-card {
+        padding: 20px;
+        min-height: auto;
+    }
+
+    .course-card h3 {
+        font-size: 1.1rem;
+        margin-bottom: 12px;
+    }
+
+    .course-card p {
+        font-size: 14px;
+        margin-bottom: 15px;
+    }
+
+    .course-badge {
+        font-size: 10px;
+        padding: 4px 8px;
+        margin-bottom: 10px;
+    }
+
+    .course-meta {
+        font-size: 11px;
+        gap: 4px;
+    }
+
+    /* QUINTA SEÇÃO - main-fifth-content */
+    .main-fifth-content {
+        flex-direction: column;
+        padding: 40px 5%;
+        gap: 30px;
+        text-align: center;
+        height: auto;
+        min-height: 70vh;
+    }
+
+    .left-fifth-content,
+    .right-fifth-content {
+        width: 100%;
+    }
+
+    .left-fifth-content {
+        order: 1;
+    }
+
+    .right-fifth-content {
+        order: 2;
+    }
+
+    .left-fifth-content > div:first-child {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+
+    .left-fifth-content > div:nth-child(2) {
+        font-size: 2rem;
+        line-height: 1.3;
+        margin-bottom: 25px;
+    }
+
+    .left-fifth-content p {
+        font-size: 16px;
+        line-height: 1.6;
+    }
+
+    .main-fifth-content nav img {
+        width: 90%;
+        max-width: 400px;
+        height: auto;
+        max-height: 300px;
+    }
+
+    /* SEXTA SEÇÃO - main-sixth-content */
+    .main-sixth-content {
+        flex-direction: column;
+        padding: 40px 5%;
+        gap: 30px;
+        text-align: center;
+        height: auto;
+        min-height: 60vh;
+    }
+
+    .left-sixth-content,
+    .right-sixth-content {
+        width: 100%;
+    }
+
+    .left-sixth-content {
+        order: 2;
+    }
+
+    .right-sixth-content {
+        order: 1;
+    }
+
+    .right-sixth-content h1 {
+        font-size: 2.5rem;
+        margin-bottom: 25px;
+        text-align: center;
+    }
+
+    .right-sixth-content p {
+        font-size: 16px;
+        line-height: 1.6;
+        margin-bottom: 30px;
+        text-align: center;
+        width: 100%;
+    }
+
+    .btn-register-now {
+        width: auto;
+        max-width: 250px;
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+
+    .left-sixth-content img {
+        width: 90%;
+        max-width: 400px;
+        height: auto;
+    }
+
+    /* SEÇÃO 6.5 - main-sixth-05-content */
+    .main-sixth-05-content {
+        padding: 25px 5%;
+        height: auto;
+        min-height: 80px;
+        margin-top: 10px;
+    }
+
+    .main-sixth-05-content h1 {
+        font-size: 1.4rem;
+        line-height: 1.4;
+        margin: 0;
+        padding: 10px 0;
+    }
+
+    /* FOOTER */
+    footer {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+        gap: 30px;
+        padding: 40px 5%;
+    }
+
+    .Left-footer,
+    .Middle-footer,
+    .Right-footer {
+        width: 100%;
+        max-width: 100%;
+        flex: none;
+    }
+
+    .Right-footer {
+        text-align: left;
+    }
+
+    .Right-footer h2 {
+        text-align: left;
+        margin-bottom: 15px;
+    }
+
+    .contact-form {
+        max-width: 100%;
+    }
+
+    .contact-form input,
+    .contact-form button {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    #header-menu.scrolled {
+        background-color: rgba(16, 22, 47, 0.98);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    body {
+        padding-top: 70px;
     }
 }
 
 @media (max-width: 480px) {
+    /* MOBILE APENAS - SIMPLES E EFICAZ */
+
+    /* SEÇÃO PRINCIPAL */
     .main-content {
-        padding: 15px 3%;
+        padding: 30px 3%;
+        gap: 25px;
+    }
+
+    .main-content h1 {
+        font-size: 2rem;
+    }
+
+    .main-content p {
+        font-size: 16px;
+    }
+
+    .btn-comecar {
+        max-width: 280px;
+        padding: 12px 25px;
+        font-size: 16px;
+    }
+
+    /* SEGUNDA SEÇÃO */
+    .main-second-content {
+        padding: 40px 3%;
+        gap: 30px;
+    }
+
+    .nav-organizador-estoque h1 {
+        font-size: 1.8rem;
+    }
+
+    /* TERCEIRA SEÇÃO */
+    .main-third-content {
+        padding: 40px 3%;
+    }
+
+    .main-third-content h1 {
+        font-size: 1.8rem;
+    }
+
+    /* QUARTA SEÇÃO - CARDS MOBILE */
+    .main-fourth-content {
+        padding: 40px 3%;
+        height: auto;
+        min-height: 70vh;
+    }
+
+    .main-fourth-content h1 {
+        font-size: 1.6rem;
+        margin-bottom: 30px;
+    }
+
+    .top-courses-section {
+        padding: 30px 3%;
+    }
+
+    .top-courses-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .courses-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .course-card {
+        padding: 18px;
+        min-height: auto;
+        border-radius: 10px;
+    }
+
+    .course-card h3 {
+        font-size: 1rem;
+        margin-bottom: 10px;
+    }
+
+    .course-card p {
+        font-size: 13px;
+        margin-bottom: 12px;
+        line-height: 1.5;
+    }
+
+    .course-badge {
+        font-size: 9px;
+        padding: 3px 6px;
+        margin-bottom: 8px;
+    }
+
+    .course-meta {
+        font-size: 10px;
+        gap: 3px;
+        padding-top: 6px;
+    }
+
+    /* QUINTA SEÇÃO */
+    .main-fifth-content {
+        padding: 40px 3%;
+        gap: 30px;
+    }
+
+    /* SEÇÃO 6.5 - main-sixth-05-content */
+    .main-sixth-05-content {
+        padding: 25px 3%;
+        height: auto;
+        min-height: 80px;
+    }
+
+    .main-sixth-05-content h1 {
+        font-size: 1.2rem;
+        line-height: 1.3;
+        margin: 0;
+        padding: 8px 0;
+    }
+
+    /* SEXTA SEÇÃO */
+    .main-sixth-content {
+        padding: 40px 3%;
+        gap: 30px;
+    }
+
+    .right-sixth-content h1 {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .btn-register-now {
+        max-width: 220px;
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    /* FOOTER */
+    footer {
+        padding: 30px 3%;
+        gap: 25px;
     }
 }
 
@@ -2873,7 +3535,20 @@ login-space {
 @media (max-width: 1200px) {
     .courses-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
+        gap: 20px;
+    }
+
+    .course-card {
+        padding: 18px;
+        min-height: 260px;
+    }
+
+    .course-card h3 {
+        font-size: 15px;
+    }
+
+    .course-card p {
+        font-size: 12px;
     }
 }
 

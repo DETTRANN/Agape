@@ -2,7 +2,7 @@
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Agape</title>
     <link rel="stylesheet" href="{{url('frontend/css/style.css')}}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -55,7 +55,6 @@
     <!-- Menu Lateral Mobile -->
     <div class="mobile-menu" id="mobile-menu">
       <div class="mobile-menu-header">
-        <img src="{{url('frontend/img/logo-agape.png')}}" alt="Agape" />
         <button class="close-btn" id="close-btn">&times;</button>
       </div>
       <nav class="mobile-menu-nav">
@@ -170,7 +169,7 @@
               ferramentas administrativas avançadas e interface intuitiva.
             </p>
             <div class="course-meta">
-              <span class="difficulty">� Administrativo</span>
+              <span class="difficulty">🔧 Administrativo</span>
               <span class="duration">Alto nível</span>
             </div>
           </div>
@@ -196,7 +195,7 @@
               automático e conformidade com LGPD para máxima proteção.
             </p>
             <div class="course-meta">
-              <span class="difficulty">� Segurança</span>
+              <span class="difficulty">🔒 Segurança</span>
               <span class="duration">Premium</span>
             </div>
           </div>
@@ -209,7 +208,7 @@
               gerenciamento de sessões para acesso rápido e protegido.
             </p>
             <div class="course-meta">
-              <span class="difficulty">� Cadastro/Login</span>
+              <span class="difficulty">👤 Cadastro/Login</span>
               <span class="duration">Essencial</span>
             </div>
           </div>

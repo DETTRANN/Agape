@@ -8,55 +8,149 @@
     <script src="{{url('frontend/js/script.js')}}" defer></script>
   </head>
   <body>
+    <!-- Mobile Header -->
+    <div class="top-header">
+      <img class="mobile-logo" src="{{url('frontend/img/logo-agape.png')}}" alt="Agape" onclick="window.location.href='{{url('/')}}'" />
+      <button class="mobile-toggle" id="mobile-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <!-- Desktop Header -->
     <header>
       <section class="header-left">
         <img class="img-logo" src="{{url('frontend/img/logo-agape.png')}}" alt="" />
-        <div class="header-sections">
-          <img src="{{url('frontend/img/casa-simples-fina.png')}}" alt="" />
-          <div>Início</div>
+        <div class="logo-separator"></div>
+        
+        <!-- Menu Principal -->
+        <div class="main-menu">
+          <div class="header-sections" data-section="inicio">
+            <img src="{{url('frontend/img/casa-simples-fina.png')}}" alt="" />
+            <div>Início</div>
+          </div>
+          <div class="header-sections" data-section="relatorios">
+            <img src="{{url('frontend/img/grafico-de-barras.png')}}" alt="" />
+            <div>Relatórios</div>
+          </div>
+          <div class="header-sections" data-section="estoque">
+            <img src="{{url('frontend/img/estoque-pronto.png')}}" alt="" />
+            <div>Estoque</div>
+          </div>
+          <div class="header-sections" data-section="rastreio">
+            <img src="{{url('frontend/img/localizacao.png')}}" alt="" />
+            <div>Rastreio</div>
+          </div>
         </div>
-        <div class="header-sections">
-          <img src="{{url('frontend/img/grafico-de-barras.png')}}" alt="" />
-          <div>Relatórios</div>
+
+        <!-- Menu do Perfil (inicialmente oculto) -->
+        <div class="profile-menu" style="display: none;">
+          <div class="header-sections back-button" onclick="showMainMenu()">
+            <span style="font-size: 20px;">←</span>
+            <div>Voltar</div>
+          </div>
+          <div class="header-sections">
+            <img src="{{url('frontend/img/icons8-robot-50.png')}}" alt="" />
+            <div>Perfil</div>
+          </div>
+          <div class="header-sections">
+            <img src="{{url('frontend/img/configuracoes.png')}}" alt="" />
+            <div>Configurações</div>
+          </div>
+          <div class="header-sections">
+            <img src="{{url('frontend/img/contato.png')}}" alt="" />
+            <div>Contato</div>
+          </div>
+          <div class="header-sections">
+            <img src="{{url('frontend/img/termos-e-condicoes.png')}}" alt="" />
+            <div>Termos de Uso</div>
+          </div>
+          <div class="header-sections logout">
+            <div>Log out</div>
+          </div>
         </div>
-        <div class="header-sections">
-          <img src="{{url('frontend/img/estoque-pronto.png')}}" alt="" />
-          <div>Estoque</div>
-        </div>
-        <div class="header-sections">
-          <img src="{{url('frontend/img/localizacao.png')}}" alt="" />
-          <div>Rastreio</div>
-        </div>
-        <div class="header-sections header-sections-notification">
-          <img src="{{url('frontend/img/notificacao.png')}}" alt="" />
-        </div>
-        <div class="header-sections header-sections-person dropdown">
-          <img src="{{url('frontend/img/user-alien.png')}}" alt="" class="user-icon" />
-          <ul class="user-menu">
-            <li class="menu-item">
-              <img src="{{url('frontend/img/icons8-robot-50.png')}}" alt="" class="menu-icon" />
-              <span>Perfil</span>
-            </li>
-            <li class="menu-item">
-              <img src="{{url('frontend/img/configuracoes.png')}}" alt="" class="menu-icon" />
-              <span>Configurações</span>
-            </li>
-            <li class="menu-item">
-              <img src="{{url('frontend/img/contato.png')}}" alt="" class="menu-icon" />
-              <span>Contato</span>
-            </li>
-            <li class="menu-item">
-              <img src="{{url('frontend/img/termos-e-condicoes.png')}}" alt="" class="menu-icon" />
-              <span>Termos de Uso</span>
-            </li>
-            <li class="menu-divider"></li>
-            <li class="menu-item logout">
-              <span>Log out</span>
-            </li>
-          </ul>
+
+        <!-- Notificações e Perfil -->
+        <div class="bottom-section">
+          <div class="header-sections header-sections-notification">
+            <img src="{{url('frontend/img/notificacao.png')}}" alt="" />
+            <div>Notificações</div>
+          </div>
+          <div class="header-sections header-sections-person" onclick="showProfileMenu()">
+            <img src="{{url('frontend/img/user-alien.png')}}" alt="" />
+            <div>Perfil</div>
+          </div>
         </div>
       </section>
     </header>
+
+    <!-- Mobile Sidebar -->
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-content">
+        <!-- Menu Principal Mobile -->
+        <div class="sidebar-main-menu">
+          <div class="sidebar-item" onclick="window.location.href='{{url('views/system')}}'">
+            <img src="{{url('frontend/img/casa-simples-fina.png')}}" alt="" />
+            <span>Início</span>
+          </div>
+          <div class="sidebar-item">
+            <img src="{{url('frontend/img/grafico-de-barras.png')}}" alt="" />
+            <span>Relatórios</span>
+          </div>
+          <div class="sidebar-item">
+            <img src="{{url('frontend/img/estoque-pronto.png')}}" alt="" />
+            <span>Estoque</span>
+          </div>
+          <div class="sidebar-item">
+            <img src="{{url('frontend/img/localizacao.png')}}" alt="" />
+            <span>Rastreio</span>
+          </div>
+          
+          <!-- Bottom section mobile -->
+          <div class="sidebar-bottom">
+            <div class="sidebar-item">
+              <img src="{{url('frontend/img/notificacao.png')}}" alt="" />
+              <span>Notificações</span>
+            </div>
+            <div class="sidebar-item" onclick="showMobileProfileMenu()">
+              <img src="{{url('frontend/img/user-alien.png')}}" alt="" />
+              <span>Perfil</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Menu do Perfil Mobile (inicialmente oculto) -->
+        <div class="sidebar-profile-menu" style="display: none;">
+          <div class="sidebar-item sidebar-back-button" onclick="showMobileMainMenu()">
+            <span style="font-size: 20px;">←</span>
+            <span>Voltar</span>
+          </div>
+          <div class="sidebar-item">
+            <img src="{{url('frontend/img/icons8-robot-50.png')}}" alt="" />
+            <span>Perfil</span>
+          </div>
+          <div class="sidebar-item">
+            <img src="{{url('frontend/img/configuracoes.png')}}" alt="" />
+            <span>Configurações</span>
+          </div>
+          <div class="sidebar-item">
+            <img src="{{url('frontend/img/contato.png')}}" alt="" />
+            <span>Contato</span>
+          </div>
+          <div class="sidebar-item">
+            <img src="{{url('frontend/img/termos-e-condicoes.png')}}" alt="" />
+            <span>Termos de Uso</span>
+          </div>
+          <div class="sidebar-item sidebar-logout" onclick="window.location.href='{{url('/')}}'">
+            <span>Log out</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
 
     <main>
       <nav>

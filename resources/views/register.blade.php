@@ -49,7 +49,6 @@
     <!-- Menu Lateral Mobile -->
     <div class="mobile-menu" id="mobile-menu">
       <div class="mobile-menu-header">
-        <img src="{{url('frontend/img/logo-agape.png')}}" alt="Agape" />
         <button class="close-btn" id="close-btn">&times;</button>
       </div>
       <nav class="mobile-menu-nav">
@@ -102,7 +101,7 @@
           />
 
           <input
-            onclick="goToLogin()"
+            onclick="goToSystem()"
             class="Register-space"
             id="btn-Cadastrar-Register"
             type="button"
