@@ -303,7 +303,7 @@ O sistema foi desenvolvido com abordagem mobile-first, garantindo uma experiênc
 -   [x] **Redefinição de Senha** - Recovery via email
 -   [x] **Notificações por Email** - Sistema integrado de comunicação
 -   [x] **Gerenciamento de Estoque** - Entrada e saída de produtos
--   [x] **Ordem Automática** - Reposição inteligente
+-   [x] **Ordem Automática** - Listagem ordenada
 -   [x] **Filtragem de Produtos** - Busca e filtros avançados
 -   [x] **Gestão de Quantidades** - Controle em tempo real
 -   [x] **Alertas de Estoque Baixo** - Notificações automáticas
