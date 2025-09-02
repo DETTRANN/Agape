@@ -1,8 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\ProdutoController;
 
 // Página inicial
 Route::get('/', function () {
@@ -33,10 +35,11 @@ Route::middleware(['auth', 'force.auth'])->group(function () {
         return view('system');
     })->name('system.page');
 
-    // Tabela de estoque
-    Route::get('/views/tabela_estoque', function () {
-        return view('tabela_estoque');
-    })->name('tabela_estoque');
+    // Rotas do estoque
+    Route::get('/views/tabela_estoque', [ProdutoController::class, 'index'])->name('tabela_estoque');
+    Route::post('/produtos', [ProdutoController::class, 'store'])->name('produtos.store');
+    Route::put('/produtos/{id}', [ProdutoController::class, 'update'])->name('produtos.update');
+    Route::delete('/produtos/{id}', [ProdutoController::class, 'destroy'])->name('produtos.destroy');
 
     // Redireciona a rota antiga para a nova
     Route::get('/views/system', function () {
@@ -51,15 +54,15 @@ Route::post('/clientes', [ClienteController::class, 'store'])->name('clientes.st
 // Rota de teste para verificar autenticação
 Route::get('/auth-test', function () {
     return response()->json([
-        'authenticated' => auth()->check(),
-        'user' => auth()->user(),
+        'authenticated' => Auth::check(),
+        'user' => Auth::user(),
         'guard' => config('auth.defaults.guard')
     ]);
 });
 
 // Rota para forçar logout (teste)
 Route::get('/force-logout', function () {
-    auth()->logout();
+    Auth::logout();
     session()->invalidate();
     session()->regenerateToken();
     return response()->json(['message' => 'Logout realizado']);
