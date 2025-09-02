@@ -16,27 +16,30 @@ O **Agape** é um sistema completo de gestão de estoque desenvolvido para simpl
 
 ### Autenticação e Segurança
 
--   Sistema de cadastro e login de usuários
--   Autenticação segura com validação
--   Redefinição de senha via email
+-   Sistema de cadastro e login de usuários com modelo Cliente personalizado
+-   Autenticação segura com validação dupla (middleware auth + force.auth)
+-   Sistema de logout funcional
 -   Proteção de rotas e sessões
+-   Redirecionamento automático para login quando não autenticado
 
 ### Gestão de Estoque
 
 -   Controle completo de entrada e saída de produtos
+-   Interface de tabela de estoque com design profissional
 -   Gerenciamento de quantidades em tempo real
 -   Sistema de alertas para estoque baixo
--   Ordem automática de reposição
 -   Filtros avançados de produtos
 -   Gestão integrada de preços
 
 ### Interface e Experiência do Usuário
 
--   Design responsivo e intuitivo
--   Interface moderna com paleta de cores consistente
+-   Design responsivo mobile-first
+-   Header mobile com sidebar deslizante
+-   Interface moderna com paleta de cores consistente (gradientes #0a0d1c → #1a1d2e → #2a2d3e)
 -   Animações suaves e transições
 -   Navegação otimizada para desktop e mobile
 -   Sistema de notificações visuais
+-   Menu hamburger funcional
 
 ### Comunicação
 
@@ -58,6 +61,7 @@ O **Agape** é um sistema completo de gestão de estoque desenvolvido para simpl
 -   **HTML5** - Estrutura semântica
 -   **CSS3** - Estilização moderna com variáveis CSS
 -   **JavaScript ES6+** - Interatividade e dinamismo
+-   **Blade Templates** - Sistema de templates do Laravel
 
 ### Ferramentas de Desenvolvimento
 
@@ -70,27 +74,41 @@ O **Agape** é um sistema completo de gestão de estoque desenvolvido para simpl
 ```
 agape-laravel/
 ├── app/
-│   ├── Http/Controllers/     # Controladores da aplicação
-│   ├── Models/              # Modelos Eloquent
-│   └── Providers/           # Service Providers
+│   ├── Http/
+│   │   ├── Controllers/           # Controladores da aplicação
+│   │   │   ├── AuthController.php # Controlador de autenticação
+│   │   │   └── ClienteController.php
+│   │   └── Middleware/           # Middleware personalizado
+│   │       └── ForceAuth.php     # Middleware de proteção de rotas
+│   ├── Models/                   # Modelos Eloquent
+│   │   └── Cliente.php          # Modelo de usuário personalizado
+│   ├── Repositories/            # Padrão Repository
+│   │   └── AuthRepository.php   # Lógica de autenticação
+│   └── Providers/               # Service Providers
 ├── database/
-│   ├── migrations/          # Migrações do banco de dados
-│   ├── seeders/            # Seeders para popular dados
-│   └── database.sqlite     # Banco de dados SQLite
+│   ├── migrations/              # Migrações do banco de dados
+│   │   └── 2025_08_31_222826_create_clientes_table.php
+│   ├── seeders/                # Seeders para popular dados
+│   └── database.sqlite         # Banco de dados SQLite
 ├── public/
 │   └── frontend/
-│       ├── css/            # Estilos CSS
-│       ├── js/             # Scripts JavaScript
-│       └── img/            # Imagens e assets
+│       ├── css/
+│       │   ├── style.css       # Estilos principais
+│       │   └── inventory.css   # Estilos da tabela de estoque
+│       ├── js/
+│       │   └── script.js       # Scripts principais com navegação mobile
+│       └── img/                # Imagens e assets
 ├── resources/
-│   └── views/              # Templates Blade
-│       ├── index.blade.php
-│       ├── login.blade.php
-│       ├── register.blade.php
-│       └── contato.blade.php
+│   └── views/                  # Templates Blade
+│       ├── index.blade.php     # Página inicial
+│       ├── login.blade.php     # Página de login
+│       ├── register.blade.php  # Página de cadastro
+│       ├── system.blade.php    # Sistema principal
+│       ├── tabela_estoque.blade.php # Tabela de estoque
+│       └── contato.blade.php   # Página de contato
 ├── routes/
-│   └── web.php             # Rotas da aplicação
-└── storage/                # Armazenamento de arquivos
+│   └── web.php                 # Rotas protegidas e públicas
+└── storage/                    # Armazenamento de arquivos
 ```
 
 ## Instalação e Configuração
@@ -99,54 +117,176 @@ agape-laravel/
 
 -   PHP 8.2 ou superior
 -   Composer
--   Node.js 16+ (para build do frontend)
+-   SQLite (geralmente já incluído no PHP)
+-   Git
 
-### Passos para Instalação
+### IMPORTANTE - SETUP COMPLETO PARA NOVOS DESENVOLVEDORES
 
-1. **Clone o repositório**
+**Se você está clonando o projeto pela primeira vez ou após atualizações importantes, siga TODOS os passos abaixo:**
 
-    ```bash
-    git clone https://github.com/DETTRANN/Agape.git
-    cd Agape
-    ```
+#### 1. **Clone e Configure o Projeto**
 
-2. **Instale as dependências PHP**
+```bash
+# Clone o repositório
+git clone https://github.com/DETTRANN/Agape.git
+cd Agape
 
-    ```bash
-    composer install
-    ```
+# Instale as dependências PHP
+composer install
 
-3. **Configure o ambiente**
+# Configure o arquivo de ambiente
+cp .env.example .env
+php artisan key:generate
+```
 
-    ```bash
-    cp .env.example .env
-    php artisan key:generate
-    ```
+#### 2. **Configure o Banco de Dados**
 
-4. **Configure o banco de dados**
+```bash
+# Criar o banco SQLite (se não existir)
+touch database/database.sqlite
 
-    ```bash
-    php artisan migrate
-    php artisan db:seed
-    ```
+# Rodar as migrações
+php artisan migrate
 
-5. **Instale dependências do frontend**
+# IMPORTANTE: Se der erro na migração, delete o banco e recrie:
+rm database/database.sqlite
+touch database/database.sqlite
+php artisan migrate
 
-    ```bash
-    npm install
-    npm run build
-    ```
+# Criar tabela de clientes manualmente (se necessário)
+php artisan tinker
+# No tinker, execute:
+# \Illuminate\Support\Facades\Schema::create('clientes', function($table) {
+#     $table->id();
+#     $table->string('nome');
+#     $table->string('email')->unique();
+#     $table->string('senha');
+#     $table->timestamps();
+# });
+# exit
+```
 
-6. **Inicie o servidor**
+#### 3. **Limpar Todos os Caches**
 
-    ```bash
-    php artisan serve
-    ```
+```bash
+# Limpar TODOS os caches do Laravel
+php artisan config:clear
+php artisan route:clear
+php artisan cache:clear
+php artisan view:clear
 
-7. **Acesse a aplicação**
-    ```
-    http://localhost:8000
-    ```
+# Recriar caches otimizados
+php artisan config:cache
+php artisan route:cache
+```
+
+#### 4. **Criar Usuário de Teste (Opcional)**
+
+```bash
+# Entre no tinker para criar um usuário de teste
+php artisan tinker
+
+# Execute no tinker:
+# \App\Models\Cliente::create([
+#     'nome' => 'Teste User',
+#     'email' => 'teste@teste.com',
+#     'senha' => \Illuminate\Support\Facades\Hash::make('123456')
+# ]);
+# exit
+```
+
+#### 5. **Iniciar o Servidor**
+
+```bash
+# Iniciar o servidor Laravel
+php artisan serve
+
+# O sistema estará disponível em:
+# http://127.0.0.1:8000
+```
+
+### Credenciais de Teste
+
+-   **Email**: teste@teste.com
+-   **Senha**: 123456
+
+### Problemas Comuns e Soluções
+
+#### Erro: "SQLSTATE[HY000]: General error: 1 no such table: clientes"
+
+```bash
+# Solução:
+rm database/database.sqlite
+touch database/database.sqlite
+php artisan migrate
+```
+
+#### Erro: "Route [auth.login.form] not defined"
+
+```bash
+# Solução:
+php artisan route:clear
+php artisan config:clear
+```
+
+#### Login não funciona / Aceita qualquer senha
+
+```bash
+# Solução:
+php artisan cache:clear
+# Verificar se o usuário existe na tabela clientes
+php artisan tinker
+# \App\Models\Cliente::all();
+```
+
+#### Páginas protegidas não redirecionam para login
+
+```bash
+# Solução:
+php artisan config:clear
+php artisan route:clear
+# Restart do servidor
+```
+
+### Funcionalidades Mobile
+
+O sistema possui navegação mobile completa:
+
+-   Header mobile com botão hamburger
+-   Sidebar deslizante com overlay
+-   Navegação responsiva
+-   Design mobile-first
+
+### Sistema de Segurança
+
+O projeto implementa múltiplas camadas de segurança:
+
+-   Middleware `auth` do Laravel
+-   Middleware personalizado `ForceAuth`
+-   Proteção de rotas sensíveis
+-   Redirecionamento automático para login
+-   Logout seguro com invalidação de sessão
+
+## Rotas do Sistema
+
+### Rotas Públicas
+
+-   `/` - Página inicial
+-   `/login` - Página de login
+-   `/register` - Página de cadastro
+-   `/views/register` - Cadastro (rota alternativa)
+
+### Rotas Protegidas (Requer Login)
+
+-   `/system` - Sistema principal
+-   `/views/tabela_estoque` - Tabela de estoque
+-   `/views/system` - Redireciona para /system
+
+### Rotas de Autenticação
+
+-   `POST /login` - Processar login
+-   `POST /logout` - Fazer logout
+-   `POST /clientes` - Registrar novo cliente
 
 ## Responsividade
 
@@ -163,7 +303,7 @@ O sistema foi desenvolvido com abordagem mobile-first, garantindo uma experiênc
 -   [x] **Redefinição de Senha** - Recovery via email
 -   [x] **Notificações por Email** - Sistema integrado de comunicação
 -   [x] **Gerenciamento de Estoque** - Entrada e saída de produtos
--   [x] **Ordem Automática** - Reposição inteligente
+-   [x] **Ordem Automática** - Listagem ordenada
 -   [x] **Filtragem de Produtos** - Busca e filtros avançados
 -   [x] **Gestão de Quantidades** - Controle em tempo real
 -   [x] **Alertas de Estoque Baixo** - Notificações automáticas
@@ -172,19 +312,19 @@ O sistema foi desenvolvido com abordagem mobile-first, garantindo uma experiênc
 ## Equipe de Desenvolvimento
 
 | Nome                | Matrícula |
-| ------------------- | --------- |
-| **Daniel Heber**    | 12301647  |
-| **Daniel Pereira**  | 12303011  |
-| **Gabriel Dias**    | 12301620  |
+| ------------------- | --------- | 
+| **Daniel Heber**    | 12301647  | 
+| **Daniel Pereira**  | 12303011  | 
+| **Gabriel Dias**    | 12301620  | 
 | **Gabriel Lacerda** | 12302457  |
-| **Matheus Vieira**  | 12302988  |
+| **Matheus Vieira**  | 12302988  | 
 
 **Turma**: 3E1
 
 ## Contato
 
 -   **Email**: agapeinventory@gmail.com
--   **WhatsApp**: (31) 1 2345-6789
+-   **WhatsApp**: (31) 9272-3541
 -   **Instagram**: @agape_inventory
 
 ---
