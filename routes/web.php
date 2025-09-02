@@ -26,20 +26,41 @@ Route::get('/views/register', function () {
     return view('register');
 });
 
-Route::get('/views/tabela_estoque', function () {
-    return view('tabela_estoque');
-})->middleware('auth')->name('tabela_estoque');
+// Rotas protegidas - apenas para usuários autenticados
+Route::middleware(['auth', 'force.auth'])->group(function () {
+    // Página do sistema (protegida) - rota principal
+    Route::get('/system', function () {
+        return view('system');
+    })->name('system.page');
 
-// Página do sistema (protegida) - rota principal
-Route::get('/system', function () {
-    return view('system');
-})->middleware('auth')->name('system.page');
+    // Tabela de estoque
+    Route::get('/views/tabela_estoque', function () {
+        return view('tabela_estoque');
+    })->name('tabela_estoque');
 
-// Redireciona a rota antiga para a nova
-Route::get('/views/system', function () {
-    return redirect()->route('system.page');
-})->middleware('auth');
+    // Redireciona a rota antiga para a nova
+    Route::get('/views/system', function () {
+        return redirect()->route('system.page');
+    });
+});
 
 // Registro de clientes
 Route::get('/register', [ClienteController::class, 'create'])->name('register');
 Route::post('/clientes', [ClienteController::class, 'store'])->name('clientes.store');
+
+// Rota de teste para verificar autenticação
+Route::get('/auth-test', function () {
+    return response()->json([
+        'authenticated' => auth()->check(),
+        'user' => auth()->user(),
+        'guard' => config('auth.defaults.guard')
+    ]);
+});
+
+// Rota para forçar logout (teste)
+Route::get('/force-logout', function () {
+    auth()->logout();
+    session()->invalidate();
+    session()->regenerateToken();
+    return response()->json(['message' => 'Logout realizado']);
+});

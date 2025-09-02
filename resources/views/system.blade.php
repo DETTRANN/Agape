@@ -67,7 +67,12 @@
             <div>Termos de Uso</div>
           </div>
           <div class="header-sections logout">
-            <div>Log out</div>
+            <form action="{{ route('auth.logout') }}" method="POST" style="display: inline;">
+              @csrf
+              <button type="submit" style="background: none; border: none; color: inherit; cursor: pointer; font-family: inherit; font-size: inherit;">
+                Log out
+              </button>
+            </form>
           </div>
         </div>
 
@@ -142,8 +147,13 @@
             <img src="{{url('frontend/img/termos-e-condicoes.png')}}" alt="" />
             <span>Termos de Uso</span>
           </div>
-          <div class="sidebar-item sidebar-logout" onclick="window.location.href='{{url('/')}}'">
-            <span>Log out</span>
+          <div class="sidebar-item sidebar-logout">
+            <form action="{{ route('auth.logout') }}" method="POST" style="display: inline;">
+              @csrf
+              <button type="submit" style="background: none; border: none; color: inherit; cursor: pointer; font-family: inherit; font-size: inherit; display: flex; align-items: center; gap: 8px; width: 100%;">
+                <span>Log out</span>
+              </button>
+            </form>
           </div>
         </div>
       </div>

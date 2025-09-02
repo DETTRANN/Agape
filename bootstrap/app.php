@@ -11,7 +11,14 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Redirecionar usuários não autenticados para a página de login
+        $middleware->redirectGuestsTo('/login');
+        
+        // Registrar middleware de autenticação
+        $middleware->alias([
+            'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
+            'force.auth' => \App\Http\Middleware\ForceAuth::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
