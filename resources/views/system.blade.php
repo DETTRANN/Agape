@@ -175,7 +175,7 @@
           <p>Vendas e movimentações</p>
         </section>
         <section>
-          <button class="btn-view-reports">Visualizar Relatórios</button>
+          <button class="btn-view-reports" onclick="goToTabelaEstoque()">Visualizar Relatórios</button>
         </section>
       </nav>
       <nav>
