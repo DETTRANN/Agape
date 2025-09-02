@@ -9,49 +9,36 @@ Route::get('/', function () {
     return view('index');
 })->name('home');
 
+// Rotas de autenticação
+Route::get('/login', function () {
+    return view('login');
+})->name('auth.login.form');
+
+Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
+Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+
 // Views estáticas auxiliares (acesso simples)
 Route::get('/views/login', function () {
-    return view('login');
+    return redirect()->route('auth.login.form');
 });
 
 Route::get('/views/register', function () {
     return view('register');
 });
 
-Route::get('/views/system', function () {
-    return view('system');
-});
+Route::get('/views/tabela_estoque', function () {
+    return view('tabela_estoque');
+})->middleware('auth')->name('tabela_estoque');
 
-Route::get('/views/contato', function () {
-    return view('contato');
-});
-
-Route::get('/views/pwdredefinition', function () {
-    return view('pwdredefinition');
-});
-
-Route::get('/views/pwdreset', function () {
-    return view('pwdreset');
-});
-
-// Rota POST para processar redefinição de senha (se necessário)
-Route::post('/views/pwdredefinition', function () {
-    // lógica mínima de exemplo
-    return redirect('/views/pwdreset');
-});
-
-// Rotas de autenticação (agrupadas)
-Route::middleware('guest')->group(function () {
-    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('auth.login.form');
-    Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
-});
-
-Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout')->middleware('auth');
-
-// Página do sistema (protegida)
+// Página do sistema (protegida) - rota principal
 Route::get('/system', function () {
     return view('system');
 })->middleware('auth')->name('system.page');
+
+// Redireciona a rota antiga para a nova
+Route::get('/views/system', function () {
+    return redirect()->route('system.page');
+})->middleware('auth');
 
 // Registro de clientes
 Route::get('/register', [ClienteController::class, 'create'])->name('register');

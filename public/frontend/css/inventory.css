@@ -576,6 +576,9 @@ article h1 {
     height: 50px;
     width: auto;
     cursor: pointer;
+    position: relative !important;
+    transform: none !important;
+    transition: transform 0.3s ease;
 }
 
 .mobile-toggle {
@@ -586,6 +589,8 @@ article h1 {
     border: none;
     cursor: pointer;
     padding: 8px;
+    position: relative !important;
+    transform: none !important;
 }
 
 .mobile-toggle span {
@@ -599,8 +604,8 @@ article h1 {
 
 /* Top Header Mobile */
 .top-header {
-    position: fixed;
-    top: 0;
+    position: fixed !important;
+    top: 0 !important;
     left: 0;
     width: 100%;
     height: 70px;
@@ -610,7 +615,10 @@ article h1 {
     justify-content: space-between;
     align-items: center;
     padding: 0 20px;
-    z-index: 1000;
+    z-index: 1001;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    transform: none !important;
+    transition: none !important;
 }
 
 /* Sidebar Mobile */
@@ -633,15 +641,21 @@ article h1 {
 
 .sidebar-content {
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .sidebar-main-menu,
 .sidebar-profile-menu {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .sidebar-bottom {
-    margin-top: 30px;
+    margin-top: auto; /* Empurra para o final */
     padding-top: 20px;
     border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
@@ -727,15 +741,22 @@ article h1 {
 
     /* Show mobile elements */
     .top-header {
-        display: flex;
+        display: flex !important;
+        position: fixed !important;
+        top: 0 !important;
+        z-index: 1001 !important;
     }
 
     .mobile-logo {
-        display: block;
+        display: block !important;
+        position: relative !important;
+        transform: none !important;
     }
 
     .mobile-toggle {
-        display: flex;
+        display: flex !important;
+        position: relative !important;
+        transform: none !important;
     }
 
     /* Main content adjustments */
@@ -820,10 +841,16 @@ article h1 {
     .top-header {
         height: 60px;
         padding: 0 15px;
+        position: fixed !important;
+        top: 0 !important;
+        z-index: 1001 !important;
+        display: flex !important;
     }
 
     .mobile-logo {
         height: 90px;
+        position: relative !important;
+        transform: none !important;
     }
 
     .mobile-toggle span {
@@ -883,5 +910,256 @@ article h1 {
         height: 45px;
         font-size: 15px;
         white-space: nowrap;
+    }
+}
+
+/* Estilos para Tabela de Estoque */
+.main-content-wrapper {
+    padding: 0;
+    background: linear-gradient(135deg, #0a0d1c 0%, #1a1d2e 50%, #2a2d3e 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Seção de controles */
+.estoque-controls-section {
+    background: linear-gradient(135deg, #1a1d2e 0%, #2a2d3e 100%);
+    border-bottom: 2px solid #e8e1da;
+    padding: 30px;
+}
+
+.estoque-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.estoque-search-section {
+    display: flex;
+    gap: 25px;
+    align-items: flex-end;
+}
+
+.search-input-group,
+.search-column-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.search-input-group label,
+.search-column-group label {
+    font-size: 14px;
+    color: #e8e1da;
+    font-weight: 500;
+}
+
+.search-input-group input,
+.search-column-group select {
+    padding: 12px 16px;
+    border: 2px solid #e8e1da;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: #2a2d3e;
+    color: white;
+    min-width: 200px;
+    transition: all 0.3s ease;
+}
+
+.search-input-group input:focus,
+.search-column-group select:focus {
+    outline: none;
+    border-color: #ffd300;
+    box-shadow: 0 0 10px rgba(255, 211, 0, 0.3);
+}
+
+.search-input-group input::placeholder {
+    color: #888;
+}
+
+.search-column-group select option {
+    background-color: #2a2d3e;
+    color: white;
+}
+
+.btn-limpar {
+    padding: 12px 20px;
+    border: 2px solid #e8e1da;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: transparent;
+    color: #e8e1da;
+    height: fit-content;
+}
+
+.btn-limpar:hover {
+    background-color: #e8e1da;
+    color: #1a1d2e;
+    transform: translateY(-2px);
+}
+
+.estoque-action-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.btn-atualizar,
+.btn-novo {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.btn-atualizar {
+    background-color: #4a5568;
+    color: white;
+    border-color: #4a5568;
+}
+
+.btn-atualizar:hover {
+    background-color: #2d3748;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(74, 85, 104, 0.4);
+}
+
+.btn-novo {
+    background-color: #ffd300;
+    color: #1a1d2e;
+    border-color: #ffd300;
+    font-weight: 700;
+}
+
+.btn-novo:hover {
+    background-color: #e6be00;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 211, 0, 0.4);
+}
+
+/* Seção da tabela */
+.estoque-table-section {
+    flex: 1;
+    padding: 30px 15px;
+    background-color: #0a0d1c;
+}
+
+.estoque-table-container {
+    background: linear-gradient(135deg, #1a1d2e 0%, #2a2d3e 100%);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 2px solid #e8e1da;
+    max-width: 100%;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.estoque-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    color: white;
+    table-layout: fixed;
+}
+
+.estoque-table thead {
+    background: linear-gradient(135deg, #2a2d3e 0%, #3a3d4e 100%);
+}
+
+.estoque-table th {
+    padding: 20px 18px;
+    text-align: left;
+    font-weight: 700;
+    color: #e8e1da;
+    border-bottom: 2px solid #e8e1da;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    width: 9.09%;
+}
+
+.estoque-table td {
+    padding: 18px 18px;
+    border-bottom: 1px solid rgba(232, 225, 218, 0.2);
+    color: #e8e1da;
+    width: 9.09%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.estoque-row:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.estoque-row:hover {
+    background-color: rgba(255, 211, 0, 0.1);
+    transform: scale(1.001);
+    transition: all 0.2s ease;
+}
+
+.status-ocupado {
+    background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid #e8e1da;
+}
+
+/* Responsividade para tabela */
+@media (max-width: 768px) {
+    .estoque-controls-section {
+        padding: 20px 15px;
+    }
+
+    .estoque-controls {
+        flex-direction: column;
+        gap: 25px;
+        align-items: stretch;
+    }
+
+    .estoque-search-section {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .search-input-group input,
+    .search-column-group select {
+        min-width: 100%;
+    }
+
+    .estoque-action-buttons {
+        justify-content: center;
+    }
+
+    .estoque-table-section {
+        padding: 15px;
+    }
+
+    .estoque-table-container {
+        overflow-x: auto;
+    }
+
+    .estoque-table {
+        min-width: 1200px;
+    }
+
+    .estoque-table th,
+    .estoque-table td {
+        padding: 15px 12px;
+        font-size: 12px;
     }
 }

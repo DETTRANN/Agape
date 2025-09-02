@@ -15,6 +15,17 @@
   </head>
 
   <body>
+    <!-- Mobile Header -->
+    <div class="top-header">
+      <img class="mobile-logo-system" src="{{ url('frontend/img/logo-agape.png') }}" alt="Agape" onclick="scrollToSection('.main-content')" />
+      <button class="mobile-toggle" id="mobile-toggle-auth">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <!-- Desktop Header -->
     <header id="header-menu">
       <!-- Logo Mobile -->
       <img 
@@ -51,6 +62,33 @@
         <span></span>
       </div>
     </header>
+
+    <!-- Mobile Sidebar -->
+    <div class="sidebar" id="sidebar-auth">
+      <div class="sidebar-content">
+        <div class="sidebar-item" onclick="scrollToSection('.main-content'); toggleAuthSidebar()">
+          <span>Início</span>
+        </div>
+        <div class="sidebar-item" onclick="scrollToSection('.main-third-content'); toggleAuthSidebar()">
+          <span>Funcionalidades</span>
+        </div>
+        <div class="sidebar-item" onclick="scrollToSection('.main-fifth-content'); toggleAuthSidebar()">
+          <span>Sobre</span>
+        </div>
+        <div class="sidebar-item" onclick="window.location.href='{{ url('views/contato') }}'">
+          <span>Contato</span>
+        </div>
+        
+        <!-- Botões estéticos como antes -->
+        <div class="sidebar-buttons">
+          <a href="{{ url('views/login') }}" class="sidebar-btn-login">Log In</a>
+          <button onclick="goToCadastro()" class="sidebar-btn-register">Cadastrar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay-auth"></div>
 
     <!-- Menu Lateral Mobile -->
     <div class="mobile-menu" id="mobile-menu">

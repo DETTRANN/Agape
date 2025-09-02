@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class Cliente extends Model
+class Cliente extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     protected $table = 'clientes';
 
@@ -20,5 +21,17 @@ class Cliente extends Model
 
     protected $hidden = [
         'senha',
+        'remember_token',
     ];
+
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'senha' => 'hashed',
+    ];
+
+    // Configurar o campo de senha para autenticação
+    public function getAuthPassword()
+    {
+        return $this->senha;
+    }
 }

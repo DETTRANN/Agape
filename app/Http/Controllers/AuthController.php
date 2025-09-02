@@ -30,12 +30,18 @@ class AuthController extends Controller
             'password' => ['required'],
         ]);
 
+        \Log::info('Tentativa de login', ['email' => $credentials['email']]);
+
         if ($this->auth->attemptLogin($credentials['email'], $credentials['password'])) {
             // Regenera a sessão para evitar fixation
             $request->session()->regenerate();
-            return redirect()->route('system.page'); // <- certifique-se que essa rota existe
+            \Log::info('Login bem-sucedido, redirecionando para system.page');
+            
+            // Debug: testar redirecionamento direto
+            return redirect('/system')->with('success', 'Login realizado com sucesso!');
         }
 
+        \Log::info('Login falhou');
         return back()
             ->withErrors(['email' => 'Credenciais inválidas'])
             ->onlyInput('email');

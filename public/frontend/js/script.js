@@ -6,12 +6,14 @@ function goToLogin() {
     window.location.href = "/views/login";
 }
 
-function goToSystem() {
-    window.location.href = "/views/system";
-}
+// Função removida - login agora usa validação real do Laravel
 
 function goToResetPassword() {
     window.location.href = "/views/pwdreset";
+}
+
+function goToTabelaEstoque() {
+    window.location.href = "/views/tabela_estoque";
 }
 
 // Função para navegação suave entre seções
@@ -33,14 +35,46 @@ function scrollToSection(sectionClass) {
 function handleHeaderScroll() {
     const header = document.querySelector("header");
     const headerMenu = document.getElementById("header-menu");
+    const topHeader = document.querySelector(".top-header"); // Header mobile da página system
+    const authTopHeader = document.querySelector(".top-header"); // Header mobile das páginas login/register
     const scrollThreshold = 80; // Pixels de scroll antes da transição
 
-    if (window.scrollY > scrollThreshold) {
-        header.classList.add("scrolled");
-        headerMenu.classList.add("scrolled");
-    } else {
-        header.classList.remove("scrolled");
-        headerMenu.classList.remove("scrolled");
+    // Para páginas com header-menu tradicional (index, login, register, etc.)
+    if (header && headerMenu) {
+        if (window.scrollY > scrollThreshold) {
+            header.classList.add("scrolled");
+            headerMenu.classList.add("scrolled");
+        } else {
+            header.classList.remove("scrolled");
+            headerMenu.classList.remove("scrolled");
+        }
+    }
+
+    // Para página system - não aplicar transformações no header mobile
+    if (topHeader && topHeader.classList.contains("system-header")) {
+        // Header mobile da página system mantém-se fixo sem alterações de scroll
+        return;
+    }
+
+    // Para páginas de login/register - aplicar efeito de scroll azulado
+    if (authTopHeader && !authTopHeader.classList.contains("system-header")) {
+        const authSidebar =
+            document.querySelector("#sidebar-auth") ||
+            document.querySelector(".sidebar");
+
+        if (window.scrollY > scrollThreshold) {
+            authTopHeader.classList.add("scrolled");
+            // Aplicar também no sidebar se existir
+            if (authSidebar) {
+                authSidebar.classList.add("scrolled");
+            }
+        } else {
+            authTopHeader.classList.remove("scrolled");
+            // Remover também do sidebar se existir
+            if (authSidebar) {
+                authSidebar.classList.remove("scrolled");
+            }
+        }
     }
 }
 
@@ -1097,3 +1131,264 @@ function showMobileMainMenu() {
         sidebarMainMenu.style.display = "block";
     }
 }
+
+/* ===============================================
+   MOBILE NAVIGATION LOGIN/REGISTER PAGES
+   =============================================== */
+
+function initAuthMobile() {
+    const mobileToggle = document.querySelector("#mobile-toggle-auth");
+    const sidebar = document.querySelector("#sidebar-auth");
+    const overlay = document.querySelector("#overlay-auth");
+
+    console.log("Inicializando AuthMobile...");
+    console.log("Toggle encontrado:", mobileToggle);
+    console.log("Sidebar encontrada:", sidebar);
+    console.log("Overlay encontrado:", overlay);
+
+    if (mobileToggle && sidebar && overlay) {
+        // Remover event listeners anteriores para evitar duplicação
+        const newToggle = mobileToggle.cloneNode(true);
+        mobileToggle.parentNode.replaceChild(newToggle, mobileToggle);
+
+        // Toggle sidebar com novo elemento
+        newToggle.addEventListener("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log("Clique no toggle detectado!");
+            toggleAuthSidebar();
+        });
+
+        // Close on overlay click
+        overlay.addEventListener("click", function (e) {
+            e.preventDefault();
+            console.log("Clique no overlay detectado!");
+            closeAuthSidebar();
+        });
+
+        // Close on ESC key
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape" && sidebar.classList.contains("active")) {
+                console.log("ESC pressionado - fechando sidebar");
+                closeAuthSidebar();
+            }
+        });
+
+        // Close sidebar when clicking on navigation items
+        const sidebarItems = sidebar.querySelectorAll(".sidebar-item");
+        sidebarItems.forEach((item) => {
+            item.addEventListener("click", function () {
+                console.log("Item do sidebar clicado - fechando sidebar");
+                closeAuthSidebar();
+            });
+        });
+
+        console.log("Event listeners adicionados com sucesso!");
+    } else {
+        console.log("Nem todos os elementos foram encontrados para AuthMobile");
+        console.log("Tentando com seletores alternativos...");
+
+        // Fallback para elementos sem IDs específicos
+        const fallbackToggle = document.querySelector(".mobile-toggle");
+        const fallbackSidebar = document.querySelector(".sidebar");
+        const fallbackOverlay = document.querySelector(".overlay");
+
+        if (fallbackToggle && fallbackSidebar && fallbackOverlay) {
+            console.log("Usando elementos fallback");
+
+            fallbackToggle.addEventListener("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log("Clique no fallback toggle detectado!");
+                toggleAuthSidebarFallback();
+            });
+
+            fallbackOverlay.addEventListener("click", function (e) {
+                e.preventDefault();
+                console.log("Clique no fallback overlay detectado!");
+                closeAuthSidebarFallback();
+            });
+        }
+    }
+}
+
+function toggleAuthSidebar() {
+    const mobileToggle =
+        document.querySelector("#mobile-toggle-auth") ||
+        document.querySelector(".mobile-toggle");
+    const sidebar =
+        document.querySelector("#sidebar-auth") ||
+        document.querySelector(".sidebar");
+    const overlay =
+        document.querySelector("#overlay-auth") ||
+        document.querySelector(".overlay");
+
+    console.log("toggleAuthSidebar chamado");
+    console.log(
+        "Sidebar tem classe active?",
+        sidebar?.classList.contains("active")
+    );
+
+    if (sidebar?.classList.contains("active")) {
+        console.log("Fechando sidebar...");
+        closeAuthSidebar();
+    } else {
+        console.log("Abrindo sidebar...");
+        openAuthSidebar();
+    }
+}
+
+function openAuthSidebar() {
+    const mobileToggle =
+        document.querySelector("#mobile-toggle-auth") ||
+        document.querySelector(".mobile-toggle");
+    const sidebar =
+        document.querySelector("#sidebar-auth") ||
+        document.querySelector(".sidebar");
+    const overlay =
+        document.querySelector("#overlay-auth") ||
+        document.querySelector(".overlay");
+    const topHeader = document.querySelector(".top-header");
+
+    console.log("openAuthSidebar executado");
+
+    if (mobileToggle) {
+        mobileToggle.classList.add("active");
+        console.log("Toggle ativado");
+    }
+    if (sidebar) {
+        sidebar.classList.add("active");
+
+        // Se o header está scrolled, aplicar também no sidebar
+        if (topHeader && topHeader.classList.contains("scrolled")) {
+            sidebar.classList.add("scrolled");
+        }
+
+        console.log("Sidebar ativada");
+    }
+    if (overlay) {
+        overlay.classList.add("active");
+        console.log("Overlay ativado");
+    }
+
+    // Adicionar classe sidebar-open no header para mostrar border bottom
+    if (topHeader) {
+        topHeader.classList.add("sidebar-open");
+        console.log("Header marcado como sidebar-open");
+    }
+
+    document.body.style.overflow = "hidden";
+    console.log("Body overflow hidden");
+}
+
+function closeAuthSidebar() {
+    const mobileToggle =
+        document.querySelector("#mobile-toggle-auth") ||
+        document.querySelector(".mobile-toggle");
+    const sidebar =
+        document.querySelector("#sidebar-auth") ||
+        document.querySelector(".sidebar");
+    const overlay =
+        document.querySelector("#overlay-auth") ||
+        document.querySelector(".overlay");
+
+    console.log("closeAuthSidebar executado");
+
+    if (mobileToggle) {
+        mobileToggle.classList.remove("active");
+        console.log("Toggle desativado");
+    }
+    if (sidebar) {
+        sidebar.classList.remove("active");
+        console.log("Sidebar desativada");
+    }
+    if (overlay) {
+        overlay.classList.remove("active");
+        console.log("Overlay desativado");
+    }
+
+    // Remover classe sidebar-open do header
+    const topHeader = document.querySelector(".top-header");
+    if (topHeader) {
+        topHeader.classList.remove("sidebar-open");
+        console.log("Header removido sidebar-open");
+    }
+
+    document.body.style.overflow = "";
+    console.log("Body overflow restaurado");
+}
+
+// Funções fallback para compatibilidade
+function toggleAuthSidebarFallback() {
+    const sidebar = document.querySelector(".sidebar");
+    if (sidebar?.classList.contains("active")) {
+        closeAuthSidebarFallback();
+    } else {
+        openAuthSidebarFallback();
+    }
+}
+
+function openAuthSidebarFallback() {
+    const mobileToggle = document.querySelector(".mobile-toggle");
+    const sidebar = document.querySelector(".sidebar");
+    const overlay = document.querySelector(".overlay");
+    const topHeader = document.querySelector(".top-header");
+
+    if (mobileToggle) mobileToggle.classList.add("active");
+    if (sidebar) {
+        sidebar.classList.add("active");
+
+        // Se o header está scrolled, aplicar também no sidebar
+        if (topHeader && topHeader.classList.contains("scrolled")) {
+            sidebar.classList.add("scrolled");
+        }
+    }
+    if (overlay) overlay.classList.add("active");
+
+    // Adicionar classe sidebar-open no header
+    if (topHeader) {
+        topHeader.classList.add("sidebar-open");
+    }
+
+    document.body.style.overflow = "hidden";
+}
+
+function closeAuthSidebarFallback() {
+    const mobileToggle = document.querySelector(".mobile-toggle");
+    const sidebar = document.querySelector(".sidebar");
+    const overlay = document.querySelector(".overlay");
+    const topHeader = document.querySelector(".top-header");
+
+    if (mobileToggle) mobileToggle.classList.remove("active");
+    if (sidebar) sidebar.classList.remove("active");
+    if (overlay) overlay.classList.remove("active");
+
+    // Remover classe sidebar-open do header
+    if (topHeader) {
+        topHeader.classList.remove("sidebar-open");
+    }
+
+    document.body.style.overflow = "";
+}
+
+// Initialize auth mobile when DOM is loaded
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("DOM carregado - inicializando AuthMobile");
+
+    // Aguardar um pouco para garantir que todos os elementos estão prontos
+    setTimeout(() => {
+        initAuthMobile();
+    }, 100);
+
+    // Também inicializar quando a página for totalmente carregada
+    if (document.readyState === "complete") {
+        initAuthMobile();
+    } else {
+        window.addEventListener("load", function () {
+            console.log(
+                "Página totalmente carregada - inicializando AuthMobile novamente"
+            );
+            initAuthMobile();
+        });
+    }
+});

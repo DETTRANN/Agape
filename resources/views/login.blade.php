@@ -20,15 +20,18 @@
   </head>
 
   <body>
+    <!-- Mobile Header -->
+    <div class="top-header">
+      <img class="mobile-logo-system" src="{{ url('frontend/img/logo-agape.png') }}" alt="Agape" onclick="window.location.href='{{ url('/') }}'" />
+      <button class="mobile-toggle" id="mobile-toggle-auth">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <!-- Desktop Header -->
     <header id="header-menu">
-      <!-- Logo Mobile -->
-      <img 
-        src="{{ url('frontend/img/logo-agape.png') }}" 
-        alt="Agape" 
-        class="mobile-logo"
-        onclick="window.location.href='{{ url('/') }}'"
-      />
-      
       <div class="left-menu">
         <img src="{{ url('frontend/img/logo-agape.png') }}" alt="" />
         <a href="{{ url('/') }}">Início</a>
@@ -43,35 +46,37 @@
           Cadastrar
         </button>
       </div>
-      
-      <!-- Botão Hamburger Mobile -->
-      <div class="hamburger-menu" id="hamburger-btn">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
     </header>
 
-    <!-- Menu Lateral Mobile -->
-    <div class="mobile-menu" id="mobile-menu">
-      <div class="mobile-menu-header">
-        <img src="{{ url('frontend/img/logo-agape.png') }}" alt="Agape" />
-        <button class="close-btn" id="close-btn">&times;</button>
-      </div>
-      <nav class="mobile-menu-nav">
-        <a href="{{ url('/') }}">Início</a>
-        <a href="{{ url('/') }}">Funcionalidades</a>
-        <a href="{{ url('/') }}">Sobre</a>
-        <a href="{{ url('views/contato') }}">Contato</a>
-      </nav>
-      <div class="mobile-menu-buttons">
-        <a href="{{ route('auth.login.form') }}" class="mobile-btn-login">Log In</a>
-        <button onclick="goToCadastro()" class="mobile-btn-register">Cadastrar</button>
+    <!-- Mobile Sidebar -->
+    <div class="sidebar" id="sidebar-auth">
+      <div class="sidebar-content">
+        <div class="sidebar-item" onclick="window.location.href='{{ url('/') }}'">
+          <span>Início</span>
+        </div>
+        <div class="sidebar-item" onclick="window.location.href='{{ url('/') }}'">
+          <span>Funcionalidades</span>
+        </div>
+        <div class="sidebar-item" onclick="window.location.href='{{ url('/') }}'">
+          <span>Sobre</span>
+        </div>
+        <div class="sidebar-item" onclick="window.location.href='{{ url('views/contato') }}'">
+          <span>Contato</span>
+        </div>
+        
+        <!-- Divisor visual -->
+        <div class="sidebar-divider"></div>
+        
+        <!-- Botões estéticos como antes -->
+        <div class="sidebar-buttons">
+          <a href="{{ route('auth.login.form') }}" class="sidebar-btn-login">Logar</a>
+          <button onclick="goToCadastro()" class="sidebar-btn-register">Cadastrar</button>
+        </div>
       </div>
     </div>
 
     <!-- Overlay -->
-    <div class="mobile-menu-overlay" id="mobile-overlay"></div>
+    <div class="overlay" id="overlay-auth"></div>
 
     <main class="main-login Nunito-Font">
       <div class="main-left-login">
