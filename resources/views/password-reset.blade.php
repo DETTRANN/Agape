@@ -2,7 +2,7 @@
 <html lang="pt-br">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Redefinir Senha - Agape</title>
+    <title>Nova Senha - Agape</title>
     <link rel="stylesheet" href="{{url('frontend/css/style.css')}}" />
     <script src="{{url('frontend/js/script.js')}}" defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -72,13 +72,13 @@
         <img 
           id="img-contact" 
           src="{{url('frontend/img/bola_roxa_final_editada.png')}}" 
-          alt="Redefinir senha" 
+          alt="Nova senha" 
         />
       </div>
 
       <div class="main-right-contact">
         <div class="title-contact">
-          <div>Redefinição de</div>
+          <div>Definir nova</div>
           <div class="contact-text-color-form">senha</div>
         </div>
 
@@ -95,22 +95,34 @@
             @endforeach
           </div>
         @endif
-    
         
-        <form action="{{ route('password.email') }}" method="POST" class="form-contact" id="resetForm">
+        <form action="{{ route('password.update') }}" method="POST" class="form-contact" id="newPasswordForm">
           @csrf
-          <p>Email</p>
+          <input type="hidden" name="token" value="{{ $token }}">
+          <input type="hidden" name="email" value="{{ $email }}">
+
+          <p>Nova Senha</p>
           <input 
-            type="email" 
-            name="email" 
+            type="password" 
+            name="password" 
             class="validacao" 
-            placeholder="Digite seu email para redefinir a senha"
-            value="{{ old('email') }}"
+            placeholder="Digite sua nova senha (mínimo 6 caracteres)"
             required
+            minlength="6"
           />
 
-          <button type="submit" id="btn-reset-password">
-            Redefinir Senha
+          <p>Confirmar Nova Senha</p>
+          <input 
+            type="password" 
+            name="password_confirmation" 
+            class="validacao" 
+            placeholder="Confirme sua nova senha"
+            required
+            minlength="6"
+          />
+
+          <button type="submit" id="btn-update-password">
+            Atualizar Senha
           </button>
 
           <div class="checkbox-contact">
@@ -183,5 +195,25 @@
         </form>
       </nav>
     </footer>
+
+    <script>
+      // Validação adicional no frontend
+      document.getElementById('newPasswordForm').addEventListener('submit', function(e) {
+        const password = document.querySelector('input[name="password"]').value;
+        const passwordConfirm = document.querySelector('input[name="password_confirmation"]').value;
+        
+        if (password !== passwordConfirm) {
+          e.preventDefault();
+          alert('As senhas não coincidem!');
+          return false;
+        }
+        
+        if (password.length < 6) {
+          e.preventDefault();
+          alert('A senha deve ter pelo menos 6 caracteres!');
+          return false;
+        }
+      });
+    </script>
   </body>
 </html>

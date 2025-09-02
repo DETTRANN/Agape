@@ -30,20 +30,44 @@ class ProdutoController extends Controller
             return redirect()->route('auth.login.form')->with('error', 'Você precisa estar autenticado para realizar esta ação.');
         }
 
+        $userId = Auth::id();
+        
+        // Verificar se o usuário existe (agora usando Cliente)
+        if (!$userId || !\App\Models\Cliente::find($userId)) {
+            return redirect()->route('auth.login.form')->with('error', 'Sessão inválida. Faça login novamente.');
+        }
+
         $request->validate([
-            'id_item' => 'required',
             'status' => 'required',
             'nome_item' => 'required',
             'descricao' => 'required',
             'categoria' => 'required',
-            'numero_serie' => 'required',
-            'preco' => 'required|numeric',
+            'preco' => 'required|numeric|min:0',
             'data_posse' => 'required|date',
-            'responsavel' => 'required|email'
+            'responsavel' => 'required|email',
+            'numero_serie' => 'nullable|string',
+            'localidade' => 'nullable|string',
+            'observacoes' => 'nullable|string'
         ]);
 
-        $data = $request->all();
-        $data['user_id'] = Auth::id(); // Garante que o user_id seja definido
+        $data = $request->only([
+            'status',
+            'nome_item', 
+            'descricao',
+            'categoria',
+            'numero_serie',
+            'preco',
+            'data_posse',
+            'responsavel',
+            'localidade',
+            'observacoes'
+        ]);
+        
+        // Gerar próximo ID sequencial para este usuário específico
+        $ultimoIdDoUsuario = \App\Models\Produto::where('user_id', $userId)->max('id_item');
+        $proximoNumero = $ultimoIdDoUsuario ? (int)$ultimoIdDoUsuario + 1 : 1;
+        $data['id_item'] = (string)$proximoNumero;
+        $data['user_id'] = $userId;
 
         $produto = $this->produtoRepository->create($data);
 
@@ -53,15 +77,16 @@ class ProdutoController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'id_item' => 'required',
             'status' => 'required',
             'nome_item' => 'required',
             'descricao' => 'required',
             'categoria' => 'required',
-            'numero_serie' => 'required',
-            'preco' => 'required|numeric',
+            'preco' => 'required|numeric|min:0',
             'data_posse' => 'required|date',
-            'responsavel' => 'required|email'
+            'responsavel' => 'required|email',
+            'numero_serie' => 'nullable|string',
+            'localidade' => 'nullable|string',
+            'observacoes' => 'nullable|string'
         ]);
 
         $produto = $this->produtoRepository->update($id, $request->all());

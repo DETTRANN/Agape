@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('produtos', function (Blueprint $table) {
             $table->id();
-            $table->string('id_item')->unique();
+            $table->integer('id_item')->nullable(); // Número sequencial por usuário
             $table->string('status');
             $table->string('nome_item');
             $table->text('descricao')->nullable();
@@ -22,10 +22,13 @@ return new class extends Migration
             $table->decimal('preco', 10, 2);
             $table->date('data_posse');
             $table->string('responsavel');
-            $table->string('localidade');
+            $table->string('localidade')->nullable();
             $table->text('observacoes')->nullable();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
+            
+            // Foreign key constraint para clientes
+            $table->foreign('user_id')->references('id')->on('clientes')->onDelete('cascade');
         });
     }
 

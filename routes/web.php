@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ProdutoController;
+use App\Http\Controllers\PasswordResetController;
 
 // Página inicial
 Route::get('/', function () {
@@ -50,6 +51,17 @@ Route::middleware(['auth', 'force.auth'])->group(function () {
 // Registro de clientes
 Route::get('/register', [ClienteController::class, 'create'])->name('register');
 Route::post('/clientes', [ClienteController::class, 'store'])->name('clientes.store');
+
+// Rotas de redefinição de senha
+Route::get('/password/reset', [PasswordResetController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('/password/email', [PasswordResetController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('/password/reset/{token}', [PasswordResetController::class, 'showResetForm'])->name('password.reset.form');
+Route::post('/password/reset', [PasswordResetController::class, 'reset'])->name('password.update');
+
+// Redirecionamento para compatibilidade
+Route::get('/views/pwdredefinition', function () {
+    return redirect()->route('password.request');
+});
 
 // Rota de teste para verificar autenticação
 Route::get('/auth-test', function () {

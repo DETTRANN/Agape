@@ -23,9 +23,15 @@ class Produto extends Model
         'user_id'
     ];
 
-    // Relacionamento com usuário
+    // Relacionamento com cliente
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(\App\Models\Cliente::class, 'user_id');
+    }
+    
+    // Alias para facilitar
+    public function cliente()
+    {
+        return $this->belongsTo(\App\Models\Cliente::class, 'user_id');
     }
 }

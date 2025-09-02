@@ -81,26 +81,47 @@
           <div>Insira sua nova</div>
           <div class="contact-text-color-form">senha</div>
         </div>
+
+        @if(session('status'))
+          <div class="alert alert-success" style="background: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
+            {{ session('status') }}
+          </div>
+        @endif
+
+        @if($errors->any())
+          <div class="alert alert-danger" style="background: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
+            @foreach($errors->all() as $error)
+              <p style="margin: 0;">{{ $error }}</p>
+            @endforeach
+          </div>
+        @endif
         
-        <form action="#" method="get" class="form-contact" id="newPasswordForm">
+        <form action="{{ route('password.update') }}" method="POST" class="form-contact" id="newPasswordForm">
+          @csrf
+          <input type="hidden" name="token" value="{{ $token ?? '' }}">
+          <input type="hidden" name="email" value="{{ $email ?? '' }}">
+
           <p>Nova senha</p>
           <input 
             type="password" 
             name="password" 
             class="validacao" 
+            placeholder="Digite sua nova senha (mínimo 6 caracteres)"
             required
+            minlength="6"
           />
 
           <p>Confirmar senha</p>
           <input 
             type="password" 
-            name="confirm_password" 
+            name="password_confirmation" 
             class="validacao" 
-            
+            placeholder="Confirme sua nova senha"
             required
+            minlength="6"
           />
 
-          <button type="button" id="btn-new-password" onclick="goToLogin()">
+          <button type="submit" id="btn-new-password">
             Redefinir Senha
           </button>
 
@@ -173,5 +194,25 @@
         </form>
       </nav>
     </footer>
+
+    <script>
+      // Validação adicional no frontend
+      document.getElementById('newPasswordForm').addEventListener('submit', function(e) {
+        const password = document.querySelector('input[name="password"]').value;
+        const passwordConfirm = document.querySelector('input[name="password_confirmation"]').value;
+        
+        if (password !== passwordConfirm) {
+          e.preventDefault();
+          alert('As senhas não coincidem!');
+          return false;
+        }
+        
+        if (password.length < 6) {
+          e.preventDefault();
+          alert('A senha deve ter pelo menos 6 caracteres!');
+          return false;
+        }
+      });
+    </script>
 </body>
 </html>

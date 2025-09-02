@@ -110,7 +110,7 @@
             </div>
           @endif
 
-          <a href="{{ url('views/pwdredefinition') }}" class="Login-text-color-form login-space">Esqueceu sua senha?</a>
+          <a href="{{ route('password.request') }}" class="Login-text-color-form login-space">Esqueceu sua senha?</a>
 
           <!-- IMPORTANTE: agora é submit (sem JS goToSystem) -->
           <button class="login-space" id="btn-logar-login" type="submit">

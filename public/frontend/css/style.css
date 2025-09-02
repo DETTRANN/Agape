@@ -1084,7 +1084,7 @@ footer h2 {
 /* Página Inicial 6 */
 .main-sixth-05-content {
     width: 100%;
-    height: calc(20vh);
+    height: calc(14vh);
     background-color: #ffd300;
     display: flex;
     justify-content: center;
@@ -1107,7 +1107,7 @@ footer h2 {
 
 .main-sixth-content {
     width: 100%;
-    height: calc(80vh - 70px);
+    height: calc(86vh - 70px);
     background-color: black;
     display: flex;
     justify-content: center;
@@ -1121,10 +1121,10 @@ footer h2 {
     width: 50%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
     gap: 22px;
-    text-align: center;
+    text-align: left;
 }
 
 .left-sixth-content {
@@ -1145,7 +1145,7 @@ footer h2 {
     font-family: "Nunito", sans-serif;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    align-self: center;
+    align-self: left;
 }
 
 .btn-register-now:hover {
@@ -1168,10 +1168,10 @@ footer h2 {
 }
 
 .right-sixth-content p {
-    font-size: 27px;
+    font-size: 22px;
     font-weight: lighter;
-    width: 80%;
-    text-align: center;
+    width: 65%;
+    text-align: justify;
 }
 
 /*Tela de Login*/
@@ -1509,7 +1509,7 @@ login-space {
     width: 200px;
     display: flex;
     align-items: center;
-    height: 40px;
+    height: 40px !important;
     background-color: #2a2a2a; /* Background escuro */
     border: 1px solid #333333; /* Borda escura */
     border-radius: 50px;
@@ -1560,18 +1560,18 @@ login-space {
 }
 
 #btn-Cadastrar-Register {
-    background-color: #ffd300; /* Dourado da paleta principal */
-    color: black; /* Texto preto para contraste no botão dourado */
+    background-color: #ffd300;
+    color: black;
     border: none;
     border-radius: 8px;
-    font-size: 14px; /* Mesmo tamanho de fonte dos inputs */
+    font-size: 14px;
     font-weight: 600;
     font-family: "Nunito", sans-serif;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    padding: 8px 11px; /* Exatamente o mesmo padding dos inputs */
-    height: 43px; /* Altura automática baseada no padding */
-    box-sizing: border-box; /* Inclui padding e border na altura total */
+    padding: 8px 11px;
+    height: 39px;
+    box-sizing: border-box;
 }
 
 #btn-Cadastrar-Register:hover {
@@ -3043,14 +3043,16 @@ login-space {
         font-size: 2.5rem;
         margin-bottom: 25px;
         text-align: center;
+        align-self: center;
     }
 
     .right-sixth-content p {
         font-size: 16px;
         line-height: 1.6;
         margin-bottom: 30px;
-        text-align: center;
-        width: 100%;
+        text-align: justify;
+        align-self: center;
+        width: 80%;
     }
 
     .btn-register-now {
@@ -3058,6 +3060,7 @@ login-space {
         max-width: 250px;
         padding: 10px 20px;
         font-size: 16px;
+        align-self: center;
     }
 
     .left-sixth-content img {
@@ -3251,7 +3254,8 @@ login-space {
 
     .right-sixth-content h1 {
         font-size: 2rem;
-        text-align: center;
+        text-align: left;
+        align-self: center;
     }
 
     .btn-register-now {

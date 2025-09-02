@@ -1078,11 +1078,173 @@ function closeSystemSidebar() {
     document.body.style.overflow = "";
 }
 
+/* ===============================================
+   FUNCIONALIDADES DA TABELA DE ESTOQUE
+   =============================================== */
+
+// Função para filtrar a tabela de estoque
+function filtrarTabela() {
+    const searchInput = document.getElementById("search-input");
+    const searchColumn = document.getElementById("search-column");
+    const rows = document.querySelectorAll(".estoque-table tbody tr");
+
+    if (!searchInput || !searchColumn || !rows.length) return;
+
+    const searchValue = searchInput.value.toLowerCase().trim();
+    const columnToSearch = searchColumn.value;
+
+    console.log("Pesquisando por:", searchValue, "na coluna:", columnToSearch);
+
+    rows.forEach((row) => {
+        let cell;
+        switch (columnToSearch) {
+            case "id_item":
+                cell = row.cells[0]; // ID
+                break;
+            case "status":
+                cell = row.cells[1]; // Status
+                break;
+            case "nome":
+                cell = row.cells[2]; // Nome Item
+                break;
+            case "descricao":
+                cell = row.cells[3]; // Descrição
+                break;
+            case "categoria":
+                cell = row.cells[4]; // Categoria
+                break;
+            case "serie":
+                cell = row.cells[5]; // Número de Série
+                break;
+            case "preco":
+                cell = row.cells[6]; // Preço
+                break;
+            case "data":
+                cell = row.cells[7]; // Data de Posse
+                break;
+            case "responsavel":
+                cell = row.cells[8]; // Responsável
+                break;
+            case "localidade":
+                cell = row.cells[9]; // Localidade
+                break;
+            case "observacoes":
+                cell = row.cells[10]; // Observações
+                break;
+            default:
+                cell = null;
+        }
+
+        if (cell) {
+            const text = cell.textContent.toLowerCase().trim();
+            const matches = searchValue === "" || text.includes(searchValue);
+            row.style.display = matches ? "" : "none";
+
+            if (columnToSearch === "id_item") {
+                console.log("ID da linha:", text, "corresponde:", matches);
+            }
+        }
+    });
+}
+
+// Função para limpar a pesquisa da tabela
+function limparPesquisa() {
+    const searchInput = document.getElementById("search-input");
+    const rows = document.querySelectorAll(".estoque-table tbody tr");
+
+    if (searchInput) {
+        searchInput.value = "";
+    }
+
+    rows.forEach((row) => {
+        row.style.display = "";
+    });
+}
+
+// Funções para controle do modal de novo produto
+function abrirModal() {
+    const modal = document.getElementById("modalNovoProduto");
+    const overlay = document.getElementById("overlay");
+
+    if (modal && overlay) {
+        modal.style.display = "flex";
+        overlay.style.display = "block";
+        document.body.style.overflow = "hidden";
+
+        // Foco no primeiro campo do formulário
+        const primeiroInput = modal.querySelector("input");
+        if (primeiroInput) {
+            setTimeout(() => primeiroInput.focus(), 100);
+        }
+    }
+}
+
+function fecharModal() {
+    const modal = document.getElementById("modalNovoProduto");
+    const overlay = document.getElementById("overlay");
+
+    if (modal && overlay) {
+        modal.style.display = "none";
+        overlay.style.display = "none";
+        document.body.style.overflow = "";
+    }
+}
+
+// Função para inicializar eventos da tabela de estoque
+function initEstoqueEvents() {
+    // Event listeners para filtro de pesquisa
+    const searchInput = document.getElementById("search-input");
+    const searchColumn = document.getElementById("search-column");
+    const btnLimpar = document.querySelector(".btn-limpar");
+    const btnNovo = document.querySelector(".btn-novo");
+    const overlay = document.getElementById("overlay");
+
+    if (searchInput) {
+        searchInput.addEventListener("input", filtrarTabela);
+    }
+
+    if (searchColumn) {
+        searchColumn.addEventListener("change", filtrarTabela);
+    }
+
+    if (btnLimpar) {
+        btnLimpar.addEventListener("click", limparPesquisa);
+    }
+
+    if (btnNovo) {
+        btnNovo.addEventListener("click", abrirModal);
+    }
+
+    if (overlay) {
+        overlay.addEventListener("click", fecharModal);
+    }
+
+    // Fechar modal com tecla ESC
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+            fecharModal();
+        }
+    });
+
+    // Prevenir fechamento do modal ao clicar dentro do conteúdo
+    const modalContent = document.querySelector(".modal-content");
+    if (modalContent) {
+        modalContent.addEventListener("click", function (e) {
+            e.stopPropagation();
+        });
+    }
+
+    console.log("Eventos da tabela de estoque inicializados com sucesso!");
+}
+
 // Initialize when DOM is loaded
 document.addEventListener("DOMContentLoaded", function () {
-    initMobileMenu();
-    initSystemMobile();
+    initEstoqueEvents();
 });
+
+/* ===============================================
+   RESTO DO CÓDIGO JAVASCRIPT EXISTENTE
+   =============================================== */
 
 /* ===============================================
    SYSTEM MENU NAVIGATION
