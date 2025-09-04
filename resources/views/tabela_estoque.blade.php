@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{url('frontend/css/inventory.css')}}" />
+     <script src="{{url('frontend/js/script.js')}}" defer></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
   </head>
   <body>
@@ -100,9 +101,12 @@
 
         <!-- Notificações e Perfil -->
         <div class="bottom-section">
-          <div class="header-sections header-sections-notification">
+          <div class="header-sections header-sections-notification" onclick="toggleNotifications()">
             <img src="{{url('frontend/img/notificacao.png')}}" alt="Notificações" />
             <div>Notificações</div>
+            @if($estoqueAlerta)
+            <div class="notification-badge">!</div>
+            @endif
           </div>
           <div class="header-sections header-sections-person" onclick="showProfileMenu()">
             <img src="{{url('frontend/img/user-alien.png')}}" alt="Perfil" />
@@ -136,9 +140,12 @@
           
           <!-- Bottom section mobile -->
           <div class="sidebar-bottom">
-            <div class="sidebar-item">
+            <div class="sidebar-item" onclick="toggleNotifications()">
               <img src="{{url('frontend/img/notificacao.png')}}" alt="Notificações" />
               <span>Notificações</span>
+              @if($estoqueAlerta)
+              <div class="notification-badge-mobile">!</div>
+              @endif
             </div>
             <div class="sidebar-item" onclick="showMobileProfileMenu()">
               <img src="{{url('frontend/img/user-alien.png')}}" alt="Perfil" />
@@ -178,6 +185,51 @@
 
     <!-- Overlay -->
     <div class="overlay" id="overlay"></div>
+
+    <!-- Painel de Notificações -->
+    <div class="notifications-panel" id="notificationsPanel">
+        <div class="notifications-header">
+            <h3>Notificações do Sistema</h3>
+            <button class="close-notifications" onclick="toggleNotifications()">&times;</button>
+        </div>
+        <div class="notifications-content">
+            @if($estoqueAlerta)
+            <div class="notification-item alert-warning">
+                <div class="notification-icon">⚠️</div>
+                <div class="notification-details">
+                    <h4>Alerta de Estoque Baixo</h4>
+                    <p>{{ round($porcentagemOcupados) }}% dos itens estão ocupados ({{ $itensOcupados }}/{{ $totalItens }})</p>
+                    <p>Considere verificar a disponibilidade dos itens ou adicionar novos produtos ao estoque.</p>
+                    <small>{{ now()->format('d/m/Y H:i') }}</small>
+                </div>
+            </div>
+            @endif
+            
+            @if(!$estoqueAlerta && $totalItens > 0)
+            <div class="notification-item info">
+                <div class="notification-icon">✅</div>
+                <div class="notification-details">
+                    <h4>Estoque em Bom Estado</h4>
+                    <p>{{ round($porcentagemOcupados) }}% dos itens estão ocupados ({{ $itensOcupados }}/{{ $totalItens }})</p>
+                    <p>Seu estoque está bem distribuído.</p>
+                    <small>{{ now()->format('d/m/Y H:i') }}</small>
+                </div>
+            </div>
+            @endif
+
+            @if($totalItens == 0)
+            <div class="notification-item info">
+                <div class="notification-icon">📦</div>
+                <div class="notification-details">
+                    <h4>Estoque Vazio</h4>
+                    <p>Você ainda não possui itens no estoque.</p>
+                    <p>Clique em "Novo" para adicionar seu primeiro item.</p>
+                    <small>{{ now()->format('d/m/Y H:i') }}</small>
+                </div>
+            </div>
+            @endif
+        </div>
+    </div>
 
     <!-- Formulário de Logout (Hidden) -->
     <form id="logout-form" action="{{ route('auth.logout') }}" method="POST" style="display: none;">
@@ -345,27 +397,6 @@
         </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="{{url('frontend/js/script.js')}}" defer></script>
-    <script>
-        // Auto-dismiss alerts após 5 segundos
-        setTimeout(function() {
-            const alerts = document.querySelectorAll('.alert');
-            alerts.forEach(alert => {
-                alert.style.transform = 'translateX(100%)';
-                alert.style.opacity = '0';
-                setTimeout(() => alert.remove(), 300);
-            });
-        }, 5000);
-
-        // Definir data padrão como hoje
-        document.addEventListener('DOMContentLoaded', function() {
-            const dataPosse = document.getElementById('data_posse');
-            if (dataPosse) {
-                const hoje = new Date().toISOString().split('T')[0];
-                dataPosse.value = hoje;
-            }
-        });
-    </script>
+   
   </body>
 </html>

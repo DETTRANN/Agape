@@ -150,7 +150,7 @@
           <div class="sidebar-item sidebar-logout">
             <form action="{{ route('auth.logout') }}" method="POST" style="display: inline;">
               @csrf
-              <button type="submit" style="background: none; border: none; color: inherit; cursor: pointer; font-family: inherit; font-size: inherit; display: flex; align-items: center; gap: 8px; width: 100%;">
+              <button onclick="goToLogin()" style="background: none; border: none; color: inherit; cursor: pointer; font-family: inherit; font-size: inherit; display: flex; align-items: center; gap: 8px; width: 100%;">
                 <span>Log out</span>
               </button>
             </form>
@@ -175,7 +175,7 @@
           <p>Vendas e movimentações</p>
         </section>
         <section>
-          <button class="btn-view-reports" onclick="goToTabelaEstoque()">Visualizar Relatórios</button>
+          <button class="btn-view-reports">Visualizar Relatórios</button>
         </section>
       </nav>
       <nav>
@@ -189,7 +189,7 @@
           <p><span class="item-count-stock">0</span> Itens cadastrados</p>
         </section>
         <section>
-          <button class="btn-stock">Consultar Estoque</button>
+          <button class="btn-stock" onclick="goToTabelaEstoque()">Consultar Estoque</button>
         </section>
       </nav>
       <nav>

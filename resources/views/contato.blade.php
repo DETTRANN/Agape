@@ -43,7 +43,7 @@
         <a href="{{url('views/contato')}}">Contato</a>
       </div>
       <div class="right-menu">
-        <a href="{{url('views/login')}}" class="btn-logar Nunito-Font">Log In</a>
+        <a href="{{ route('auth.login.form') }}" class="btn-logar Nunito-Font">Log In</a>
         <button onclick="goToCadastro()" type="submit" class="btn-cadastrar">
           Cadastrar
         </button>
@@ -75,7 +75,7 @@
         
         <!-- Botões estéticos como antes -->
         <div class="sidebar-buttons">
-          <a href="{{ url('views/login') }}" class="sidebar-btn-login">Log In</a>
+          <a href="{{ route('auth.login.form') }}" class="sidebar-btn-login">Log In</a>
           <button onclick="goToCadastro()" class="sidebar-btn-register">Cadastrar</button>
         </div>
       </div>
@@ -97,7 +97,7 @@
         <a href="{{url('views/contato')}}">Contato</a>
       </nav>
       <div class="mobile-menu-buttons">
-        <a href="{{url('views/login')}}" class="mobile-btn-login">Log In</a>
+        <a href="{{ route('auth.login.form') }}" class="mobile-btn-login">Log In</a>
         <button onclick="goToCadastro()" class="mobile-btn-register">Cadastrar</button>
       </div>
     </div>
@@ -120,15 +120,46 @@
           <div>Fale com a</div>
           <div class="contact-text-color-form">Agape</div>
         </div>
+
+        @if(session('success'))
+          <div class="alert alert-success" style="background: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #c3e6cb;">
+            <strong>✅ Sucesso!</strong> {{ session('success') }}
+          </div>
+        @endif
+
+        @if(session('error'))
+          <div class="alert alert-danger" style="background: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #f5c6cb;">
+            <strong>❌ Erro!</strong> {{ session('error') }}
+          </div>
+        @endif
+
+        @if($errors->any())
+          <div class="alert alert-danger" style="background: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #f5c6cb;">
+            <strong>Erros encontrados:</strong>
+            <ul style="margin: 10px 0 0 0; padding-left: 20px;">
+              @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+              @endforeach
+            </ul>
+          </div>
+        @endif
         
-        <form action="#" method="post" class="form-contact" id="contactForm">
+        <form action="https://formsubmit.co/agapeinventory@gmail.com" method="POST" class="form-contact" id="contactForm">
+          <!-- FormSubmit configuration -->
+          <input type="hidden" name="_subject" value="Nova mensagem do site Agape!" />
+          <input type="hidden" name="_next" value="{{ url('views/contato?success=true') }}" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="_template" value="table" />
           <div class="contact-name-form">
             <div>
               <p>Nome</p>
               <input 
                 type="text" 
+                id="nome"
                 name="nome" 
                 class="validacao" 
+                value="{{ old('nome') }}"
+                autocomplete="name"
                 required
               />
             </div>
@@ -136,8 +167,11 @@
               <p>Email</p>
               <input 
                 type="email" 
+                id="email"
                 name="email" 
                 class="validacao" 
+                value="{{ old('email') }}"
+                autocomplete="email"
                 required
               />
             </div>
@@ -146,18 +180,23 @@
           <p>Assunto</p>
           <input 
             type="text" 
+            id="assunto"
             name="assunto" 
             class="validacao" 
+            value="{{ old('assunto') }}"
+            autocomplete="off"
             required
           />
 
           <p>Mensagem</p>
           <textarea 
+            id="mensagem"
             name="mensagem" 
             class="validacao" 
             rows="5" 
+            autocomplete="off"
             required
-          ></textarea>
+          >{{ old('mensagem') }}</textarea>
 
           <button type="submit" class="contact-space" id="btn-enviar-contact">
             <span>Enviar Mensagem</span>
@@ -167,13 +206,20 @@
           </button>
 
           <div class="checkbox-contact">
-            <input type="checkbox" class="checkbox-validacao" required />
-            <div>
+            <input 
+              type="checkbox" 
+              id="termos"
+              name="termos"
+              class="checkbox-validacao" 
+              autocomplete="off"
+              required 
+            />
+            <label for="termos">
               Ao enviar esta mensagem, você concorda com nossos
               <a href="#" class="contact-text-color-form">
                 Termos de Serviço e Política de Privacidade
               </a>
-            </div>
+            </label>
           </div>
 
           <div class="contact-alternative">

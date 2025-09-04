@@ -1,3 +1,8 @@
+// ===============================================
+// AGAPE INVENTORY - SCRIPT PRINCIPAL
+// ===============================================
+
+// Funções de navegação
 function goToCadastro() {
     window.location.href = "/views/register";
 }
@@ -5,8 +10,6 @@ function goToCadastro() {
 function goToLogin() {
     window.location.href = "/views/login";
 }
-
-// Função removida - login agora usa validação real do Laravel
 
 function goToResetPassword() {
     window.location.href = "/views/pwdreset";
@@ -21,7 +24,7 @@ function scrollToSection(sectionClass) {
     const section = document.querySelector(sectionClass);
     if (section) {
         const headerHeight =
-            document.querySelector("#header-menu").offsetHeight;
+            document.querySelector("#header-menu")?.offsetHeight || 0;
         const targetPosition = section.offsetTop - headerHeight;
 
         window.scrollTo({
@@ -30,6 +33,217 @@ function scrollToSection(sectionClass) {
         });
     }
 }
+
+// Função para controlar o header durante scroll
+function handleHeaderScroll() {
+    const header = document.querySelector("header");
+    const headerMenu = document.getElementById("header-menu");
+    const scrollThreshold = 80;
+
+    if (header && headerMenu) {
+        if (window.scrollY > scrollThreshold) {
+            header.classList.add("scrolled");
+            headerMenu.classList.add("scrolled");
+        } else {
+            header.classList.remove("scrolled");
+            headerMenu.classList.remove("scrolled");
+        }
+    }
+}
+
+// Função para inicializar o formulário de contato
+function initContactForm() {
+    console.log("Inicializando formulário de contato");
+
+    const contactForm = document.getElementById("contactForm");
+    if (!contactForm) {
+        console.log("Formulário de contato não encontrado");
+        return;
+    }
+
+    const button = document.getElementById("btn-enviar-contact");
+    const buttonText = button?.querySelector("span:not(.btn-loading)");
+    const buttonLoading = button?.querySelector(".btn-loading");
+    const requiredFields = contactForm.querySelectorAll(
+        "input[required], textarea[required]"
+    );
+    const checkbox = contactForm.querySelector(
+        "input[type='checkbox'][required]"
+    );
+
+    console.log("Elementos encontrados:", {
+        contactForm: !!contactForm,
+        button: !!button,
+        buttonText: !!buttonText,
+        buttonLoading: !!buttonLoading,
+        requiredFields: requiredFields.length,
+        checkbox: !!checkbox,
+    });
+
+    if (!button || !buttonText || !buttonLoading) {
+        console.error("Elementos do botão não encontrados");
+        return;
+    }
+
+    // Função para validar se todos os campos estão preenchidos
+    function validateForm() {
+        let isValid = true;
+
+        // Verificar campos obrigatórios
+        requiredFields.forEach((field) => {
+            if (!field.value.trim()) {
+                isValid = false;
+            }
+        });
+
+        // Verificar checkbox se existir
+        if (checkbox && !checkbox.checked) {
+            isValid = false;
+        }
+
+        console.log("Validação do formulário:", {
+            isValid,
+            fieldsCount: requiredFields.length,
+            checkboxChecked: checkbox ? checkbox.checked : "N/A",
+        });
+
+        // Habilitar/desabilitar botão
+        if (isValid) {
+            button.disabled = false;
+            button.style.opacity = "1";
+            button.style.cursor = "pointer";
+        } else {
+            button.disabled = true;
+            button.style.opacity = "0.5";
+            button.style.cursor = "not-allowed";
+        }
+
+        return isValid;
+    }
+
+    // Adicionar event listeners para validação em tempo real
+    requiredFields.forEach((field) => {
+        if (field) {
+            field.addEventListener("input", validateForm);
+            field.addEventListener("change", validateForm);
+        }
+    });
+
+    if (checkbox) {
+        checkbox.addEventListener("change", validateForm);
+    }
+
+    // Validação inicial
+    validateForm();
+
+    // Handler do submit
+    contactForm.addEventListener("submit", function (e) {
+        console.log("Formulário submetido");
+
+        // Validar antes de enviar
+        if (!validateForm()) {
+            e.preventDefault();
+            alert(
+                "Por favor, preencha todos os campos obrigatórios e aceite os termos."
+            );
+            return;
+        }
+
+        // Mostrar loading
+        buttonText.style.display = "none";
+        buttonLoading.style.display = "flex";
+        button.disabled = true;
+        button.style.opacity = "0.7";
+        button.style.cursor = "not-allowed";
+
+        console.log("Estado de loading ativado");
+
+        // Timeout para restaurar botão em caso de erro
+        setTimeout(() => {
+            if (buttonLoading.style.display === "flex") {
+                console.log("Timeout - restaurando botão");
+                buttonText.style.display = "inline";
+                buttonLoading.style.display = "none";
+                validateForm(); // Revalidar para restaurar estado correto
+            }
+        }, 15000); // 15 segundos timeout
+    });
+
+    console.log("Formulário de contato inicializado com sucesso");
+}
+
+// Função para auto-hide de mensagens de alerta
+function initAlertAutoHide() {
+    const alerts = document.querySelectorAll(".alert");
+    console.log("Inicializando auto-hide para", alerts.length, "alertas");
+
+    alerts.forEach((alert) => {
+        setTimeout(() => {
+            alert.style.transition = "opacity 0.5s ease";
+            alert.style.opacity = "0";
+            setTimeout(() => {
+                alert.remove();
+            }, 500);
+        }, 5000); // 5 segundos para auto-hide
+    });
+}
+
+// Função para inicializar menu mobile
+function initMobileMenu() {
+    const hamburgerBtn = document.getElementById("hamburger-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const mobileOverlay = document.getElementById("mobile-overlay");
+    const closeBtn = document.getElementById("close-btn");
+
+    if (hamburgerBtn && mobileMenu && mobileOverlay && closeBtn) {
+        hamburgerBtn.addEventListener("click", openMobileMenu);
+        closeBtn.addEventListener("click", closeMobileMenu);
+        mobileOverlay.addEventListener("click", closeMobileMenu);
+
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape" && mobileMenu.classList.contains("active")) {
+                closeMobileMenu();
+            }
+        });
+    }
+}
+
+function openMobileMenu() {
+    const hamburgerBtn = document.getElementById("hamburger-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const mobileOverlay = document.getElementById("mobile-overlay");
+
+    hamburgerBtn?.classList.add("active");
+    mobileMenu?.classList.add("active");
+    mobileOverlay?.classList.add("active");
+    document.body.style.overflow = "hidden";
+}
+
+function closeMobileMenu() {
+    const hamburgerBtn = document.getElementById("hamburger-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const mobileOverlay = document.getElementById("mobile-overlay");
+
+    hamburgerBtn?.classList.remove("active");
+    mobileMenu?.classList.remove("active");
+    mobileOverlay?.classList.remove("active");
+    document.body.style.overflow = "";
+}
+
+// Inicialização principal quando o DOM carrega
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("DOM carregado, inicializando aplicação");
+
+    // Inicializar todas as funcionalidades
+    initContactForm();
+    initAlertAutoHide();
+    initMobileMenu();
+
+    // Adicionar listener para scroll do header
+    window.addEventListener("scroll", handleHeaderScroll);
+
+    console.log("Aplicação inicializada com sucesso");
+});
 
 // Função para controlar o header durante scroll
 function handleHeaderScroll() {
@@ -694,10 +908,6 @@ function initUserDropdown() {
     const userIcon = dropdown?.querySelector(".user-icon");
     const userMenu = dropdown?.querySelector(".user-menu");
 
-    console.log("Dropdown encontrado:", dropdown);
-    console.log("User icon encontrado:", userIcon);
-    console.log("User menu encontrado:", userMenu);
-
     if (!dropdown || !userIcon || !userMenu) {
         console.log("Elementos do dropdown não encontrados!");
         return;
@@ -710,62 +920,18 @@ function initUserDropdown() {
     }
 
     dropdown.setAttribute("data-listeners-added", "true");
-    console.log("Adicionando event listeners ao dropdown...");
 
     // Toggle do menu ao clicar no ícone
     userIcon.addEventListener("click", (e) => {
-        console.log("Clique no ícone do usuário detectado!");
         e.preventDefault();
         e.stopPropagation();
         userMenu.classList.toggle("menu-open");
 
-        // Controlar outros elementos quando dropdown aberto
         if (userMenu.classList.contains("menu-open")) {
             document.body.classList.add("dropdown-open");
-            console.log("Menu aberto!");
         } else {
             document.body.classList.remove("dropdown-open");
-            console.log("Menu fechado!");
         }
-    });
-
-    // Fechar menu ao clicar em qualquer item
-    const menuItems = userMenu.querySelectorAll(".menu-item");
-    menuItems.forEach((item) => {
-        item.addEventListener("click", (e) => {
-            e.stopPropagation();
-
-            // Verificar qual item foi clicado
-            const itemText = item.querySelector("span").textContent;
-
-            switch (itemText) {
-                case "Perfil":
-                    console.log("Navegando para perfil...");
-                    // window.location.href = 'profile.html';
-                    break;
-                case "Configurações":
-                    console.log("Abrindo configurações...");
-                    // window.location.href = 'settings.html';
-                    break;
-                case "Contato":
-                    console.log("Abrindo contato...");
-                    // window.location.href = 'contact.html';
-                    break;
-                case "Termos de Uso":
-                    console.log("Mostrando termos de uso...");
-                    // window.location.href = 'terms.html';
-                    break;
-                case "Log out":
-                    console.log("Fazendo logout...");
-                    // Aqui você pode adicionar a lógica de logout
-                    // window.location.href = 'login.html';
-                    break;
-            }
-
-            // Fechar o menu após clique
-            userMenu.classList.remove("menu-open");
-            document.body.classList.remove("dropdown-open");
-        });
     });
 
     // Fechar menu ao clicar fora
@@ -775,28 +941,7 @@ function initUserDropdown() {
             document.body.classList.remove("dropdown-open");
         }
     });
-
-    // Fechar menu com tecla ESC
-    document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && userMenu.classList.contains("menu-open")) {
-            userMenu.classList.remove("menu-open");
-            document.body.classList.remove("dropdown-open");
-        }
-    });
 }
-
-// Inicialização independente do dropdown (para todas as páginas)
-// Esta inicialização garante que o dropdown funcione mesmo se outras funções falharem
-document.addEventListener("DOMContentLoaded", function () {
-    console.log("Inicialização independente do dropdown...");
-
-    // Verificar se ainda não foi inicializado
-    const dropdown = document.querySelector(".header-sections-person.dropdown");
-    if (dropdown && !dropdown.hasAttribute("data-dropdown-initialized")) {
-        dropdown.setAttribute("data-dropdown-initialized", "true");
-        initUserDropdown();
-    }
-});
 
 // ========================================================================
 // FORMULÁRIO DE CONTATO - Funcionalidade para página de contato
@@ -844,8 +989,11 @@ function initContactForm() {
     // Validação inicial
     validateContactForm();
 
+    // Verificar se há parâmetro de sucesso na URL
+    checkForSuccessMessage();
+
     contactForm.addEventListener("submit", function (e) {
-        e.preventDefault();
+        // Não prevenir o envio - deixar o FormSubmit funcionar
 
         const btnText = btnEnviar.querySelector("span");
         const btnLoading = btnEnviar.querySelector(".btn-loading");
@@ -857,25 +1005,21 @@ function initContactForm() {
         }
         btnEnviar.disabled = true;
 
-        // Simular envio (substituir por requisição real)
-        setTimeout(() => {
-            // Resetar botão
-            if (btnText && btnLoading) {
-                btnText.style.display = "block";
-                btnLoading.style.display = "none";
-            }
-            btnEnviar.disabled = false;
-
-            // Mostrar sucesso
-            showContactSuccess();
-
-            // Limpar formulário
-            contactForm.reset();
-
-            // Revalidar após reset
-            validateContactForm();
-        }, 2000);
+        // O FormSubmit vai cuidar do envio e redirecionamento
     });
+}
+
+// Função para verificar mensagem de sucesso do FormSubmit
+function checkForSuccessMessage() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("success") === "true") {
+        // Mostrar mensagem de sucesso
+        showContactSuccess();
+
+        // Limpar a URL removendo o parâmetro
+        const newUrl = window.location.pathname;
+        window.history.replaceState({}, "", newUrl);
+    }
 }
 
 // Função para mostrar mensagem de sucesso
@@ -960,60 +1104,10 @@ function showContactSuccess() {
 document.addEventListener("DOMContentLoaded", function () {
     initContactForm();
     initMobileMenu();
+    initSystemMobile();
+    initEstoqueEvents();
+    initAuthMobile();
 });
-
-/* ===============================================
-   MENU HAMBURGER MOBILE
-   =============================================== */
-
-function initMobileMenu() {
-    const hamburgerBtn = document.getElementById("hamburger-btn");
-    const mobileMenu = document.getElementById("mobile-menu");
-    const mobileOverlay = document.getElementById("mobile-overlay");
-    const closeBtn = document.getElementById("close-btn");
-
-    if (hamburgerBtn && mobileMenu && mobileOverlay && closeBtn) {
-        // Abrir menu
-        hamburgerBtn.addEventListener("click", openMobileMenu);
-
-        // Fechar menu
-        closeBtn.addEventListener("click", closeMobileMenu);
-        mobileOverlay.addEventListener("click", closeMobileMenu);
-
-        // Fechar menu com ESC
-        document.addEventListener("keydown", function (e) {
-            if (e.key === "Escape" && mobileMenu.classList.contains("active")) {
-                closeMobileMenu();
-            }
-        });
-    }
-}
-
-function openMobileMenu() {
-    const hamburgerBtn = document.getElementById("hamburger-btn");
-    const mobileMenu = document.getElementById("mobile-menu");
-    const mobileOverlay = document.getElementById("mobile-overlay");
-
-    hamburgerBtn.classList.add("active");
-    mobileMenu.classList.add("active");
-    mobileOverlay.classList.add("active");
-
-    // Prevenir scroll do body
-    document.body.style.overflow = "hidden";
-}
-
-function closeMobileMenu() {
-    const hamburgerBtn = document.getElementById("hamburger-btn");
-    const mobileMenu = document.getElementById("mobile-menu");
-    const mobileOverlay = document.getElementById("mobile-overlay");
-
-    hamburgerBtn.classList.remove("active");
-    mobileMenu.classList.remove("active");
-    mobileOverlay.classList.remove("active");
-
-    // Restaurar scroll do body
-    document.body.style.overflow = "";
-}
 
 /* ===============================================
    SYSTEM MOBILE SIDEBAR
@@ -1236,11 +1330,6 @@ function initEstoqueEvents() {
 
     console.log("Eventos da tabela de estoque inicializados com sucesso!");
 }
-
-// Initialize when DOM is loaded
-document.addEventListener("DOMContentLoaded", function () {
-    initEstoqueEvents();
-});
 
 /* ===============================================
    RESTO DO CÓDIGO JAVASCRIPT EXISTENTE
@@ -1534,23 +1623,93 @@ function closeAuthSidebarFallback() {
 }
 
 // Initialize auth mobile when DOM is loaded
-document.addEventListener("DOMContentLoaded", function () {
-    console.log("DOM carregado - inicializando AuthMobile");
+// (A inicialização está unificada no event listener principal acima)
 
-    // Aguardar um pouco para garantir que todos os elementos estão prontos
-    setTimeout(() => {
-        initAuthMobile();
-    }, 100);
+// =====================================
+// SISTEMA DE CONTATO
+// =====================================
 
-    // Também inicializar quando a página for totalmente carregada
-    if (document.readyState === "complete") {
-        initAuthMobile();
-    } else {
-        window.addEventListener("load", function () {
-            console.log(
-                "Página totalmente carregada - inicializando AuthMobile novamente"
-            );
-            initAuthMobile();
+// A função initContactForm já está definida acima
+
+// =====================================
+// FUNCIONALIDADES ESPECÍFICAS DO ESTOQUE
+// =====================================
+
+// Auto-dismiss de alertas após 5 segundos
+function initEstoqueAlerts() {
+    setTimeout(function () {
+        const alerts = document.querySelectorAll(".alert");
+        alerts.forEach((alert) => {
+            alert.style.transform = "translateX(100%)";
+            alert.style.opacity = "0";
+            setTimeout(() => alert.remove(), 300);
         });
+    }, 5000);
+}
+
+// Definir data padrão como hoje no formulário
+function initEstoqueDateDefaults() {
+    const dataPosse = document.getElementById("data_posse");
+    if (dataPosse) {
+        const hoje = new Date().toISOString().split("T")[0];
+        dataPosse.value = hoje;
+    }
+}
+
+// Inicializar funções específicas do estoque quando a página carregar
+document.addEventListener("DOMContentLoaded", function () {
+    // Verificar se estamos na página de estoque
+    if (window.location.pathname.includes("tabela_estoque")) {
+        initEstoqueAlerts();
+        initEstoqueDateDefaults();
+        initNotificationSystem();
     }
 });
+
+// =====================================
+// SISTEMA DE NOTIFICAÇÕES
+// =====================================
+
+// Controlar painel de notificações
+function toggleNotifications() {
+    const panel = document.getElementById("notificationsPanel");
+    const overlay = document.getElementById("overlay");
+
+    if (panel && overlay) {
+        // Usar requestAnimationFrame para suavizar animações
+        requestAnimationFrame(() => {
+            panel.classList.toggle("active");
+            overlay.classList.toggle("active");
+
+            // Evitar scroll do body quando painel estiver aberto
+            if (panel.classList.contains("active")) {
+                document.body.style.overflow = "hidden";
+            } else {
+                document.body.style.overflow = "";
+            }
+        });
+    }
+}
+
+// Fechar notificações quando clicar no overlay
+function initNotificationSystem() {
+    const overlay = document.getElementById("overlay");
+    const panel = document.getElementById("notificationsPanel");
+
+    if (overlay && panel) {
+        overlay.addEventListener("click", function () {
+            if (panel.classList.contains("active")) {
+                toggleNotifications();
+            }
+        });
+
+        // Fechar com tecla ESC
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape" && panel.classList.contains("active")) {
+                toggleNotifications();
+            }
+        });
+    }
+
+    console.log("Sistema de notificações inicializado");
+}

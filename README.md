@@ -51,23 +51,26 @@ O **Agape** é um sistema completo de gestão de estoque desenvolvido para simpl
 
 ### Backend
 
--   **Laravel 11.x** - Framework PHP robusto e moderno
+-   **Laravel 12.x** - Framework PHP mais recente e robusto
 -   **PHP 8.2+** - Linguagem server-side
 -   **SQLite** - Banco de dados leve e eficiente
 -   **Composer** - Gerenciador de dependências PHP
+-   **Pattern Repository** - Arquitetura de repositórios para melhor organização
 
 ### Frontend
 
 -   **HTML5** - Estrutura semântica
--   **CSS3** - Estilização moderna com variáveis CSS
--   **JavaScript ES6+** - Interatividade e dinamismo
+-   **CSS3** - Estilização moderna com variáveis CSS e sistema de design profissional
+-   **JavaScript ES6+** - Interatividade e dinamismo com performance otimizada
 -   **Blade Templates** - Sistema de templates do Laravel
+-   **TailwindCSS 4.0** - Framework CSS utilitário
 
 ### Ferramentas de Desenvolvimento
 
--   **Vite** - Build tool moderna e rápida
+-   **Vite 7.x** - Build tool moderna e rápida
 -   **Artisan** - CLI do Laravel
 -   **Git** - Controle de versão
+-   **Concurrently** - Execução paralela de scripts de desenvolvimento
 
 ## Estrutura do Projeto
 
@@ -302,12 +305,15 @@ O sistema foi desenvolvido com abordagem mobile-first, garantindo uma experiênc
 -   [x] **Cadastro e Login** - Sistema completo de autenticação
 -   [x] **Redefinição de Senha** - Recovery via email
 -   [x] **Notificações por Email** - Sistema integrado de comunicação
--   [x] **Gerenciamento de Estoque** - Entrada e saída de produtos
+-   [x] **Gerenciamento de Estoque** - Modelagem de produtos
 -   [x] **Ordem Automática** - Listagem ordenada
 -   [x] **Filtragem de Produtos** - Busca e filtros avançados
 -   [x] **Gestão de Quantidades** - Controle em tempo real
 -   [x] **Alertas de Estoque Baixo** - Notificações automáticas
 -   [x] **Gestão de Preços** - Controle financeiro integrado
+
+## Vídeo mostrandos os 10 requisitos funcionando
+https://youtu.be/i0mA892Z5-A
 
 ## Equipe de Desenvolvimento
 

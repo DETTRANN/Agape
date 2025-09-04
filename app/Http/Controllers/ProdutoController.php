@@ -21,7 +21,16 @@ class ProdutoController extends Controller
         if (!$produtos) {
             $produtos = collect(); // Retorna uma coleção vazia se não houver produtos
         }
-        return view('tabela_estoque', compact('produtos'));
+
+        // Calcular estatísticas do estoque
+        $totalItens = $produtos->count();
+        $itensOcupados = $produtos->where('status', 'Ocupado')->count();
+        $porcentagemOcupados = $totalItens > 0 ? ($itensOcupados / $totalItens) * 100 : 0;
+        
+        // Determinar se há alerta de estoque baixo (50% ou mais ocupados)
+        $estoqueAlerta = $porcentagemOcupados >= 50;
+        
+        return view('tabela_estoque', compact('produtos', 'totalItens', 'itensOcupados', 'porcentagemOcupados', 'estoqueAlerta'));
     }
 
     public function store(Request $request)

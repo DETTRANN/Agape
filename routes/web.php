@@ -79,3 +79,8 @@ Route::get('/force-logout', function () {
     session()->regenerateToken();
     return response()->json(['message' => 'Logout realizado']);
 });
+
+// Rota de contato (apenas para exibir a página)
+Route::get('/views/contato', function () {
+    return view('contato');
+})->name('contato');

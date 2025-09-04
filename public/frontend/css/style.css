@@ -2303,7 +2303,7 @@ login-space {
     cursor: pointer;
     transition: all 0.3s ease;
     padding: 12px 24px;
-    height: 50px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2312,7 +2312,6 @@ login-space {
 
 #btn-enviar-contact:hover {
     background-color: #e6bd00;
-    transform: translateY(-1px);
 }
 
 #btn-enviar-contact[disabled] {
