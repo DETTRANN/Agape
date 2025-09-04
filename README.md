@@ -72,7 +72,7 @@ composer install
 # Instale as dependências frontend e compile os assets
 npm install && npm run build
 
-# Configure o arquivo de ambiente (Windows)
+# Configure o arquivo de ambiente
 copy .env.example .env
 
 # Gere a chave da aplicação
