@@ -48,7 +48,6 @@ agape-laravel/
 └── SETUP_COMMANDS.md             # Guia de configuração
 ```
 
-````
 ## Instalação e Configuração
 
 ### Pré-requisitos
