@@ -14,105 +14,55 @@ O **Agape** é um sistema completo de gestão de estoque desenvolvido para simpl
 
 ## Funcionalidades Principais
 
-### Autenticação e Segurança
-
--   Sistema de cadastro e login de usuários com modelo Cliente personalizado
--   Autenticação segura com validação dupla (middleware auth + force.auth)
--   Sistema de logout funcional
--   Proteção de rotas e sessões
--   Redirecionamento automático para login quando não autenticado
-
-### Gestão de Estoque
-
--   Controle completo de entrada e saída de produtos
--   Interface de tabela de estoque com design profissional
--   Gerenciamento de quantidades em tempo real
--   Sistema de alertas para estoque baixo
--   Filtros avançados de produtos
--   Gestão integrada de preços
-
-### Interface e Experiência do Usuário
-
--   Design responsivo mobile-first
--   Header mobile com sidebar deslizante
--   Interface moderna com paleta de cores consistente (gradientes #0a0d1c → #1a1d2e → #2a2d3e)
--   Animações suaves e transições
--   Navegação otimizada para desktop e mobile
--   Sistema de notificações visuais
--   Menu hamburger funcional
-
-### Comunicação
-
--   Sistema de notificações por email
--   Formulário de contato integrado
--   Alertas automáticos do sistema
+-   **Sistema completo de autenticação** - Login, cadastro e proteção de rotas
+-   **Gestão de estoque** - CRUD de produtos com interface responsiva
+-   **Notificações em tempo real** - Alertas visuais e sistema de badges
+-   **Reset de senha** - Recuperação via email
+-   **Design responsivo** - Interface otimizada para desktop e mobile
+-   **Formulário de contato** - Integração com FormSubmit
 
 ## Tecnologias Utilizadas
 
-### Backend
-
--   **Laravel 12.x** - Framework PHP mais recente e robusto
+-   **Laravel 12.x** - Framework PHP moderno
 -   **PHP 8.2+** - Linguagem server-side
--   **SQLite** - Banco de dados leve e eficiente
+-   **SQLite** - Banco de dados leve
+-   **HTML5, CSS3, JavaScript** - Frontend responsivo
+-   **Vite** - Build tool para assets
 -   **Composer** - Gerenciador de dependências PHP
--   **Pattern Repository** - Arquitetura de repositórios para melhor organização
-
-### Frontend
-
--   **HTML5** - Estrutura semântica
--   **CSS3** - Estilização moderna com variáveis CSS e sistema de design profissional
--   **JavaScript ES6+** - Interatividade e dinamismo com performance otimizada
--   **Blade Templates** - Sistema de templates do Laravel
--   **TailwindCSS 4.0** - Framework CSS utilitário
-
-### Ferramentas de Desenvolvimento
-
--   **Vite 7.x** - Build tool moderna e rápida
--   **Artisan** - CLI do Laravel
--   **Git** - Controle de versão
--   **Concurrently** - Execução paralela de scripts de desenvolvimento
 
 ## Estrutura do Projeto
 
 ```
 agape-laravel/
 ├── app/
-│   ├── Http/
-│   │   ├── Controllers/           # Controladores da aplicação
-│   │   │   ├── AuthController.php # Controlador de autenticação
-│   │   │   └── ClienteController.php
-│   │   └── Middleware/           # Middleware personalizado
-│   │       └── ForceAuth.php     # Middleware de proteção de rotas
-│   ├── Models/                   # Modelos Eloquent
-│   │   └── Cliente.php          # Modelo de usuário personalizado
-│   ├── Repositories/            # Padrão Repository
-│   │   └── AuthRepository.php   # Lógica de autenticação
-│   └── Providers/               # Service Providers
+│   ├── Http/Controllers/         # Controladores (Auth, Cliente, Produto)
+│   ├── Models/                   # Modelos (Cliente, Produto)
+│   ├── Repositories/             # Padrão Repository para organização
+│   └── Providers/                # Service Providers
 ├── database/
-│   ├── migrations/              # Migrações do banco de dados
-│   │   └── 2025_08_31_222826_create_clientes_table.php
-│   ├── seeders/                # Seeders para popular dados
-│   └── database.sqlite         # Banco de dados SQLite
-├── public/
-│   └── frontend/
-│       ├── css/
-│       │   ├── style.css       # Estilos principais
-│       │   └── inventory.css   # Estilos da tabela de estoque
-│       ├── js/
-│       │   └── script.js       # Scripts principais com navegação mobile
-│       └── img/                # Imagens e assets
-├── resources/
-│   └── views/                  # Templates Blade
-│       ├── index.blade.php     # Página inicial
-│       ├── login.blade.php     # Página de login
-│       ├── register.blade.php  # Página de cadastro
-│       ├── system.blade.php    # Sistema principal
-│       ├── tabela_estoque.blade.php # Tabela de estoque
-│       └── contato.blade.php   # Página de contato
-├── routes/
-│   └── web.php                 # Rotas protegidas e públicas
-└── storage/                    # Armazenamento de arquivos
+│   ├── migrations/               # Estrutura do banco
+│   └── database.sqlite           # Banco SQLite
+├── public/frontend/              # CSS, JS e imagens otimizados
+├── resources/views/              # Templates das páginas
+├── routes/web.php                # Rotas da aplicação
+└── SETUP_COMMANDS.md             # Guia de configuração
 ```
+
+````
+
+## Configurações Importantes
+
+### Banco de Dados
+- **SQLite** - Banco leve, sem necessidade de servidor
+- **Arquivo**: `database/database.sqlite`
+
+### Ambiente de Desenvolvimento
+```powershell
+APP_NAME="Agape Inventory"
+APP_URL=http://localhost:8000
+DB_CONNECTION=sqlite
+SESSION_DRIVER=database
+````
 
 ## Instalação e Configuração
 
@@ -120,16 +70,17 @@ agape-laravel/
 
 -   PHP 8.2 ou superior
 -   Composer
+-   Node.js e npm (para compilar assets frontend)
 -   SQLite (geralmente já incluído no PHP)
 -   Git
 
 ### IMPORTANTE - SETUP COMPLETO PARA NOVOS DESENVOLVEDORES
 
-**Se você está clonando o projeto pela primeira vez ou após atualizações importantes, siga TODOS os passos abaixo:**
+**Se você está clonando o projeto pela primeira vez ou após atualizações importantes, siga os passos abaixo:**
 
 #### 1. **Clone e Configure o Projeto**
 
-```bash
+```powershell
 # Clone o repositório
 git clone https://github.com/DETTRANN/Agape.git
 cd Agape
@@ -137,46 +88,42 @@ cd Agape
 # Instale as dependências PHP
 composer install
 
-# Configure o arquivo de ambiente
-cp .env.example .env
+# Instale as dependências frontend e compile os assets
+npm install && npm run build
+
+# Configure o arquivo de ambiente (Windows)
+copy .env.example .env
+
+# Gere a chave da aplicação
 php artisan key:generate
 ```
 
 #### 2. **Configure o Banco de Dados**
 
-```bash
-# Criar o banco SQLite (se não existir)
-touch database/database.sqlite
+```powershell
+# Criar o banco SQLite
+New-Item -Path "database/database.sqlite" -ItemType File -Force
 
 # Rodar as migrações
 php artisan migrate
 
-# IMPORTANTE: Se der erro na migração, delete o banco e recrie:
-rm database/database.sqlite
-touch database/database.sqlite
+# Se der erro na migração, delete o banco e recrie:
+Remove-Item "database/database.sqlite" -Force
+New-Item -Path "database/database.sqlite" -ItemType File -Force
 php artisan migrate
-
-# Criar tabela de clientes manualmente (se necessário)
-php artisan tinker
-# No tinker, execute:
-# \Illuminate\Support\Facades\Schema::create('clientes', function($table) {
-#     $table->id();
-#     $table->string('nome');
-#     $table->string('email')->unique();
-#     $table->string('senha');
-#     $table->timestamps();
-# });
-# exit
 ```
 
-#### 3. **Limpar Todos os Caches**
+#### 3. **Limpar Todos os Caches e Registrar Providers**
 
-```bash
+```powershell
 # Limpar TODOS os caches do Laravel
 php artisan config:clear
 php artisan route:clear
 php artisan cache:clear
 php artisan view:clear
+
+# Verificar se os Service Providers estão registrados
+php artisan about
 
 # Recriar caches otimizados
 php artisan config:cache
@@ -185,7 +132,7 @@ php artisan route:cache
 
 #### 4. **Criar Usuário de Teste (Opcional)**
 
-```bash
+```powershell
 # Entre no tinker para criar um usuário de teste
 php artisan tinker
 
@@ -198,106 +145,101 @@ php artisan tinker
 # exit
 ```
 
-#### 5. **Iniciar o Servidor**
+#### 5. **Iniciar o Servidor e Verificar**
 
-```bash
-# Iniciar o servidor Laravel
+```powershell
+# OPÇÃO 1 (Recomendada): Rodar o ambiente completo de desenvolvimento
+# Isto iniciará: servidor Laravel + processamento de filas + logs + Vite dev server
+composer run dev
+
+# OPÇÃO 2 (Alternativa): Iniciar apenas o servidor Laravel
 php artisan serve
 
 # O sistema estará disponível em:
 # http://127.0.0.1:8000
+
+# Para verificar se está tudo funcionando:
+# 1. Acesse http://127.0.0.1:8000 - deve mostrar a página inicial
+# 2. Acesse http://127.0.0.1:8000/login - deve mostrar a página de login
+# 3. Acesse http://127.0.0.1:8000/register - deve mostrar a página de cadastro
 ```
 
-### Credenciais de Teste
+### **Diferença entre as opções:**
 
--   **Email**: teste@teste.com
--   **Senha**: 123456
+-   **`composer run dev`**: Ambiente completo com hot reload de CSS/JS, logs em tempo real e processamento de filas
+-   **`php artisan serve`**: Apenas o servidor web Laravel básico
 
-### Problemas Comuns e Soluções
+### **Verificação Final**
+
+Antes de usar o sistema, certifique-se de que:
+
+1. O servidor Laravel está rodando sem erros
+2. O banco SQLite foi criado em `database/database.sqlite`
+3. As rotas `/login` e `/register` estão acessíveis
+4. Não há erros no console do navegador
+5. Os assets CSS/JS foram compilados (pasta `public/build/` existe)
+
+### Problemas Comuns e Soluções (Windows)
 
 #### Erro: "SQLSTATE[HY000]: General error: 1 no such table: clientes"
 
-```bash
+```powershell
 # Solução:
-rm database/database.sqlite
-touch database/database.sqlite
+Remove-Item "database/database.sqlite" -Force
+New-Item -Path "database/database.sqlite" -ItemType File -Force
 php artisan migrate
 ```
 
 #### Erro: "Route [auth.login.form] not defined"
 
-```bash
-# Solução:
+```powershell
 php artisan route:clear
 php artisan config:clear
+php artisan serve
 ```
 
-#### Login não funciona / Aceita qualquer senha
+#### Erro: "Vite assets not found"
 
-```bash
-# Solução:
+```powershell
+npm install
+npm run build
+php artisan serve
+```
+
+#### Login não funciona
+
+```powershell
 php artisan cache:clear
-# Verificar se o usuário existe na tabela clientes
+# Verificar se há usuários cadastrados
 php artisan tinker
 # \App\Models\Cliente::all();
 ```
 
-#### Páginas protegidas não redirecionam para login
-
-```bash
-# Solução:
-php artisan config:clear
-php artisan route:clear
-# Restart do servidor
-```
-
-### Funcionalidades Mobile
-
-O sistema possui navegação mobile completa:
-
--   Header mobile com botão hamburger
--   Sidebar deslizante com overlay
--   Navegação responsiva
--   Design mobile-first
-
-### Sistema de Segurança
-
-O projeto implementa múltiplas camadas de segurança:
-
--   Middleware `auth` do Laravel
--   Middleware personalizado `ForceAuth`
--   Proteção de rotas sensíveis
--   Redirecionamento automático para login
--   Logout seguro com invalidação de sessão
-
 ## Rotas do Sistema
 
-### Rotas Públicas
+### Rotas Principais
+
+**Públicas:**
 
 -   `/` - Página inicial
--   `/login` - Página de login
--   `/register` - Página de cadastro
--   `/views/register` - Cadastro (rota alternativa)
+-   `/login` - Login
+-   `/register` - Cadastro
+-   `/views/contato` - Contato
 
-### Rotas Protegidas (Requer Login)
+**Protegidas (requer login):**
 
--   `/system` - Sistema principal
--   `/views/tabela_estoque` - Tabela de estoque
--   `/views/system` - Redireciona para /system
+-   `/system` - Dashboard principal
+-   `/views/tabela_estoque` - Gestão de estoque
 
-### Rotas de Autenticação
+**API (CRUD de produtos):**
 
--   `POST /login` - Processar login
--   `POST /logout` - Fazer logout
--   `POST /clientes` - Registrar novo cliente
+-   `POST /produtos` - Criar produto
+-   `PUT /produtos/{id}` - Atualizar produto
+-   `DELETE /produtos/{id}` - Excluir produto
 
-## Responsividade
+## Design Responsivo
 
-O sistema foi desenvolvido com abordagem mobile-first, garantindo uma experiência otimizada em:
-
--   **Mobile**: Dispositivos com largura menor que 768px
--   **Tablet**: Dispositivos entre 768px e 1024px
--   **Desktop**: Dispositivos com largura superior a 1024px
+Interface otimizada para **desktop** e **dispositivos móveis** com navegação adaptativa.
 
 ## Checklist de Funcionalidades - Segunda Entrega
 
@@ -313,17 +255,18 @@ O sistema foi desenvolvido com abordagem mobile-first, garantindo uma experiênc
 -   [x] **Gestão de Preços** - Controle financeiro integrado
 
 ## Vídeo mostrandos os 10 requisitos funcionando
+
 https://youtu.be/i0mA892Z5-A
 
 ## Equipe de Desenvolvimento
 
 | Nome                | Matrícula |
-| ------------------- | --------- | 
-| **Daniel Heber**    | 12301647  | 
-| **Daniel Pereira**  | 12303011  | 
-| **Gabriel Dias**    | 12301620  | 
+| ------------------- | --------- |
+| **Daniel Heber**    | 12301647  |
+| **Daniel Pereira**  | 12303011  |
+| **Gabriel Dias**    | 12301620  |
 | **Gabriel Lacerda** | 12302457  |
-| **Matheus Vieira**  | 12302988  | 
+| **Matheus Vieira**  | 12302988  |
 
 **Turma**: 3E1
 
