@@ -15,10 +15,7 @@ O **Agape** é um sistema completo de gestão de estoque desenvolvido para simpl
 ## Funcionalidades Principais
 
 -   **Sistema completo de autenticação** - Login, cadastro e proteção de rotas
--   **Gestão de estoque** - CRUD de produtos com interface responsiva
--   **Notificações em tempo real** - Alertas visuais e sistema de badges
--   **Reset de senha** - Recuperação via email
--   **Design responsivo** - Interface otimizada para desktop e mobile
+-   **Gestão de estoque** - CRUD de produtos
 -   **Formulário de contato** - Integração com FormSubmit
 
 ## Tecnologias Utilizadas
@@ -163,7 +160,7 @@ Antes de usar o sistema, certifique-se de que:
 4. Não há erros no console do navegador
 5. Os assets CSS/JS foram compilados (pasta `public/build/` existe)
 
-### Problemas Comuns e Soluções (Windows)
+### Problemas Comuns e Soluções
 
 #### Erro: "SQLSTATE[HY000]: General error: 1 no such table: clientes"
 
@@ -228,15 +225,15 @@ Interface otimizada para **desktop** e **dispositivos móveis** com navegação 
 ## Checklist de Funcionalidades - Segunda Entrega
 
 -   [x] **Design Intuitivo** - Interface moderna e responsiva
--   [x] **Cadastro e Login** - Sistema completo de autenticação
--   [x] **Redefinição de Senha** - Recovery via email
+-   [x] **Cadastro e Login** - Sistema completo com autenticação
+-   [x] **Redefinição de Senha** - Recuperação via email
 -   [x] **Notificações por Email** - Sistema integrado de comunicação
 -   [x] **Gerenciamento de Estoque** - Modelagem de produtos
 -   [x] **Ordem Automática** - Listagem ordenada
--   [x] **Filtragem de Produtos** - Busca e filtros avançados
+-   [x] **Filtragem de Produtos** - Busca e filtros
 -   [x] **Gestão de Quantidades** - Controle em tempo real
 -   [x] **Alertas de Estoque Baixo** - Notificações automáticas
--   [x] **Gestão de Preços** - Controle financeiro integrado
+-   [x] **Gestão de Preços** - Controle financeiro
 
 ## Vídeo mostrandos os 10 requisitos funcionando
 
