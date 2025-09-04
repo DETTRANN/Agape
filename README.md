@@ -49,21 +49,6 @@ agape-laravel/
 ```
 
 ````
-
-## Configurações Importantes
-
-### Banco de Dados
-- **SQLite** - Banco leve, sem necessidade de servidor
-- **Arquivo**: `database/database.sqlite`
-
-### Ambiente de Desenvolvimento
-```powershell
-APP_NAME="Agape Inventory"
-APP_URL=http://localhost:8000
-DB_CONNECTION=sqlite
-SESSION_DRIVER=database
-````
-
 ## Instalação e Configuração
 
 ### Pré-requisitos
