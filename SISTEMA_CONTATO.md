@@ -92,3 +92,4 @@ Para debug, verifique:
 3. **Anexos**: Permitir upload de arquivos
 4. **Categorização**: Diferentes tipos de contato
 5. **Dashboard**: Painel para gerenciar mensagens
+

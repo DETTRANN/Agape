@@ -175,7 +175,7 @@
           <p>Vendas e movimentações</p>
         </section>
         <section>
-          <button class="btn-view-reports">Visualizar Relatórios</button>
+          <button class="btn-view-reports" onclick="goToRelatorios()">Visualizar Relatórios</button>
         </section>
       </nav>
       <nav>
@@ -189,7 +189,7 @@
           <p><span class="item-count-stock">0</span> Itens cadastrados</p>
         </section>
         <section>
-          <button class="btn-stock" onclick="goToTabelaEstoque()">Consultar Estoque</button>
+          <button class="btn-stock" onclick="goToEstoque()">Consultar Estoque</button>
         </section>
       </nav>
       <nav>

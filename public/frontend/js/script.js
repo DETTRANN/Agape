@@ -1,6 +1,3 @@
-// ===============================================
-// AGAPE INVENTORY - SCRIPT PRINCIPAL
-// ===============================================
 
 // Funções de navegação
 function goToCadastro() {
@@ -15,8 +12,12 @@ function goToResetPassword() {
     window.location.href = "/views/pwdreset";
 }
 
-function goToTabelaEstoque() {
+function goToEstoque() {
     window.location.href = "/views/tabela_estoque";
+}
+
+function goToRelatorios() {
+    window.location.href = "/views/relatorios";
 }
 
 // Função para navegação suave entre seções

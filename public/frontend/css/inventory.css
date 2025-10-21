@@ -2159,6 +2159,206 @@ option {
     font-family: var(--fonte-principal);
 }
 
+body[data-theme="aubergine"] {
+    --cor-fundo-principal: #120a16;
+    --cor-fundo-secundaria: #1a0f24;
+    --cor-fundo-terciaria: #261637;
+    --cor-primaria: #a78bfa;
+    --cor-hover-primaria: #8b5cf6;
+    --cor-secundaria: #5b4e72;
+    --cor-hover-secundaria: #443a56;
+    --cor-erro: #f87171;
+    --cor-hover-erro: #ef4444;
+    --cor-sucesso: #34d399;
+    --cor-hover-sucesso: #10b981;
+    --cor-texto: #efe9ff;
+    --cor-texto-secundaria: #c9b9f2;
+    --cor-borda: #3a2a56;
+    --cor-input: #251a35;
+    --cor-sombra: rgba(0, 0, 0, 0.35);
+}
+
+body {
+    background-color: var(--cor-fundo-principal);
+    color: var(--cor-texto);
+}
+header {
+    background: var(--cor-fundo-secundaria);
+    border-right-color: var(--cor-borda);
+    color: var(--cor-texto);
+}
+
+/* Override dos cards (remove branco fixo) */
+.itensFalta_fornecedores {
+    background: linear-gradient(
+        145deg,
+        var(--cor-fundo-secundaria),
+        var(--cor-fundo-terciaria)
+    ) !important;
+    border: 1px solid var(--cor-borda) !important;
+    color: var(--cor-texto) !important;
+}
+
+.main-relatorios {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    height: 100vh;
+    padding: 40px;
+}
+
+.conteiner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+
+.itens_estoque_atualizacao {
+    background: linear-gradient(145deg, #3a3f51, #4a4f61);
+    border: 1px solid #5a5f71;
+    width: 400px;
+    height: 150px;
+    border-radius: 7px;
+}
+
+.itens_estoque_atualizacao > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 50%;
+    margin: 15px;
+}
+
+.itens_estoque_atualizacao h2,
+.itens_estoque_atualizacao p {
+    color: var(--cor-texto) !important;
+}
+
+.conteiner-secundario {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+
+.tabela_produtos {
+    background: linear-gradient(145deg, #3a3f51, #4a4f61);
+    border: 1px solid #5a5f71;
+    width: 850px;
+    height: 420px;
+    border-radius: 7px;
+    overflow-y: auto;
+    color: var(--cor-texto) !important;
+}
+
+.rotatividade {
+    background: linear-gradient(145deg, #3a3f51, #4a4f61);
+    border: 1px solid #5a5f71;
+    width: 400px;
+    height: 420px;
+    border-radius: 7px;
+    overflow-y: auto;
+}
+
+.rotatividade__container {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.rotatividade__title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    line-height: 1.3;
+    color: var(--cor-texto);
+}
+
+.rotatividade__table {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.rotatividade__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid #5a5f71;
+}
+
+.rotatividade__row:last-child {
+    border-bottom: none;
+}
+
+.rotatividade__item {
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--cor-texto) !important;
+}
+
+.rotatividade__value {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--cor-texto) !important;
+}
+
+.conteiner-terciario {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 100px;
+}
+
+.itensFalta_fornecedores {
+    background: linear-gradient(145deg, #3a3f51, #4a4f61) !important;
+    border: 1px solid #5a5f71 !important;
+    color: var(--cor-texto) !important;
+    width: 600px;
+    height: 250px;
+    border-radius: 7px;
+}
+
+.itensFalta_fornecedores > div {
+    margin: 15px;
+}
+
+.itensFalta_fornecedores__linha {
+    display: flex;
+    width: 90%;
+    justify-content: space-between;
+    margin: 15px;
+}
+
+.itensFalta_fornecedores__lista {
+    list-style-type: none;
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: lighter;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.itensFalta_fornecedores__lista li {
+    color: rgba(255, 255, 255, 0.92);
+}
+
+.fornecedores__lista {
+    margin-top: 35px;
+    padding-left: 30px;
+    font-size: 20px;
+}
+
+.fornecedores__lista li {
+    margin-bottom: 5px;
+}
+
 /* Responsividade para notificações */
 @media (max-width: 768px) {
     .notifications-panel {
