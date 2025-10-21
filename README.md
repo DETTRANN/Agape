@@ -223,8 +223,7 @@ php artisan tinker
 Interface otimizada para **desktop** e **dispositivos móveis** com navegação adaptativa.
 
 ## Checklist de Funcionalidades - Segunda Entrega
-
--   [x] **Design Intuitivo** - Interface moderna e responsiva
+-   [x] **Design Intuitivo** - Interface moderna e responsiva      
 -   [x] **Cadastro e Login** - Sistema completo com autenticação
 -   [x] **Redefinição de Senha** - Recuperação via email
 -   [x] **Notificações por Email** - Sistema integrado de comunicação
@@ -234,6 +233,23 @@ Interface otimizada para **desktop** e **dispositivos móveis** com navegação 
 -   [x] **Gestão de Quantidades** - Controle em tempo real
 -   [x] **Alertas de Estoque Baixo** - Notificações automáticas
 -   [x] **Gestão de Preços** - Controle financeiro
+-   [ ] **Gráficos e tabelas de estoque** - Sistema completo com autenticação
+-   [ ] **Controle de Transferências** - Recuperação via email
+-   [ ] **Ciclo de inventário** - Sistema integrado de comunicação
+-   [ ] **Relatório sobre venda anuais** - Modelagem de produtos
+-   [ ] **Rastreio** - Listagem ordenada
+-   [ ] **Controle de Devoluções** - Busca e filtros
+-   [ ] **Gestão de Quantidades** - Controle em tempo real
+-   [ ] **Alertas de Estoque Baixo** - Notificações automáticas
+-   [ ] **Gestão de Preços** - Controle financeiro
+-   [ ] **Rastreio** - Listagem ordenada
+-   [ ] **Controle de Devoluções** - Busca e filtros
+-   [ ] **Gestão de Quantidades** - Controle em tempo real
+-   [ ] **Alertas de Estoque Baixo** - Notificações automáticas
+-   [ ] **Gestão de Preços** - Controle financeiro
+-   [ ] **Gestão de Preços** - Controle financeiro
+
+        
 
 ## Vídeo mostrandos os 10 requisitos funcionando
 
