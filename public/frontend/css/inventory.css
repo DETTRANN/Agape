@@ -2327,7 +2327,7 @@ header {
 
 .conteiner-secundario {
     display: grid;
-    grid-template-columns: 1.8fr 1fr;
+    grid-template-columns: 1.5fr 1fr;
     gap: 30px;
     width: 100%;
     max-width: 1400px;
@@ -2393,17 +2393,17 @@ header {
 }
 
 .tabela_produtos__table th {
-    padding: 12px 16px;
+    padding: 14px 18px;
     text-align: left;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 16px;
     color: var(--cor-texto);
     border-bottom: 2px solid #5a5f71;
 }
 
 .tabela_produtos__table td {
-    padding: 12px 16px;
-    font-size: 14px;
+    padding: 14px 18px;
+    font-size: 16px;
     color: var(--cor-texto);
     border-bottom: 1px solid #5a5f71;
 }
@@ -2461,7 +2461,7 @@ header {
     background: linear-gradient(145deg, #3a3f51, #4a4f61);
     border: 1px solid #5a5f71;
     border-radius: 16px;
-    height: 450px;
+    height: 350px;
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
@@ -2470,6 +2470,83 @@ header {
 .rotatividade:hover {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     border-color: #6a7081;
+}
+
+/* Card de Vendas Anuais */
+.vendas-anuais {
+    background: linear-gradient(145deg, #3a3f51, #4a4f61);
+    border: 1px solid #5a5f71;
+    border-radius: 16px;
+    height: 450px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.vendas-anuais:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border-color: #6a7081;
+}
+
+.vendas-anuais__container {
+    padding: 28px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.vendas-anuais__title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: var(--cor-texto);
+}
+
+.vendas-anuais__content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+    justify-content: center;
+}
+
+.vendas-stat {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    border-left: 3px solid var(--cor-primaria);
+    transition: all 0.3s ease;
+}
+
+.vendas-stat:hover {
+    background: rgba(0, 0, 0, 0.3);
+    transform: translateX(8px);
+    border-left-color: #f6ad55;
+}
+
+.vendas-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.vendas-label {
+    font-size: 11px;
+    color: var(--cor-texto-secundaria);
+    margin: 0 0 3px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+.vendas-value {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--cor-texto);
+    margin: 0;
+    line-height: 1;
 }
 
 .rotatividade__container {
@@ -2538,7 +2615,7 @@ header {
 
 .conteiner-terciario {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 30px;
     width: 100%;
     max-width: 1400px;
@@ -2550,8 +2627,28 @@ header {
     color: var(--cor-texto) !important;
     border-radius: 16px;
     padding: 28px;
+    height: 350px;
+    overflow-y: auto;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
+}
+
+.itensFalta_fornecedores::-webkit-scrollbar {
+    width: 8px;
+}
+
+.itensFalta_fornecedores::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
+.itensFalta_fornecedores::-webkit-scrollbar-thumb {
+    background: #5a5f71;
+    border-radius: 4px;
+}
+
+.itensFalta_fornecedores::-webkit-scrollbar-thumb:hover {
+    background: #6a7081;
 }
 
 .itensFalta_fornecedores:hover {
