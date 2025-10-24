@@ -111,6 +111,8 @@
             </div>
         </section>
     </div>
+
+    <!-- Linha 2: Itens Valiosos e Vendas Anuais -->
     <div class="conteiner-secundario">
       <section class="tabela_produtos">
         <div class="tabela_produtos__container">
@@ -121,8 +123,8 @@
                 <th>Item</th>
                 <th>Categoria</th>
                 <th>Preço</th>
-                <th>Status</th>
                 <th>Localidade</th>
+                <th>Status</th>
               </tr>
             </thead>
             <tbody>
@@ -131,12 +133,12 @@
                 <td>{{ $item->nome_item }}</td>
                 <td>{{ $item->categoria }}</td>
                 <td>R$ {{ number_format($item->preco, 2, ',', '.') }}</td>
+                <td>{{ $item->localidade ?? 'N/A' }}</td>
                 <td>
                   <span class="status-badge status-{{ strtolower(str_replace(' ', '', $item->status)) }}">
                     {{ $item->status }}
                   </span>
                 </td>
-                <td>{{ $item->localidade ?? 'N/A' }}</td>
               </tr>
               @empty
               <tr>
@@ -147,9 +149,49 @@
           </table>
         </div>
       </section>
+
+      <section class="vendas-anuais">
+        <div class="vendas-anuais__container">
+          <h2 class="vendas-anuais__title">Relatório sobre Vendas Anuais</h2>
+          <div class="vendas-anuais__content">
+            <div class="vendas-stat">
+              <span class="vendas-icon">📈</span>
+              <div>
+                <p class="vendas-label">Total Vendido</p>
+                <p class="vendas-value">R$ 125.450,00</p>
+              </div>
+            </div>
+            <div class="vendas-stat">
+              <span class="vendas-icon">📊</span>
+              <div>
+                <p class="vendas-label">Transações</p>
+                <p class="vendas-value">1.234</p>
+              </div>
+            </div>
+            <div class="vendas-stat">
+              <span class="vendas-icon">💹</span>
+              <div>
+                <p class="vendas-label">Crescimento</p>
+                <p class="vendas-value">+15.8%</p>
+              </div>
+            </div>
+            <div class="vendas-stat">
+              <span class="vendas-icon">🎯</span>
+              <div>
+                <p class="vendas-label">Meta Anual</p>
+                <p class="vendas-value">82%</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Linha 3: Rotatividade, Itens em Falta e Fornecedores -->
+    <div class="conteiner-terciario">
       <section class="rotatividade">
         <div class="rotatividade__container">
-          <h2 class="rotatividade__title">Produtos com maior<br>rotatividade</h2>
+          <h2 class="rotatividade__title">Produtos com maior rotatividade</h2>
           <div class="rotatividade__table">
             @forelse($produtosRotatividade as $produto)
             <div class="rotatividade__row rotatividade__row--item">
@@ -158,14 +200,13 @@
             </div>
             @empty
             <div class="rotatividade__row">
-              <span class="rotatividade__item">Nenhum produto com rotatividade</span>
+              <span class="rotatividade__item">Nenhum produto disponível</span>
             </div>
             @endforelse
           </div>
         </div>
       </section>
-    </div>
-    <div class="conteiner-terciario">
+
     <section class="itensFalta_fornecedores">
         <div>
             <h2>Itens em Falta</h2>
