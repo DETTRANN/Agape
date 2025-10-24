@@ -168,13 +168,20 @@ class ProdutoController extends Controller
             })
             ->toArray();
 
+        // Top 5 itens mais valiosos (ordenados por preço)
+        $itensMaisValiosos = $produtos
+            ->sortByDesc('preco')
+            ->take(5)
+            ->values();
+
         return view('relatorios', compact(
             'totalItens',
             'valorEstoque',
             'ultimaAtualizacao',
             'produtosRotatividade',
             'itensFalta',
-            'principaisFornecedores'
+            'principaisFornecedores',
+            'itensMaisValiosos'
         ));
     }
 }

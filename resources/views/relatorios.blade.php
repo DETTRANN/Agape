@@ -83,28 +83,70 @@
     </header>
 
   <main class="main-relatorios">
+
+    <!-- Cards de estatísticas -->
     <div class="conteiner">
-        <section class="itens_estoque_atualizacao">
-            <div>
+        <section class="itens_estoque_atualizacao card-stat">
+            <div class="card-icon">📦</div>
+            <div class="card-content">
                 <h2>Total de Itens</h2>
-                <p>{{ $totalItens }}</p>
+                <p class="card-value">{{ $totalItens }}</p>
+                <span class="card-label">itens cadastrados</span>
             </div>
         </section>
-        <section class="itens_estoque_atualizacao">
-            <div>
+        <section class="itens_estoque_atualizacao card-stat">
+            <div class="card-icon">💰</div>
+            <div class="card-content">
                 <h2>Valor de Estoque</h2>
-                <p>R$ {{ number_format($valorEstoque, 2, ',', '.') }}</p>
+                <p class="card-value">R$ {{ number_format($valorEstoque, 2, ',', '.') }}</p>
+                <span class="card-label">valor total</span>
             </div>
         </section>
-        <section class="itens_estoque_atualizacao">
-            <div>
+        <section class="itens_estoque_atualizacao card-stat">
+            <div class="card-icon">🕐</div>
+            <div class="card-content">
                 <h2>Última Atualização</h2>
-                <p>{{ \Carbon\Carbon::parse($ultimaAtualizacao)->format('d/m/Y H:i') }}</p>
+                <p class="card-value">{{ \Carbon\Carbon::parse($ultimaAtualizacao)->format('d/m/Y') }}</p>
+                <span class="card-label">{{ \Carbon\Carbon::parse($ultimaAtualizacao)->format('H:i') }}</span>
             </div>
         </section>
     </div>
     <div class="conteiner-secundario">
-      <section class="tabela_produtos"></section>
+      <section class="tabela_produtos">
+        <div class="tabela_produtos__container">
+          <h2 class="tabela_produtos__title">Itens Mais Valiosos</h2>
+          <table class="tabela_produtos__table">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Categoria</th>
+                <th>Preço</th>
+                <th>Status</th>
+                <th>Localidade</th>
+              </tr>
+            </thead>
+            <tbody>
+              @forelse($itensMaisValiosos as $item)
+              <tr>
+                <td>{{ $item->nome_item }}</td>
+                <td>{{ $item->categoria }}</td>
+                <td>R$ {{ number_format($item->preco, 2, ',', '.') }}</td>
+                <td>
+                  <span class="status-badge status-{{ strtolower(str_replace(' ', '', $item->status)) }}">
+                    {{ $item->status }}
+                  </span>
+                </td>
+                <td>{{ $item->localidade ?? 'N/A' }}</td>
+              </tr>
+              @empty
+              <tr>
+                <td colspan="5" style="text-align: center; padding: 1rem;">Nenhum item cadastrado</td>
+              </tr>
+              @endforelse
+            </tbody>
+          </table>
+        </div>
+      </section>
       <section class="rotatividade">
         <div class="rotatividade__container">
           <h2 class="rotatividade__title">Produtos com maior<br>rotatividade</h2>
