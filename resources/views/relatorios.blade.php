@@ -17,15 +17,15 @@
 
             <!-- Menu Principal -->
             <div class="main-menu">
-                <div class="header-sections" data-section="inicio">
+                <div class="header-sections" data-section="inicio" onclick="goToSystem()">
                     <img src="{{url('frontend/img/casa-simples-fina.png')}}" alt="" />
                     <div>Início</div>
                 </div>
-                <div class="header-sections" data-section="relatorios">
+                <div class="header-sections active" data-section="relatorios" onclick="goToRelatorios()">
                     <img src="{{url('frontend/img/grafico-de-barras.png')}}" alt="" />
                     <div>Relatórios</div>
                 </div>
-                <div class="header-sections" data-section="estoque">
+                <div class="header-sections" data-section="estoque" onclick="goToEstoque()">
                     <img src="{{url('frontend/img/estoque-pronto.png')}}" alt="" />
                     <div>Estoque</div>
                 </div>
@@ -87,22 +87,19 @@
         <section class="itens_estoque_atualizacao">
             <div>
                 <h2>Total de Itens</h2>
-                <p>TotalItens</p>
-                <!-- Colocar no futuro entre duas chaves a variavel $totalItens - conectado diretamente com a pagina de tabela estoque -->
+                <p>{{ $totalItens }}</p>
             </div>
         </section>
         <section class="itens_estoque_atualizacao">
             <div>
                 <h2>Valor de Estoque</h2>
-                <p>ValorEstoque</p>
-                <!-- Colocar no futuro entre duas chaves a variavel $valorEstoque - conectado diretamente com a pagina de tabela estoque -->
+                <p>R$ {{ number_format($valorEstoque, 2, ',', '.') }}</p>
             </div>
         </section>
         <section class="itens_estoque_atualizacao">
             <div>
                 <h2>Última Atualização</h2>
-                <p>UltimaAtualizacao</p>
-                <!-- Colocar no futuro entre duas chaves a variavel $totalItens - conectado diretamente com a pagina de tabela estoque -->
+                <p>{{ \Carbon\Carbon::parse($ultimaAtualizacao)->format('d/m/Y H:i') }}</p>
             </div>
         </section>
     </div>
@@ -111,28 +108,17 @@
       <section class="rotatividade">
         <div class="rotatividade__container">
           <h2 class="rotatividade__title">Produtos com maior<br>rotatividade</h2>
-          <!-- mostrar os 5 maiores itens em rotatividade -->
           <div class="rotatividade__table">
+            @forelse($produtosRotatividade as $produto)
             <div class="rotatividade__row rotatividade__row--item">
-              <span class="rotatividade__item">Leite</span>
-              <span class="rotatividade__value">99</span>
+              <span class="rotatividade__item">{{ $produto['nome'] }}</span>
+              <span class="rotatividade__value">{{ $produto['rotatividade'] }}</span>
             </div>
-            <div class="rotatividade__row rotatividade__row--item">
-              <span class="rotatividade__item">Carne</span>
-              <span class="rotatividade__value">90</span>
+            @empty
+            <div class="rotatividade__row">
+              <span class="rotatividade__item">Nenhum produto com rotatividade</span>
             </div>
-            <div class="rotatividade__row rotatividade__row--item">
-              <span class="rotatividade__item">Pão</span>
-              <span class="rotatividade__value">75</span>
-            </div>
-            <div class="rotatividade__row rotatividade__row--item">
-              <span class="rotatividade__item">Biscoito</span>
-              <span class="rotatividade__value">40</span>
-            </div>
-            <div class="rotatividade__row rotatividade__row--item">
-              <span class="rotatividade__item">Sabão</span>
-              <span class="rotatividade__value">32</span>
-            </div>
+            @endforelse
           </div>
         </div>
       </section>
@@ -145,11 +131,12 @@
                 <div>
                     <div>
                         <h3>Item</h3>
-                        <ul class="itensFalta_fornecedores__lista" >
-                          <li>bambu</li>
-                          <li>madeira</li>
-                          <li>leite</li>
-                          <li>arroz</li>
+                        <ul class="itensFalta_fornecedores__lista">
+                          @forelse($itensFalta as $item)
+                          <li>{{ $item['nome'] }}</li>
+                          @empty
+                          <li>Nenhum item</li>
+                          @endforelse
                         </ul>
                     </div>
                 </div>
@@ -157,10 +144,11 @@
                     <div>
                         <h3>Quantidade</h3>
                         <ul class="itensFalta_fornecedores__lista">
-                          <li>21</li>
-                          <li>11</li>
-                          <li>22</li>
-                          <li>11</li>
+                          @forelse($itensFalta as $item)
+                          <li>{{ $item['quantidade'] }}</li>
+                          @empty
+                          <li>-</li>
+                          @endforelse
                         </ul>
                     </div>
                 </div>
@@ -170,12 +158,12 @@
     <section class="itensFalta_fornecedores">
       <div>
         <h2>Principais Fornecedores</h2>
-        <!-- Lista dos 5 maiores fornecedores - conectado diretamente com a pagina de tabela estoque-->
         <ul class="fornecedores__lista">
-          <li>Fornecedor 1</li>
-          <li>Fornecedor 2</li>
-          <li>Fornecedor 3</li>
-          <li>Fornecedor 4</li>
+          @forelse($principaisFornecedores as $fornecedor)
+          <li>{{ $fornecedor }}</li>
+          @empty
+          <li>Nenhum fornecedor cadastrado</li>
+          @endforelse
         </ul>
       </div>
     </section>

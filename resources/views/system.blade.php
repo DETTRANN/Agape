@@ -26,15 +26,15 @@
         
         <!-- Menu Principal -->
         <div class="main-menu">
-          <div class="header-sections" data-section="inicio">
+          <div class="header-sections active" data-section="inicio" onclick="goToSystem()">
             <img src="{{url('frontend/img/casa-simples-fina.png')}}" alt="" />
             <div>Início</div>
           </div>
-          <div class="header-sections" data-section="relatorios">
+          <div class="header-sections" data-section="relatorios" onclick="goToRelatorios()">
             <img src="{{url('frontend/img/grafico-de-barras.png')}}" alt="" />
             <div>Relatórios</div>
           </div>
-          <div class="header-sections" data-section="estoque">
+          <div class="header-sections" data-section="estoque" onclick="goToEstoque()">
             <img src="{{url('frontend/img/estoque-pronto.png')}}" alt="" />
             <div>Estoque</div>
           </div>

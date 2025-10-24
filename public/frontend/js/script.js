@@ -1,24 +1,10 @@
-
 // Funções de navegação
-function goToCadastro() {
-    window.location.href = "/views/register";
-}
-
-function goToLogin() {
-    window.location.href = "/views/login";
-}
-
-function goToResetPassword() {
-    window.location.href = "/views/pwdreset";
-}
-
-function goToEstoque() {
-    window.location.href = "/views/tabela_estoque";
-}
-
-function goToRelatorios() {
-    window.location.href = "/views/relatorios";
-}
+const goToCadastro = () => (window.location.href = "/views/register");
+const goToLogin = () => (window.location.href = "/views/login");
+const goToResetPassword = () => (window.location.href = "/views/pwdreset");
+const goToEstoque = () => (window.location.href = "/views/tabela_estoque");
+const goToRelatorios = () => (window.location.href = "/views/relatorios");
+const goToSystem = () => (window.location.href = "/views/system");
 
 // Função para navegação suave entre seções
 function scrollToSection(sectionClass) {

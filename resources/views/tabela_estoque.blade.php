@@ -54,15 +54,15 @@
         
         <!-- Menu Principal -->
         <div class="main-menu">
-          <div class="header-sections" data-section="inicio" onclick="window.location.href='{{route('system.page')}}'">
+          <div class="header-sections" data-section="inicio" onclick="goToSystem()">
             <img src="{{url('frontend/img/casa-simples-fina.png')}}" alt="Início" />
             <div>Início</div>
           </div>
-          <div class="header-sections" data-section="relatorios">
+          <div class="header-sections" data-section="relatorios" onclick="goToRelatorios()">
             <img src="{{url('frontend/img/grafico-de-barras.png')}}" alt="Relatórios" />
             <div>Relatórios</div>
           </div>
-          <div class="header-sections active" data-section="estoque">
+          <div class="header-sections active" data-section="estoque" onclick="goToEstoque()">
             <img src="{{url('frontend/img/estoque-pronto.png')}}" alt="Estoque" />
             <div>Estoque</div>
           </div>
@@ -121,15 +121,15 @@
       <div class="sidebar-content">
         <!-- Menu Principal Mobile -->
         <div class="sidebar-main-menu">
-          <div class="sidebar-item" onclick="window.location.href='{{route('system.page')}}'">
+          <div class="sidebar-item" onclick="goToSystem()">
             <img src="{{url('frontend/img/casa-simples-fina.png')}}" alt="Início" />
             <span>Início</span>
           </div>
-          <div class="sidebar-item">
+          <div class="sidebar-item" onclick="goToRelatorios()">
             <img src="{{url('frontend/img/grafico-de-barras.png')}}" alt="Relatórios" />
             <span>Relatórios</span>
           </div>
-          <div class="sidebar-item active">
+          <div class="sidebar-item active" onclick="goToEstoque()">
             <img src="{{url('frontend/img/estoque-pronto.png')}}" alt="Estoque" />
             <span>Estoque</span>
           </div>

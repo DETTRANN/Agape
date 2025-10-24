@@ -108,4 +108,73 @@ class ProdutoController extends Controller
         $this->produtoRepository->delete($id);
         return redirect()->back()->with('success', 'Produto removido com sucesso!');
     }
+
+    public function relatorios()
+    {
+        $produtos = $this->produtoRepository->findByUser(Auth::id());
+        if (!$produtos) {
+            $produtos = collect();
+        }
+
+        // Total de itens
+        $totalItens = $produtos->count();
+
+        // Valor total do estoque
+        $valorEstoque = $produtos->sum('preco');
+
+        // Última atualização (data do item mais recente)
+        $ultimaAtualizacao = $produtos->max('updated_at') ?? $produtos->max('created_at') ?? now();
+
+        // Produtos com maior rotatividade (baseado na quantidade de repetições)
+        // Conta quantas vezes cada item disponível aparece
+        $produtosRotatividade = $produtos
+            ->where('status', 'Disponível')
+            ->groupBy('nome_item')
+            ->map(function($grupo) {
+                return [
+                    'nome' => $grupo->first()->nome_item,
+                    'rotatividade' => $grupo->count() // Quantidade de vezes que o item se repete
+                ];
+            })
+            ->sortByDesc('rotatividade')
+            ->take(5)
+            ->values();
+
+        // Itens em falta (status "Manutenção" ou "Ocupado")
+        $itensFalta = $produtos
+            ->whereIn('status', ['Manutenção', 'Ocupado'])
+            ->groupBy('nome_item')
+            ->map(function($grupo) {
+                return [
+                    'nome' => $grupo->first()->nome_item,
+                    'quantidade' => $grupo->count() // Quantidade de itens com esse status
+                ];
+            })
+            ->take(4)
+            ->values();
+
+        // Principais fornecedores (baseado no campo responsável)
+        $principaisFornecedores = $produtos
+            ->groupBy('responsavel')
+            ->map(function($grupo) {
+                return $grupo->count();
+            })
+            ->sortDesc()
+            ->take(4)
+            ->keys()
+            ->map(function($email) {
+                // Extrai apenas o nome antes do @ (ex: joao.silva@email.com -> joao.silva)
+                return explode('@', $email)[0];
+            })
+            ->toArray();
+
+        return view('relatorios', compact(
+            'totalItens',
+            'valorEstoque',
+            'ultimaAtualizacao',
+            'produtosRotatividade',
+            'itensFalta',
+            'principaisFornecedores'
+        ));
+    }
 }

@@ -42,6 +42,10 @@ Route::middleware(['auth', 'force.auth'])->group(function () {
     Route::put('/produtos/{id}', [ProdutoController::class, 'update'])->name('produtos.update');
     Route::delete('/produtos/{id}', [ProdutoController::class, 'destroy'])->name('produtos.destroy');
 
+    // Rota de relatórios
+    Route::get('/views/relatorios', [ProdutoController::class, 'relatorios'])->name('relatorios');
+    Route::get('/views/graficos-relatorios', [ProdutoController::class, 'relatorios'])->name('graficos.relatorios');
+
     // Redireciona a rota antiga para a nova
     Route::get('/views/system', function () {
         return redirect()->route('system.page');
@@ -84,7 +88,3 @@ Route::get('/force-logout', function () {
 Route::get('/views/contato', function () {
     return view('contato');
 })->name('contato');
-
-Route::get('/views/relatorios', function () {
-    return view('relatorios');
-});
