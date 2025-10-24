@@ -3,16 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\ProdutoRepositoryInterface;
+use App\Services\AuditoriaService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ProdutoController extends Controller
 {
     protected $produtoRepository;
+    protected $auditoriaService;
 
-    public function __construct(ProdutoRepositoryInterface $produtoRepository)
+    public function __construct(ProdutoRepositoryInterface $produtoRepository, AuditoriaService $auditoriaService)
     {
         $this->produtoRepository = $produtoRepository;
+        $this->auditoriaService = $auditoriaService;
     }
 
     public function index()
@@ -80,6 +83,9 @@ class ProdutoController extends Controller
 
         $produto = $this->produtoRepository->create($data);
 
+        // Registrar auditoria de criação
+        $this->auditoriaService->registrarCriacao($produto->id, 'Produto criado: ' . $produto->nome_item);
+
         return redirect()->back()->with('success', 'Produto adicionado com sucesso!');
     }
 
@@ -98,13 +104,40 @@ class ProdutoController extends Controller
             'observacoes' => 'nullable|string'
         ]);
 
+        // Obter produto anterior para auditoria
+        $produtoAnterior = $this->produtoRepository->find($id);
         $produto = $this->produtoRepository->update($id, $request->all());
+
+        // Registrar alterações na auditoria
+        if ($produtoAnterior) {
+            $dadosNovos = $request->all();
+            foreach ($dadosNovos as $campo => $valorNovo) {
+                $valorAnterior = $produtoAnterior->$campo ?? null;
+                if ($valorAnterior != $valorNovo) {
+                    $this->auditoriaService->registrarAtualizacao(
+                        $id,
+                        $campo,
+                        $valorAnterior,
+                        $valorNovo,
+                        "Campo '{$campo}' alterado"
+                    );
+                }
+            }
+        }
 
         return redirect()->back()->with('success', 'Produto atualizado com sucesso!');
     }
 
     public function destroy($id)
     {
+        // Obter produto antes da exclusão para auditoria
+        $produto = $this->produtoRepository->find($id);
+        
+        if ($produto) {
+            // Registrar auditoria de exclusão
+            $this->auditoriaService->registrarExclusao($id, 'Produto removido: ' . $produto->nome_item);
+        }
+        
         $this->produtoRepository->delete($id);
         return redirect()->back()->with('success', 'Produto removido com sucesso!');
     }
