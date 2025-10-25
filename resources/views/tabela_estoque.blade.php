@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Tabela de Estoque</title>
     <link rel="stylesheet" href="{{url('frontend/css/inventory.css')}}" />
     <script src="{{url('frontend/js/script.js')}}" defer></script>
@@ -83,7 +84,7 @@
             <div>Notificações</div>
           </div>
           <div class="header-sections header-sections-person" onclick="showProfileMenu()">
-            <img src="{{url('frontend/img/user-alien.png')}}" alt="" />
+            <img src="@auth{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : url('frontend/img/user-alien.png') }}@else{{url('frontend/img/user-alien.png')}}@endauth" alt="" />
             <div>Perfil</div>
           </div>
         </div>
@@ -123,7 +124,7 @@
               <span>Notificações</span>
             </div>
             <div class="sidebar-item" onclick="showMobileProfileMenu()">
-              <img src="{{url('frontend/img/user-alien.png')}}" alt="" />
+              <img src="@auth{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : url('frontend/img/user-alien.png') }}@else{{url('frontend/img/user-alien.png')}}@endauth" alt="" />
               <span>Perfil</span>
             </div>
           </div>
