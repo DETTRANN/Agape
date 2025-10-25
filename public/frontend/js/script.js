@@ -5,6 +5,8 @@ const goToResetPassword = () => (window.location.href = "/views/pwdreset");
 const goToEstoque = () => (window.location.href = "/views/tabela_estoque");
 const goToRelatorios = () => (window.location.href = "/views/relatorios");
 const goToSystem = () => (window.location.href = "/views/system");
+const goToTransferencias = () => (window.location.href = "/transferencias");
+const goToAuditoria = () => (window.location.href = "/auditoria");
 
 // Função para navegação suave entre seções
 function scrollToSection(sectionClass) {

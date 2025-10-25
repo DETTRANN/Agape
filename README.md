@@ -234,7 +234,7 @@ Interface otimizada para **desktop** e **dispositivos móveis** com navegação 
 -   [x] **Alertas de Estoque Baixo** - Notificações automáticas
 -   [x] **Gestão de Preços** - Controle financeiro
 -   [ ] **Gráficos e tabelas de estoque** - Sistema completo com autenticação
--   [ ] **Controle de Transferências** - Recuperação via email
+-   [x] **Controle de Transferências** - Sistema completo de auditoria e transferências de estoque
 -   [ ] **Ciclo de inventário** - Sistema integrado de comunicação
 -   [ ] **Relatório sobre venda anuais** - Modelagem de produtos
 -   [ ] **Rastreio** - Listagem ordenada

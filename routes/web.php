@@ -46,6 +46,24 @@ Route::middleware(['auth', 'force.auth'])->group(function () {
     Route::get('/views/relatorios', [ProdutoController::class, 'relatorios'])->name('relatorios');
     Route::get('/views/graficos-relatorios', [ProdutoController::class, 'relatorios'])->name('graficos.relatorios');
 
+    // Rotas de Transferências
+    Route::prefix('transferencias')->name('transferencias.')->group(function () {
+        Route::get('/', [App\Http\Controllers\TransferenciaController::class, 'index'])->name('index');
+        Route::get('/criar', [App\Http\Controllers\TransferenciaController::class, 'create'])->name('create');
+        Route::post('/', [App\Http\Controllers\TransferenciaController::class, 'store'])->name('store');
+        Route::get('/{id}', [App\Http\Controllers\TransferenciaController::class, 'show'])->name('show');
+        Route::put('/{id}/iniciar', [App\Http\Controllers\TransferenciaController::class, 'iniciarTransferencia'])->name('iniciar');
+        Route::put('/{id}/concluir', [App\Http\Controllers\TransferenciaController::class, 'concluirTransferencia'])->name('concluir');
+        Route::put('/{id}/cancelar', [App\Http\Controllers\TransferenciaController::class, 'cancelarTransferencia'])->name('cancelar');
+    });
+
+    // Rotas de Auditoria
+    Route::prefix('auditoria')->name('auditoria.')->group(function () {
+        Route::get('/', [App\Http\Controllers\AuditoriaController::class, 'index'])->name('index');
+        Route::get('/produto/{id}', [App\Http\Controllers\AuditoriaController::class, 'show'])->name('show');
+        Route::get('/relatorio', [App\Http\Controllers\AuditoriaController::class, 'relatorio'])->name('relatorio');
+    });
+
     // Redireciona a rota antiga para a nova
     Route::get('/views/system', function () {
         return redirect()->route('system.page');

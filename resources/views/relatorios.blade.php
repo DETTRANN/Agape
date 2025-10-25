@@ -96,7 +96,7 @@
     <!-- Desktop Header -->
     <header>
         <section class="header-left">
-            <img class="img-logo" src="{{url('frontend/img/logo-agape.png')}}" alt="" />
+            <img class="img-logo" src="{{url('frontend/img/logo-agape.png')}}" alt="Agape Logo" onclick="window.location.href='{{url('/')}}'" />
             <div class="logo-separator"></div>
 
             <!-- Menu Principal -->
@@ -113,9 +113,13 @@
                     <img src="{{url('frontend/img/estoque-pronto.png')}}" alt="" />
                     <div>Estoque</div>
                 </div>
-                <div class="header-sections" data-section="rastreio">
-                    <img src="{{url('frontend/img/localizacao.png')}}" alt="" />
-                    <div>Rastreio</div>
+                <div class="header-sections" data-section="transferencias" onclick="goToTransferencias()">
+                    <img src="{{url('frontend/img/cargo-truck.png')}}" alt="Transferências" />
+                    <div>Transferências</div>
+                </div>
+                <div class="header-sections" data-section="auditoria" onclick="goToAuditoria()">
+                    <img src="{{url('frontend/img/icons8-robot-50.png')}}" alt="Auditoria" />
+                    <div>Auditoria</div>
                 </div>
             </div>
 
@@ -164,6 +168,83 @@
             </div>
         </section>
     </header>
+
+    <!-- Mobile Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-content">
+            <!-- Menu Principal Mobile -->
+            <div class="sidebar-main-menu">
+                <div class="sidebar-item" onclick="goToSystem()">
+                    <img src="{{url('frontend/img/casa-simples-fina.png')}}" alt="Início" />
+                    <span>Início</span>
+                </div>
+                <div class="sidebar-item active" onclick="goToRelatorios()">
+                    <img src="{{url('frontend/img/grafico-de-barras.png')}}" alt="Relatórios" />
+                    <span>Relatórios</span>
+                </div>
+                <div class="sidebar-item" onclick="goToEstoque()">
+                    <img src="{{url('frontend/img/estoque-pronto.png')}}" alt="Estoque" />
+                    <span>Estoque</span>
+                </div>
+                <div class="sidebar-item" onclick="goToTransferencias()">
+                    <img src="{{url('frontend/img/cargo-truck.png')}}" alt="Transferências" />
+                    <span>Transferências</span>
+                </div>
+                <div class="sidebar-item" onclick="goToAuditoria()">
+                    <img src="{{url('frontend/img/icons8-robot-50.png')}}" alt="Auditoria" />
+                    <span>Auditoria</span>
+                </div>
+                
+                <!-- Bottom section mobile -->
+                <div class="sidebar-bottom">
+                    <div class="sidebar-item" onclick="toggleNotifications()">
+                        <img src="{{url('frontend/img/notificacao.png')}}" alt="Notificações" />
+                        <span>Notificações</span>
+                    </div>
+                    <div class="sidebar-item" onclick="showMobileProfileMenu()">
+                        <img src="{{url('frontend/img/user-alien.png')}}" alt="Perfil" />
+                        <span>Perfil</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Menu do Perfil Mobile (inicialmente oculto) -->
+            <div class="sidebar-profile-menu" style="display: none;">
+                <div class="sidebar-item sidebar-back-button" onclick="showMobileMainMenu()">
+                    <span style="font-size: 20px;">←</span>
+                    <span>Voltar</span>
+                </div>
+                <div class="sidebar-item">
+                    <img src="{{url('frontend/img/icons8-robot-50.png')}}" alt="Perfil" />
+                    <span>Perfil</span>
+                </div>
+                <div class="sidebar-item">
+                    <img src="{{url('frontend/img/configuracoes.png')}}" alt="Configurações" />
+                    <span>Configurações</span>
+                </div>
+                <div class="sidebar-item">
+                    <img src="{{url('frontend/img/contato.png')}}" alt="Contato" />
+                    <span>Contato</span>
+                </div>
+                <div class="sidebar-item">
+                    <img src="{{url('frontend/img/termos-e-condicoes.png')}}" alt="Termos" />
+                    <span>Termos</span>
+                </div>
+                <div class="sidebar-item" onclick="document.getElementById('logout-form-mobile').submit();">
+                    <img src="{{url('frontend/img/user-alien.png')}}" alt="Sair" />
+                    <span>Sair</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Formulário de Logout Mobile (Hidden) -->
+    <form id="logout-form-mobile" action="{{ route('auth.logout') }}" method="POST" style="display: none;">
+        @csrf
+    </form>
 
   <main class="main-relatorios">
 

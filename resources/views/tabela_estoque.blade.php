@@ -38,9 +38,17 @@
             <img src="{{url('frontend/img/estoque-pronto.png')}}" alt="" />
             <div>Estoque</div>
           </div>
+
           <div class="header-sections" data-section="rastreio">
             <img src="{{url('frontend/img/localizacao.png')}}" alt="" />
             <div>Rastreio</div>
+          <div class="header-sections" data-section="transferencias" onclick="goToTransferencias()">
+            <img src="{{url('frontend/img/cargo-truck.png')}}" alt="Transferências" />
+            <div>Transferências</div>
+          </div>
+          <div class="header-sections" data-section="auditoria" onclick="goToAuditoria()">
+            <img src="{{url('frontend/img/icons8-robot-50.png')}}" alt="Auditoria" />
+            <div>Auditoria</div>
           </div>
         </div>
 
@@ -103,9 +111,18 @@
             <img src="{{url('frontend/img/estoque-pronto.png')}}" alt="" />
             <span>Estoque</span>
           </div>
+
           <div class="sidebar-item">
             <img src="{{url('frontend/img/localizacao.png')}}" alt="" />
             <span>Rastreio</span>
+
+          <div class="sidebar-item" onclick="goToTransferencias()">
+            <img src="{{url('frontend/img/cargo-truck.png')}}" alt="Transferências" />
+            <span>Transferências</span>
+          </div>
+          <div class="sidebar-item" onclick="goToAuditoria()">
+            <img src="{{url('frontend/img/icons8-robot-50.png')}}" alt="Auditoria" />
+            <span>Auditoria</span>
           </div>
           
           <!-- Bottom section mobile -->

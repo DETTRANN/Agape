@@ -38,9 +38,13 @@
             <img src="{{url('frontend/img/estoque-pronto.png')}}" alt="" />
             <div>Estoque</div>
           </div>
-          <div class="header-sections" data-section="rastreio">
-            <img src="{{url('frontend/img/localizacao.png')}}" alt="" />
-            <div>Rastreio</div>
+          <div class="header-sections" data-section="transferencias" onclick="goToTransferencias()">
+            <img src="{{url('frontend/img/cargo-truck.png')}}" alt="Transferências" />
+            <div>Transferências</div>
+          </div>
+          <div class="header-sections" data-section="auditoria" onclick="goToAuditoria()">
+            <img src="{{url('frontend/img/icons8-robot-50.png')}}" alt="Auditoria" />
+            <div>Auditoria</div>
           </div>
         </div>
 
@@ -91,21 +95,25 @@
       <div class="sidebar-content">
         <!-- Menu Principal Mobile -->
         <div class="sidebar-main-menu">
-          <div class="sidebar-item" onclick="window.location.href='{{url('views/system')}}'">
-            <img src="{{url('frontend/img/casa-simples-fina.png')}}" alt="" />
+          <div class="sidebar-item active" onclick="goToSystem()">
+            <img src="{{url('frontend/img/casa-simples-fina.png')}}" alt="Início" />
             <span>Início</span>
           </div>
-          <div class="sidebar-item">
-            <img src="{{url('frontend/img/grafico-de-barras.png')}}" alt="" />
+          <div class="sidebar-item" onclick="goToRelatorios()">
+            <img src="{{url('frontend/img/grafico-de-barras.png')}}" alt="Relatórios" />
             <span>Relatórios</span>
           </div>
-          <div class="sidebar-item">
-            <img src="{{url('frontend/img/estoque-pronto.png')}}" alt="" />
+          <div class="sidebar-item" onclick="goToEstoque()">
+            <img src="{{url('frontend/img/estoque-pronto.png')}}" alt="Estoque" />
             <span>Estoque</span>
           </div>
-          <div class="sidebar-item">
-            <img src="{{url('frontend/img/localizacao.png')}}" alt="" />
-            <span>Rastreio</span>
+          <div class="sidebar-item" onclick="goToTransferencias()">
+            <img src="{{url('frontend/img/cargo-truck.png')}}" alt="Transferências" />
+            <span>Transferências</span>
+          </div>
+          <div class="sidebar-item" onclick="goToAuditoria()">
+            <img src="{{url('frontend/img/icons8-robot-50.png')}}" alt="Auditoria" />
+            <span>Auditoria</span>
           </div>
           
           <!-- Bottom section mobile -->
