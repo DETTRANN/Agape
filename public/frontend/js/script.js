@@ -1249,7 +1249,7 @@ function abrirModal() {
 
     if (modal && overlay) {
         modal.style.display = "flex";
-        overlay.style.display = "block";
+        overlay.classList.add("active");
         document.body.style.overflow = "hidden";
 
         // Foco no primeiro campo do formulário
@@ -1266,9 +1266,150 @@ function fecharModal() {
 
     if (modal && overlay) {
         modal.style.display = "none";
-        overlay.style.display = "none";
+        overlay.classList.remove("active");
         document.body.style.overflow = "";
     }
+}
+
+/* ===============================================
+   ESTOQUE MOBILE SIDEBAR
+   =============================================== */
+
+function toggleEstoqueSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    const toggle = document.querySelector(".mobile-toggle");
+    const overlay = document.getElementById("overlay");
+
+    if (sidebar && toggle && overlay) {
+        const isActive = sidebar.classList.contains("active");
+
+        if (isActive) {
+            closeEstoqueSidebar();
+        } else {
+            openEstoqueSidebar();
+        }
+    }
+}
+
+function openEstoqueSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    const toggle = document.querySelector(".mobile-toggle");
+    const overlay = document.getElementById("overlay");
+
+    if (sidebar && toggle && overlay) {
+        sidebar.classList.add("active");
+        toggle.classList.add("active");
+        overlay.classList.add("active");
+        document.body.style.overflow = "hidden";
+    }
+}
+
+function closeEstoqueSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    const toggle = document.querySelector(".mobile-toggle");
+    const overlay = document.getElementById("overlay");
+
+    if (sidebar && toggle && overlay) {
+        sidebar.classList.remove("active");
+        toggle.classList.remove("active");
+        overlay.classList.remove("active");
+        document.body.style.overflow = "";
+    }
+}
+
+// Função para lidar com cliques no overlay (sidebar ou modal)
+function handleEstoqueOverlayClick() {
+    const sidebar = document.getElementById("sidebar");
+    const modal = document.getElementById("modalNovoProduto");
+
+    // Verificar qual elemento está ativo
+    if (sidebar && sidebar.classList.contains("active")) {
+        closeEstoqueSidebar();
+    } else if (modal && modal.style.display === "block") {
+        fecharModal();
+    }
+}
+
+/* ===============================================
+   RELATORIOS MOBILE SIDEBAR
+   =============================================== */
+
+function toggleRelatoriosSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    const toggle = document.querySelector(".mobile-toggle");
+    const overlay = document.getElementById("overlay");
+
+    if (!sidebar) return;
+
+    const isActive = sidebar.classList.contains("active");
+
+    if (isActive) {
+        closeRelatoriosSidebar();
+    } else {
+        openRelatoriosSidebar();
+    }
+}
+
+function openRelatoriosSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    const toggle = document.querySelector(".mobile-toggle");
+    const overlay = document.getElementById("overlay");
+
+    if (!sidebar) return;
+    sidebar.classList.add("active");
+    if (toggle) toggle.classList.add("active");
+    if (overlay) overlay.classList.add("active");
+    document.body.style.overflow = "hidden";
+}
+
+function closeRelatoriosSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    const toggle = document.querySelector(".mobile-toggle");
+    const overlay = document.getElementById("overlay");
+
+    if (!sidebar) return;
+    sidebar.classList.remove("active");
+    if (toggle) toggle.classList.remove("active");
+    if (overlay) overlay.classList.remove("active");
+    document.body.style.overflow = "";
+}
+
+function handleRelatoriosOverlayClick() {
+    const sidebar = document.getElementById("sidebar");
+
+    if (sidebar && sidebar.classList.contains("active")) {
+        closeRelatoriosSidebar();
+    }
+}
+
+function initRelatoriosMobile() {
+    const sidebar = document.getElementById("sidebar");
+
+    // Fechar sidebar com tecla ESC
+    document.addEventListener("keydown", function (e) {
+        if (
+            e.key === "Escape" &&
+            sidebar &&
+            sidebar.classList.contains("active")
+        ) {
+            closeRelatoriosSidebar();
+        }
+    });
+}
+
+function initEstoqueMobile() {
+    const sidebar = document.getElementById("sidebar");
+
+    // Fechar sidebar com tecla ESC
+    document.addEventListener("keydown", function (e) {
+        if (
+            e.key === "Escape" &&
+            sidebar &&
+            sidebar.classList.contains("active")
+        ) {
+            closeEstoqueSidebar();
+        }
+    });
 }
 
 // Função para inicializar eventos da tabela de estoque
@@ -1278,7 +1419,6 @@ function initEstoqueEvents() {
     const searchColumn = document.getElementById("search-column");
     const btnLimpar = document.querySelector(".btn-limpar");
     const btnNovo = document.querySelector(".btn-novo");
-    const overlay = document.getElementById("overlay");
 
     if (searchInput) {
         searchInput.addEventListener("input", filtrarTabela);
@@ -1296,14 +1436,13 @@ function initEstoqueEvents() {
         btnNovo.addEventListener("click", abrirModal);
     }
 
-    if (overlay) {
-        overlay.addEventListener("click", fecharModal);
-    }
-
     // Fechar modal com tecla ESC
     document.addEventListener("keydown", function (e) {
         if (e.key === "Escape") {
-            fecharModal();
+            const modal = document.getElementById("modalNovoProduto");
+            if (modal && modal.style.display === "block") {
+                fecharModal();
+            }
         }
     });
 
@@ -1314,6 +1453,9 @@ function initEstoqueEvents() {
             e.stopPropagation();
         });
     }
+
+    // Inicializar menu mobile de estoque
+    initEstoqueMobile();
 
     console.log("Eventos da tabela de estoque inicializados com sucesso!");
 }
@@ -1650,6 +1792,12 @@ document.addEventListener("DOMContentLoaded", function () {
         initEstoqueAlerts();
         initEstoqueDateDefaults();
         initNotificationSystem();
+        initEstoqueEvents(); // Inicializar eventos e menu mobile
+    }
+
+    // Verificar se estamos na página de relatórios
+    if (window.location.pathname.includes("relatorios")) {
+        initRelatoriosMobile(); // Inicializar menu mobile de relatórios
     }
 });
 

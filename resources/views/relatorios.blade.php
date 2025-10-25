@@ -9,7 +9,91 @@
     <script src="{{url('frontend/js/script.js')}}" defer></script>
 </head>
 
-<body>
+<body class="page-relatorios">
+    <!-- Mobile Header -->
+    <div class="top-header">
+        <img class="mobile-logo" src="{{url('frontend/img/logo-agape.png')}}" alt="Agape" onclick="window.location.href='{{url('/')}}'" />
+        <button class="mobile-toggle" id="mobile-toggle" onclick="toggleRelatoriosSidebar()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+    
+    <!-- Mobile Sidebar (fora do header para não ser ocultado no mobile) -->
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-content">
+        <!-- Menu Principal Mobile -->
+        <div class="sidebar-main-menu">
+          <div class="sidebar-item" onclick="goToSystem()">
+            <img src="{{url('frontend/img/casa-simples-fina.png')}}" alt="Início" />
+            <span>Início</span>
+          </div>
+          <div class="sidebar-item active" onclick="goToRelatorios()">
+            <img src="{{url('frontend/img/grafico-de-barras.png')}}" alt="Relatórios" />
+            <span>Relatórios</span>
+          </div>
+          <div class="sidebar-item" onclick="goToEstoque()">
+            <img src="{{url('frontend/img/estoque-pronto.png')}}" alt="Estoque" />
+            <span>Estoque</span>
+          </div>
+          <div class="sidebar-item">
+            <img src="{{url('frontend/img/localizacao.png')}}" alt="Rastreio" />
+            <span>Rastreio</span>
+          </div>
+          
+          <!-- Bottom section mobile -->
+          <div class="sidebar-bottom">
+            <div class="sidebar-item" onclick="toggleNotifications()">
+              <img src="{{url('frontend/img/notificacao.png')}}" alt="Notificações" />
+              <span>Notificações</span>
+              <div class="notification-badge-mobile">!</div>
+            </div>
+            <div class="sidebar-item" onclick="showMobileProfileMenu()">
+              <img src="{{url('frontend/img/user-alien.png')}}" alt="Perfil" />
+              <span>Perfil</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Menu do Perfil Mobile (inicialmente oculto) -->
+        <div class="sidebar-profile-menu" style="display: none;">
+          <div class="sidebar-item sidebar-back-button" onclick="showMobileMainMenu()">
+            <span style="font-size: 20px;">←</span>
+            <span>Voltar</span>
+          </div>
+          <div class="sidebar-item">
+            <img src="{{url('frontend/img/icons8-robot-50.png')}}" alt="Perfil" />
+            <span>Perfil</span>
+          </div>
+          <div class="sidebar-item">
+            <img src="{{url('frontend/img/configuracoes.png')}}" alt="Configurações" />
+            <span>Configurações</span>
+          </div>
+          <div class="sidebar-item">
+            <img src="{{url('frontend/img/contato.png')}}" alt="Contato" />
+            <span>Contato</span>
+          </div>
+          <div class="sidebar-item">
+            <img src="{{url('frontend/img/termos-e-condicoes.png')}}" alt="Termos" />
+            <span>Termos de Uso</span>
+          </div>
+          <div class="sidebar-item sidebar-logout" onclick="document.getElementById('logout-form').submit();">
+            <span>Sair</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay" onclick="handleRelatoriosOverlayClick()"></div>
+
+    <!-- Formulário de Logout (Hidden) -->
+    <form id="logout-form" action="{{ route('auth.logout') }}" method="POST" style="display: none;">
+        @csrf
+    </form>
+
+    <!-- Desktop Header -->
     <header>
         <section class="header-left">
             <img class="img-logo" src="{{url('frontend/img/logo-agape.png')}}" alt="" />
@@ -67,7 +151,6 @@
                     </form>
                 </div>
             </div>
-
             <!-- Notificações e Perfil -->
             <div class="bottom-section">
                 <div class="header-sections header-sections-notification">

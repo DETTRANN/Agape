@@ -3,43 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gestão de Estoque - Agape</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Sistema</title>
     <link rel="stylesheet" href="{{url('frontend/css/inventory.css')}}" />
-     <script src="{{url('frontend/js/script.js')}}" defer></script>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="{{url('frontend/js/script.js')}}" defer></script>
   </head>
   <body>
-    <!-- Alert Messages -->
-    @if($errors->any())
-    <div class="alert alert-danger">
-        <strong>Erro nos dados:</strong>
-        <ul>
-            @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
-
-    @if(session('success'))
-    <div class="alert alert-success">
-        <strong>Sucesso!</strong> {{ session('success') }}
-    </div>
-    @endif
-
-    @if(session('error'))
-    <div class="alert alert-error">
-        <strong>Erro!</strong> {{ session('error') }}
-    </div>
-    @endif
-
     <!-- Mobile Header -->
-    <div class="top-header">
+    <div class="top-header system-header">
       <img class="mobile-logo" src="{{url('frontend/img/logo-agape.png')}}" alt="Agape" onclick="window.location.href='{{url('/')}}'" />
-      <button class="mobile-toggle" id="mobile-toggle">
+      <button class="mobile-toggle" id="mobile-toggle" onclick="toggleSystemSidebar()" aria-label="Abrir menu" aria-controls="sidebar" aria-expanded="false">
         <span></span>
         <span></span>
         <span></span>
@@ -49,25 +21,25 @@
     <!-- Desktop Header -->
     <header>
       <section class="header-left">
-        <img class="img-logo" src="{{url('frontend/img/logo-agape.png')}}" alt="Agape Logo" onclick="window.location.href='{{url('/')}}'" />
+        <img class="img-logo" src="{{url('frontend/img/logo-agape.png')}}" alt="" />
         <div class="logo-separator"></div>
         
         <!-- Menu Principal -->
         <div class="main-menu">
-          <div class="header-sections" data-section="inicio" onclick="goToSystem()">
-            <img src="{{url('frontend/img/casa-simples-fina.png')}}" alt="Início" />
+          <div class="header-sections active" data-section="inicio" onclick="goToSystem()">
+            <img src="{{url('frontend/img/casa-simples-fina.png')}}" alt="" />
             <div>Início</div>
           </div>
           <div class="header-sections" data-section="relatorios" onclick="goToRelatorios()">
-            <img src="{{url('frontend/img/grafico-de-barras.png')}}" alt="Relatórios" />
+            <img src="{{url('frontend/img/grafico-de-barras.png')}}" alt="" />
             <div>Relatórios</div>
           </div>
-          <div class="header-sections active" data-section="estoque" onclick="goToEstoque()">
-            <img src="{{url('frontend/img/estoque-pronto.png')}}" alt="Estoque" />
+          <div class="header-sections" data-section="estoque" onclick="goToEstoque()">
+            <img src="{{url('frontend/img/estoque-pronto.png')}}" alt="" />
             <div>Estoque</div>
           </div>
           <div class="header-sections" data-section="rastreio">
-            <img src="{{url('frontend/img/localizacao.png')}}" alt="Rastreio" />
+            <img src="{{url('frontend/img/localizacao.png')}}" alt="" />
             <div>Rastreio</div>
           </div>
         </div>
@@ -79,37 +51,35 @@
             <div>Voltar</div>
           </div>
           <div class="header-sections">
-            <img src="{{url('frontend/img/icons8-robot-50.png')}}" alt="Perfil" />
-            <div>Perfil</div>
-          </div>
-          <div class="header-sections">
-            <img src="{{url('frontend/img/configuracoes.png')}}" alt="Configurações" />
+            <img src="{{url('frontend/img/configuracoes.png')}}" alt="" />
             <div>Configurações</div>
           </div>
           <div class="header-sections">
-            <img src="{{url('frontend/img/contato.png')}}" alt="Contato" />
+            <img src="{{url('frontend/img/contato.png')}}" alt="" />
             <div>Contato</div>
           </div>
           <div class="header-sections">
-            <img src="{{url('frontend/img/termos-e-condicoes.png')}}" alt="Termos" />
+            <img src="{{url('frontend/img/termos-e-condicoes.png')}}" alt="" />
             <div>Termos de Uso</div>
           </div>
-          <div class="header-sections logout" onclick="document.getElementById('logout-form').submit();">
-            <div>Sair</div>
+          <div class="header-sections logout">
+            <form action="{{ route('auth.logout') }}" method="POST" style="display: inline;">
+              @csrf
+              <button type="submit" onclick="goToLogin()" style="background: none; border: none; color: inherit; cursor: pointer; font-family: inherit; font-size: inherit;">
+                Log out
+              </button>
+            </form>
           </div>
         </div>
 
         <!-- Notificações e Perfil -->
         <div class="bottom-section">
-          <div class="header-sections header-sections-notification" onclick="toggleNotifications()">
-            <img src="{{url('frontend/img/notificacao.png')}}" alt="Notificações" />
+          <div class="header-sections header-sections-notification">
+            <img src="{{url('frontend/img/notificacao.png')}}" alt="" />
             <div>Notificações</div>
-            @if($estoqueAlerta)
-            <div class="notification-badge">!</div>
-            @endif
           </div>
           <div class="header-sections header-sections-person" onclick="showProfileMenu()">
-            <img src="{{url('frontend/img/user-alien.png')}}" alt="Perfil" />
+            <img src="{{url('frontend/img/user-alien.png')}}" alt="" />
             <div>Perfil</div>
           </div>
         </div>
@@ -121,34 +91,31 @@
       <div class="sidebar-content">
         <!-- Menu Principal Mobile -->
         <div class="sidebar-main-menu">
-          <div class="sidebar-item" onclick="goToSystem()">
-            <img src="{{url('frontend/img/casa-simples-fina.png')}}" alt="Início" />
+          <div class="sidebar-item" onclick="window.location.href='{{url('views/system')}}'">
+            <img src="{{url('frontend/img/casa-simples-fina.png')}}" alt="" />
             <span>Início</span>
           </div>
-          <div class="sidebar-item" onclick="goToRelatorios()">
-            <img src="{{url('frontend/img/grafico-de-barras.png')}}" alt="Relatórios" />
+          <div class="sidebar-item">
+            <img src="{{url('frontend/img/grafico-de-barras.png')}}" alt="" />
             <span>Relatórios</span>
           </div>
-          <div class="sidebar-item active" onclick="goToEstoque()">
-            <img src="{{url('frontend/img/estoque-pronto.png')}}" alt="Estoque" />
+          <div class="sidebar-item">
+            <img src="{{url('frontend/img/estoque-pronto.png')}}" alt="" />
             <span>Estoque</span>
           </div>
           <div class="sidebar-item">
-            <img src="{{url('frontend/img/localizacao.png')}}" alt="Rastreio" />
+            <img src="{{url('frontend/img/localizacao.png')}}" alt="" />
             <span>Rastreio</span>
           </div>
           
           <!-- Bottom section mobile -->
           <div class="sidebar-bottom">
-            <div class="sidebar-item" onclick="toggleNotifications()">
-              <img src="{{url('frontend/img/notificacao.png')}}" alt="Notificações" />
+            <div class="sidebar-item">
+              <img src="{{url('frontend/img/notificacao.png')}}" alt="" />
               <span>Notificações</span>
-              @if($estoqueAlerta)
-              <div class="notification-badge-mobile">!</div>
-              @endif
             </div>
             <div class="sidebar-item" onclick="showMobileProfileMenu()">
-              <img src="{{url('frontend/img/user-alien.png')}}" alt="Perfil" />
+              <img src="{{url('frontend/img/user-alien.png')}}" alt="" />
               <span>Perfil</span>
             </div>
           </div>
@@ -161,30 +128,35 @@
             <span>Voltar</span>
           </div>
           <div class="sidebar-item">
-            <img src="{{url('frontend/img/icons8-robot-50.png')}}" alt="Perfil" />
+            <img src="{{url('frontend/img/icons8-robot-50.png')}}" alt="" />
             <span>Perfil</span>
           </div>
           <div class="sidebar-item">
-            <img src="{{url('frontend/img/configuracoes.png')}}" alt="Configurações" />
+            <img src="{{url('frontend/img/configuracoes.png')}}" alt="" />
             <span>Configurações</span>
           </div>
           <div class="sidebar-item">
-            <img src="{{url('frontend/img/contato.png')}}" alt="Contato" />
+            <img src="{{url('frontend/img/contato.png')}}" alt="" />
             <span>Contato</span>
           </div>
           <div class="sidebar-item">
-            <img src="{{url('frontend/img/termos-e-condicoes.png')}}" alt="Termos" />
+            <img src="{{url('frontend/img/termos-e-condicoes.png')}}" alt="" />
             <span>Termos de Uso</span>
           </div>
-          <div class="sidebar-item sidebar-logout" onclick="document.getElementById('logout-form').submit();">
-            <span>Sair</span>
+          <div class="sidebar-item sidebar-logout">
+            <form action="{{ route('auth.logout') }}" method="POST" style="display: inline;">
+              @csrf
+              <button onclick="goToLogin()" style="background: none; border: none; color: inherit; cursor: pointer; font-family: inherit; font-size: inherit; display: flex; align-items: center; gap: 8px; width: 100%;">
+                <span>Log out</span>
+              </button>
+            </form>
           </div>
         </div>
       </div>
     </div>
 
     <!-- Overlay -->
-    <div class="overlay" id="overlay"></div>
+    <div class="overlay" id="overlay" onclick="closeSystemSidebar()"></div>
 
     <!-- Painel de Notificações -->
     <div class="notifications-panel" id="notificationsPanel">

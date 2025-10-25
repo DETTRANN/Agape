@@ -7,6 +7,8 @@
 /* Otimizações de performance global */
 html {
     scroll-behavior: smooth;
+    /* Prevenir zoom horizontal */
+    overflow-x: hidden;
 }
 
 body {
@@ -19,9 +21,27 @@ body {
     transform: translateZ(0);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* Evitar scroll horizontal */
+    /* Evitar scroll horizontal e deformações */
     overflow-x: hidden;
     max-width: 100vw;
+    min-height: 100vh;
+    /* Transição suave no resize */
+    transition: padding-left 0.3s ease;
+}
+
+/* Prevenir overflow em todos os elementos, exceto containers de layout */
+*:not(body):not(html):not(main):not(header):not(.main-relatorios):not(
+        .conteiner
+    ):not(.conteiner-secundario):not(.conteiner-terciario) {
+    max-width: 100%;
+}
+
+img,
+video,
+iframe {
+    max-width: 100%;
+    height: auto;
+    display: block;
 }
 
 /* Desktop Sidebar Header */
@@ -39,6 +59,9 @@ header {
     z-index: 100;
     box-shadow: 8px 0 20px rgba(0, 0, 0, 0.3); /* Reduzido blur */
     /* Removido backdrop-filter para melhor performance */
+    /* Prevenir resize horizontal */
+    min-width: 280px;
+    max-width: 280px;
 }
 
 .header-left {
@@ -334,6 +357,10 @@ main {
     gap: 96px;
     height: 60vh;
     padding: 40px;
+    /* Prevenir colapso em resize */
+    min-height: 500px;
+    flex-wrap: wrap;
+    transition: all 0.3s ease;
 }
 
 main nav {
@@ -347,6 +374,12 @@ main nav {
     border: 1px solid #e8e1da;
     border-radius: 8px;
     background-color: #1e1e2e;
+    /* Prevenir deformação */
+    min-width: 300px;
+    max-width: 100%;
+    min-height: 380px;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
 }
 
 main nav:hover {
@@ -396,6 +429,10 @@ main nav p {
     position: relative;
     overflow: hidden;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    /* Prevenir deformação */
+    min-width: 200px;
+    max-width: 100%;
+    min-height: 200px;
 }
 
 .section-img-reports::before {
@@ -423,6 +460,9 @@ main nav p {
     height: 140px;
     filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.2));
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Manter proporção */
+    object-fit: contain;
+    flex-shrink: 0;
 }
 
 .section-img-reports:hover img {
@@ -451,6 +491,13 @@ main nav p {
     width: 262px;
     height: 34px;
     margin-top: 0;
+    /* Prevenir overflow */
+    max-width: 100%;
+    min-height: 34px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 16px;
 }
 
 .btn-view-reports:hover {
@@ -476,6 +523,10 @@ main nav p {
     position: relative;
     overflow: hidden;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    /* Prevenir deformação */
+    min-width: 200px;
+    max-width: 100%;
+    min-height: 200px;
 }
 
 .section-img-stock::before {
@@ -503,6 +554,9 @@ main nav p {
     height: 140px;
     filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.2));
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Manter proporção */
+    object-fit: contain;
+    flex-shrink: 0;
 }
 
 .section-img-stock:hover img {
@@ -523,6 +577,13 @@ main nav p {
     align-self: center;
     width: 262px;
     height: 34px;
+    /* Prevenir overflow */
+    max-width: 100%;
+    min-height: 34px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 16px;
 }
 
 .btn-stock:hover {
@@ -543,6 +604,10 @@ main nav p {
     position: relative;
     overflow: hidden;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    /* Prevenir deformação */
+    min-width: 200px;
+    max-width: 100%;
+    min-height: 200px;
 }
 
 .section-img-tracking::before {
@@ -570,6 +635,9 @@ main nav p {
     height: 140px;
     filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.2));
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Manter proporção */
+    object-fit: contain;
+    flex-shrink: 0;
 }
 
 .section-img-tracking:hover img {
@@ -590,6 +658,13 @@ main nav p {
     align-self: center;
     width: 262px;
     height: 34px;
+    /* Prevenir overflow */
+    max-width: 100%;
+    min-height: 34px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 16px;
 }
 
 .btn-tracking:hover {
@@ -675,7 +750,7 @@ article h1 {
     justify-content: space-between;
     align-items: center;
     padding: 0 20px;
-    z-index: 1001;
+    z-index: 1100; /* acima de overlay e painéis */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     transform: none !important;
     transition: none !important;
@@ -787,6 +862,666 @@ article h1 {
    MEDIA QUERIES
    ================================================ */
 
+/* Large Desktop breakpoint (1600px - 1700px) - Para resoluções como 1629x858 */
+@media (min-width: 1600px) and (max-width: 1700px) {
+    /* Manter layout igual ao original - cards compactos com botões dentro */
+    main {
+        gap: 45px;
+        padding: 30px;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        height: auto;
+        min-height: auto;
+    }
+
+    main nav {
+        width: 360px;
+        height: 430px;
+        flex-shrink: 0;
+        margin: 0;
+        padding: 24px 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 4px;
+        overflow: visible;
+    }
+
+    main nav h1 {
+        font-size: 28px;
+        margin-bottom: 10px;
+        padding: 0;
+        text-align: center;
+        width: 100%;
+    }
+
+    main nav p {
+        font-size: 19px;
+        margin: 0;
+        padding: 0;
+        line-height: 1.2;
+        height: 5px;
+        text-align: center;
+        width: 100%;
+    }
+
+    .section-title-1,
+    .section-title-2,
+    .section-title-3 {
+        align-self: flex-start;
+        padding-left: 20px;
+        width: 100%;
+        text-align: left;
+        margin: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .section-img-reports,
+    .section-img-stock,
+    .section-img-tracking {
+        width: 240px;
+        height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        padding: 0;
+    }
+
+    .section-img-reports img,
+    .section-img-stock img,
+    .section-img-tracking img {
+        width: 95px;
+        height: 95px;
+    }
+
+    .btn-view-reports,
+    .btn-stock,
+    .btn-tracking {
+        width: 240px;
+        height: 44px;
+        font-size: 17px;
+        padding: 0;
+        margin: 0;
+        align-self: center;
+    }
+
+    article {
+        padding: 30px;
+        width: 100%;
+        margin-top: 15px;
+    }
+
+    article > nav {
+        width: 88%;
+        max-width: 100%;
+        height: auto;
+        min-height: 280px;
+        padding: 28px;
+    }
+
+    section {
+        padding: 25px 20px;
+        gap: 25px;
+    }
+
+    section h2 {
+        font-size: 27px;
+    }
+
+    section p {
+        font-size: 16px;
+    }
+
+    .main-content-wrapper {
+        padding: 30px;
+    }
+
+    .estoque-table-container {
+        max-height: calc(100vh - 240px);
+    }
+
+    .estoque-table {
+        font-size: 14px;
+    }
+
+    .estoque-table th,
+    .estoque-table td {
+        padding: 11px 9px;
+    }
+}
+
+/* Desktop (1440px - 1599px) - Inclui 1498x1280 */
+@media (min-width: 1440px) and (max-width: 1659px) {
+    /* Replicar visual original com proporções compactas e botões dentro */
+
+    /* Escalar página de relatórios */
+    .main-relatorios {
+        transform: scale(0.8);
+        transform-origin: top center;
+        overflow: hidden;
+    }
+
+    /* Escalar página system */
+    html,
+    body {
+        overflow-x: hidden;
+        overflow-y: hidden;
+        height: 100%;
+        max-height: 100vh;
+    }
+
+    main,
+    article {
+        transform: scale(0.95);
+        margin-bottom: -1%;
+    }
+
+    .main-content-wrapper {
+        transform: scale(1);
+    }
+
+    .estoque-table-section {
+        transform: scale(1);
+        width: 100%;
+        height: auto;
+    }
+    main {
+        gap: 45px;
+        padding: 30px;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        height: auto;
+        min-height: auto;
+    }
+
+    main nav {
+        width: 360px;
+        height: 410px;
+        margin: 0;
+        padding: 1px 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 6px;
+    }
+
+    main nav h1 {
+        font-size: 28px;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        width: 100%;
+        height: 20px;
+    }
+
+    main nav p {
+        font-size: 19px;
+        margin: 0;
+        padding: 0;
+        height: 5px;
+        line-height: 1.2;
+        text-align: center;
+        width: 100%;
+    }
+
+    .section-title-1,
+    .section-title-2,
+    .section-title-3 {
+        align-self: flex-start;
+        padding-left: 20px;
+        width: 100%;
+        text-align: left;
+        margin: 0;
+    }
+
+    .section-img-reports,
+    .section-img-stock,
+    .section-img-tracking {
+        width: 260px;
+        height: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        padding: 0;
+    }
+
+    .section-img-reports img,
+    .section-img-stock img,
+    .section-img-tracking img {
+        width: 90px;
+        height: 90px;
+    }
+
+    .btn-view-reports,
+    .btn-stock,
+    .btn-tracking {
+        width: 260px;
+        height: 48px;
+        font-size: 16px;
+        padding: 0;
+        margin: 0;
+        align-self: center;
+    }
+
+    article {
+        padding: 10px;
+        width: 100%;
+        margin-top: 1px;
+    }
+
+    article > nav {
+        width: 95%;
+        max-width: 95%;
+        min-height: 200px;
+        margin-top: 15px;
+    }
+
+    section {
+        padding: 16px 18px;
+        gap: 22px;
+    }
+
+    section h2 {
+        font-size: 26px;
+    }
+
+    section p {
+        font-size: 15px;
+    }
+
+    .main-content-wrapper {
+        padding: 30px;
+    }
+
+    .estoque-table-container {
+        max-height: calc(100vh - 240px);
+    }
+
+    .estoque-table {
+        font-size: 14px;
+    }
+
+    .estoque-table th,
+    .estoque-table td {
+        padding: 10px 8px;
+    }
+}
+
+/* Medium Desktop breakpoint (1025px - 1300px) - Para resoluções como 1245x690 */
+@media (min-width: 1025px) and (max-width: 1300px) {
+    /* Ajustar body */
+    body {
+        padding-left: 0;
+        padding-top: 70px;
+    }
+
+    /* Esconder sidebar desktop */
+    header {
+        display: none;
+    }
+
+    /* Mostrar header mobile com hamburger */
+    .top-header {
+        display: flex !important;
+        position: fixed !important;
+        top: 0 !important;
+        z-index: 1001 !important;
+        height: 70px;
+        padding: 0 30px;
+    }
+
+    .mobile-logo {
+        display: block !important;
+        position: relative !important;
+        transform: none !important;
+        height: 55px;
+    }
+
+    .mobile-toggle {
+        display: flex !important;
+        position: relative !important;
+        transform: none !important;
+    }
+
+    /* Sidebar para medium desktop */
+    .sidebar {
+        width: 300px;
+        right: -300px;
+    }
+
+    .sidebar.active {
+        right: 0;
+    }
+
+    /* Main content adjustments */
+    main {
+        padding: 30px;
+        margin-left: 0;
+        height: auto;
+        min-height: calc(100vh - 100px);
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 30px;
+        justify-content: center;
+    }
+
+    main nav {
+        width: calc(50% - 20px);
+        max-width: 380px;
+        height: auto;
+        min-height: 340px;
+        margin: 0;
+    }
+
+    main nav h1 {
+        font-size: 28px;
+    }
+
+    main nav p {
+        font-size: 20px;
+    }
+
+    /* Article adjustments */
+    article {
+        padding: 30px;
+        margin-left: 0;
+    }
+
+    article > nav {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        padding: 25px;
+    }
+
+    /* Section adjustments */
+    section {
+        padding: 20px 15px;
+        gap: 25px;
+    }
+
+    .section-img-stock,
+    .section-img-tracking {
+        width: 280px;
+        height: 220px;
+    }
+
+    .section-img-stock img,
+    .section-img-tracking img {
+        width: 100px;
+        height: 100px;
+    }
+
+    /* Footer adjustments */
+    footer {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    /* Estoque page adjustments */
+    .main-content-wrapper {
+        margin-left: 0;
+        padding: 30px 20px;
+        padding-top: 90px;
+    }
+
+    .estoque-controls-section {
+        margin-bottom: 20px;
+    }
+
+    .estoque-controls {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .estoque-search-section {
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+    }
+
+    .search-input-group,
+    .search-column-group {
+        width: 100%;
+    }
+
+    .estoque-action-buttons {
+        flex-direction: row;
+        gap: 10px;
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .estoque-action-buttons button {
+        flex: 1;
+        max-width: 150px;
+    }
+
+    .estoque-table-container {
+        max-height: calc(100vh - 350px);
+        overflow-x: auto;
+    }
+
+    .estoque-table {
+        font-size: 13px;
+    }
+
+    .estoque-table th,
+    .estoque-table td {
+        padding: 12px 10px;
+        white-space: nowrap;
+    }
+
+    /* Overlay */
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 998;
+    }
+
+    .overlay.active {
+        display: block;
+    }
+}
+
+/* Tablet breakpoint (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    /* Reset body for tablet */
+    body {
+        padding-left: 0;
+        padding-top: 70px;
+    }
+
+    /* Hide desktop sidebar */
+    header {
+        display: none;
+    }
+
+    /* Show mobile elements (header + hamburger) */
+    .top-header {
+        display: flex !important;
+        position: fixed !important;
+        top: 0 !important;
+        z-index: 1001 !important;
+        height: 70px;
+        padding: 0 30px;
+    }
+
+    .mobile-logo {
+        display: block !important;
+        position: relative !important;
+        transform: none !important;
+        height: 55px;
+    }
+
+    .mobile-toggle {
+        display: flex !important;
+        position: relative !important;
+        transform: none !important;
+    }
+
+    /* Sidebar wider for tablet */
+    .sidebar {
+        width: 320px;
+        right: -320px;
+    }
+
+    .sidebar.active {
+        right: 0;
+    }
+
+    /* Main content adjustments for tablet */
+    main {
+        padding: 30px 40px;
+        margin-left: 0;
+        height: auto;
+        min-height: calc(100vh - 100px);
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 25px;
+        justify-content: center;
+    }
+
+    main nav {
+        width: calc(50% - 15px);
+        max-width: 400px;
+        height: auto;
+        min-height: 320px;
+        margin: 0;
+        padding: 25px 20px;
+    }
+
+    /* Article adjustments */
+    article {
+        padding: 30px 40px;
+    }
+
+    article > nav {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        min-height: 220px;
+        padding: 20px;
+    }
+
+    /* Section adjustments */
+    section {
+        flex-direction: column;
+        gap: 20px;
+        padding: 15px 10px;
+        width: 100%;
+    }
+
+    .section-img-stock,
+    .section-img-tracking {
+        width: 100%;
+        max-width: 300px;
+        height: 200px;
+        margin: 0 auto;
+    }
+
+    .section-img-stock img,
+    .section-img-tracking img {
+        width: 90px;
+        height: 90px;
+    }
+
+    main nav h1 {
+        font-size: 26px;
+    }
+
+    main nav p {
+        font-size: 17px;
+        text-align: center;
+    }
+
+    .btn-view-reports,
+    .btn-stock,
+    .btn-tracking {
+        width: 95%;
+        max-width: 100%;
+        height: 48px;
+        margin: 0 auto;
+        font-size: 17px;
+        align-self: center;
+    }
+
+    /* Estoque page adjustments for tablet */
+    .main-content-wrapper {
+        margin-left: 0;
+        padding: 25px 30px;
+        padding-top: 90px;
+    }
+
+    .estoque-controls-section {
+        margin-bottom: 20px;
+    }
+
+    .estoque-controls {
+        flex-direction: column;
+        gap: 15px;
+        padding: 20px;
+    }
+
+    .estoque-search-section {
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+    }
+
+    .search-input-group,
+    .search-column-group {
+        width: 100%;
+    }
+
+    .search-input-group input,
+    .search-column-group select {
+        width: 100%;
+    }
+
+    .estoque-action-buttons {
+        flex-direction: row;
+        gap: 10px;
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .estoque-action-buttons button {
+        flex: 1;
+        max-width: 130px;
+        font-size: 14px;
+    }
+
+    .estoque-table-container {
+        max-height: calc(100vh - 320px);
+        overflow-x: auto;
+    }
+
+    .estoque-table {
+        font-size: 12px;
+        min-width: 1200px;
+    }
+
+    .estoque-table th,
+    .estoque-table td {
+        padding: 10px 8px;
+        white-space: nowrap;
+    }
+}
+
 @media (max-width: 768px) {
     /* Reset body for mobile */
     body {
@@ -895,6 +1630,104 @@ article h1 {
         overflow: hidden;
         text-overflow: ellipsis;
     }
+
+    /* Estoque page adjustments for mobile */
+    .main-content-wrapper {
+        margin-left: 0;
+        padding: 20px 15px;
+        padding-top: 90px;
+    }
+
+    .estoque-controls-section {
+        margin-bottom: 15px;
+    }
+
+    .estoque-controls {
+        flex-direction: column;
+        gap: 12px;
+        padding: 15px;
+    }
+
+    .estoque-search-section {
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+    }
+
+    .search-input-group,
+    .search-column-group {
+        width: 100%;
+    }
+
+    .search-input-group label,
+    .search-column-group label {
+        font-size: 13px;
+    }
+
+    .search-input-group input,
+    .search-column-group select {
+        width: 100%;
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .estoque-action-buttons {
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .estoque-action-buttons button {
+        width: 100%;
+        font-size: 14px;
+        padding: 12px;
+    }
+
+    .estoque-table-container {
+        max-height: calc(100vh - 350px);
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .estoque-table {
+        font-size: 11px;
+        min-width: 1000px;
+    }
+
+    .estoque-table th,
+    .estoque-table td {
+        padding: 8px 6px;
+        white-space: nowrap;
+        font-size: 11px;
+    }
+
+    .estoque-table th {
+        font-size: 12px;
+    }
+
+    /* Modal adjustments for mobile */
+    .modal-content {
+        width: 95%;
+        max-width: 95%;
+        padding: 20px;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    .modal-content h2 {
+        font-size: 20px;
+    }
+
+    .form-group label {
+        font-size: 13px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        font-size: 14px;
+        padding: 10px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -970,6 +1803,70 @@ article h1 {
         height: 45px;
         font-size: 15px;
         white-space: nowrap;
+    }
+
+    /* Estoque page adjustments for small mobile */
+    .main-content-wrapper {
+        padding: 15px 10px;
+        padding-top: 80px;
+    }
+
+    .estoque-controls {
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .estoque-search-section {
+        gap: 10px;
+    }
+
+    .search-input-group label,
+    .search-column-group label {
+        font-size: 12px;
+    }
+
+    .search-input-group input,
+    .search-column-group select {
+        font-size: 13px;
+        padding: 8px;
+    }
+
+    .estoque-action-buttons button {
+        font-size: 13px;
+        padding: 10px;
+    }
+
+    .estoque-table {
+        font-size: 10px;
+        min-width: 900px;
+    }
+
+    .estoque-table th,
+    .estoque-table td {
+        padding: 6px 4px;
+        font-size: 10px;
+    }
+
+    .estoque-table th {
+        font-size: 11px;
+    }
+
+    .modal-content {
+        width: 98%;
+        padding: 15px;
+    }
+
+    .modal-content h2 {
+        font-size: 18px;
+    }
+
+    .form-buttons {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .form-buttons button {
+        width: 100%;
     }
 }
 
@@ -2203,30 +3100,33 @@ header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 40px;
+    gap: 24px;
     min-height: 100vh;
-    padding: 60px 40px 40px;
-    max-width: 1600px;
+    padding: 20px 20px;
+    max-width: 1300px;
     margin: 0 auto;
+    width: 100%;
 }
 
 /* Header da página */
 .relatorios-header {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     animation: fadeInDown 0.6s ease;
+    width: 100%;
+    max-width: 1400px;
 }
 
 .relatorios-title {
-    font-size: 36px;
+    font-size: 30px;
     font-weight: 700;
     color: var(--cor-texto);
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     letter-spacing: -0.5px;
 }
 
 .relatorios-subtitle {
-    font-size: 16px;
+    font-size: 14px;
     color: var(--cor-texto-secundaria);
     font-weight: 400;
 }
@@ -2235,7 +3135,7 @@ header {
 .conteiner {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
+    gap: 20px;
     width: 100%;
     max-width: 1400px;
 }
@@ -2244,12 +3144,13 @@ header {
 .itens_estoque_atualizacao {
     background: linear-gradient(145deg, #3a3f51, #4a4f61);
     border: 1px solid #5a5f71;
-    border-radius: 16px;
-    padding: 24px;
+    border-radius: 14px;
+    padding: 20px;
     transition: all 0.3s ease;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     position: relative;
     overflow: hidden;
+    min-width: 0;
 }
 
 .itens_estoque_atualizacao::before {
@@ -2277,11 +3178,11 @@ header {
 .card-stat {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 16px;
 }
 
 .card-icon {
-    font-size: 48px;
+    font-size: 40px;
     opacity: 0.9;
     flex-shrink: 0;
 }
@@ -2291,16 +3192,16 @@ header {
 }
 
 .card-content h2 {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
     color: var(--cor-texto-secundaria);
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
 .card-value {
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 700;
     color: var(--cor-texto);
     margin: 0;
@@ -2308,7 +3209,7 @@ header {
 }
 
 .card-label {
-    font-size: 12px;
+    font-size: 11px;
     color: var(--cor-texto-secundaria);
     opacity: 0.8;
 }
@@ -2328,7 +3229,7 @@ header {
 .conteiner-secundario {
     display: grid;
     grid-template-columns: 1.5fr 1fr;
-    gap: 30px;
+    gap: 20px;
     width: 100%;
     max-width: 1400px;
 }
@@ -2336,11 +3237,12 @@ header {
 .tabela_produtos {
     background: linear-gradient(145deg, #3a3f51, #4a4f61);
     border: 1px solid #5a5f71;
-    border-radius: 16px;
-    height: 450px;
+    border-radius: 14px;
+    height: 400px;
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
+    min-width: 0;
 }
 
 .tabela_produtos:hover {
@@ -2349,7 +3251,7 @@ header {
 }
 
 .tabela_produtos__container {
-    padding: 28px;
+    padding: 22px;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -2375,9 +3277,9 @@ header {
 }
 
 .tabela_produtos__title {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     color: var(--cor-texto);
     flex-shrink: 0;
 }
@@ -2393,17 +3295,17 @@ header {
 }
 
 .tabela_produtos__table th {
-    padding: 14px 18px;
+    padding: 12px 14px;
     text-align: left;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 14px;
     color: var(--cor-texto);
     border-bottom: 2px solid #5a5f71;
 }
 
 .tabela_produtos__table td {
-    padding: 14px 18px;
-    font-size: 16px;
+    padding: 12px 14px;
+    font-size: 14px;
     color: var(--cor-texto);
     border-bottom: 1px solid #5a5f71;
 }
@@ -2460,11 +3362,12 @@ header {
 .rotatividade {
     background: linear-gradient(145deg, #3a3f51, #4a4f61);
     border: 1px solid #5a5f71;
-    border-radius: 16px;
-    height: 350px;
+    border-radius: 14px;
+    height: 320px;
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
+    min-width: 0;
 }
 
 .rotatividade:hover {
@@ -2476,11 +3379,12 @@ header {
 .vendas-anuais {
     background: linear-gradient(145deg, #3a3f51, #4a4f61);
     border: 1px solid #5a5f71;
-    border-radius: 16px;
-    height: 450px;
+    border-radius: 14px;
+    height: 400px;
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
+    min-width: 0;
 }
 
 .vendas-anuais:hover {
@@ -2489,16 +3393,16 @@ header {
 }
 
 .vendas-anuais__container {
-    padding: 28px;
+    padding: 22px;
     height: 100%;
     display: flex;
     flex-direction: column;
 }
 
 .vendas-anuais__title {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
-    margin-bottom: 30px;
+    margin-bottom: 24px;
     color: var(--cor-texto);
 }
 
@@ -2550,7 +3454,7 @@ header {
 }
 
 .rotatividade__container {
-    padding: 28px;
+    padding: 22px;
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -2576,9 +3480,9 @@ header {
 }
 
 .rotatividade__title {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     line-height: 1.3;
     color: var(--cor-texto);
 }
@@ -2593,7 +3497,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px 0;
+    padding: 14px 0;
     border-bottom: 1px solid #5a5f71;
 }
 
@@ -2602,13 +3506,13 @@ header {
 }
 
 .rotatividade__item {
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 400;
     color: var(--cor-texto) !important;
 }
 
 .rotatividade__value {
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 600;
     color: var(--cor-texto) !important;
 }
@@ -2616,7 +3520,7 @@ header {
 .conteiner-terciario {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
+    gap: 20px;
     width: 100%;
     max-width: 1400px;
 }
@@ -2625,12 +3529,13 @@ header {
     background: linear-gradient(145deg, #3a3f51, #4a4f61) !important;
     border: 1px solid #5a5f71 !important;
     color: var(--cor-texto) !important;
-    border-radius: 16px;
-    padding: 28px;
-    height: 350px;
+    border-radius: 14px;
+    padding: 22px;
+    height: 320px;
     overflow-y: auto;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
+    min-width: 0;
 }
 
 .itensFalta_fornecedores::-webkit-scrollbar {
@@ -2657,17 +3562,17 @@ header {
 }
 
 .itensFalta_fornecedores h2 {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     color: var(--cor-texto);
 }
 
 .itensFalta_fornecedores h3 {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
     color: var(--cor-texto-secundaria);
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -2689,7 +3594,7 @@ header {
 
 .itensFalta_fornecedores__lista li {
     color: var(--cor-texto);
-    font-size: 16px;
+    font-size: 14px;
     padding: 8px 12px;
     background: rgba(0, 0, 0, 0.2);
     border-radius: 8px;
@@ -2704,16 +3609,16 @@ header {
 .fornecedores__lista {
     list-style: none;
     padding: 0;
-    margin-top: 20px;
+    margin-top: 16px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
 }
 
 .fornecedores__lista li {
     color: var(--cor-texto);
-    font-size: 16px;
-    padding: 12px 16px;
+    font-size: 14px;
+    padding: 10px 14px;
     background: rgba(0, 0, 0, 0.2);
     border-radius: 8px;
     border-left: 3px solid var(--cor-primaria);
@@ -2726,26 +3631,162 @@ header {
     border-left-color: #f6ad55;
 }
 
-/* Responsividade para notificações */
+/* Responsividade para Relatórios */
+@media (max-width: 1600px) {
+    .main-relatorios {
+        padding: 30px 20px;
+    }
+
+    .conteiner,
+    .conteiner-secundario,
+    .conteiner-terciario {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 1200px) {
+    .conteiner-terciario {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .itensFalta_fornecedores {
+        height: auto;
+        min-height: 300px;
+    }
+}
+
+/* ===================================== */
+/* MEDIA QUERIES PARA RELATÓRIOS         */
+/* ===================================== */
+
+/* Garante que no relatórios o header desktop seja usado em telas > 1024px */
+@media (min-width: 1025px) {
+    .page-relatorios .top-header {
+        display: none !important;
+    }
+    .page-relatorios header {
+        display: flex !important;
+    }
+}
+
+/* Hamburger menu para relatórios - tablets e menores */
+@media (max-width: 1024px) {
+    /* Esconder header desktop só na página de relatórios */
+    .page-relatorios header {
+        display: none !important;
+    }
+
+    /* Ajustar main de relatórios sem sidebar */
+    .main-relatorios {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding: 90px 20px 20px 20px;
+    }
+
+    /* Ajustar grid de cards relatórios */
+    .conteiner {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .conteiner-secundario {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .tabela_produtos,
+    .vendas-anuais {
+        height: auto;
+        min-height: 400px;
+    }
+}
+
+/* Tablets menores e celulares */
 @media (max-width: 768px) {
-    .notifications-panel {
-        width: 100%;
-        right: -100%;
-        top: 60px;
-        height: calc(100vh - 60px);
+    .main-relatorios {
+        padding: 80px 15px 20px 15px;
+        gap: 20px;
     }
 
-    .notifications-panel.active {
-        right: 0;
+    .relatorios-title {
+        font-size: 28px;
     }
 
-    .notification-item {
-        flex-direction: column;
-        text-align: center;
+    .relatorios-subtitle {
+        font-size: 14px;
     }
 
-    .notification-icon {
-        align-self: center;
-        margin-bottom: 0.5rem;
+    .conteiner-terciario {
+        grid-template-columns: 1fr;
+    }
+
+    .itens_estoque_atualizacao {
+        padding: 20px;
+    }
+
+    .card-value {
+        font-size: 28px;
+    }
+
+    .tabela_produtos__container,
+    .vendas-anuais__container,
+    .rotatividade__container,
+    .itensFalta_fornecedores {
+        padding: 20px;
+    }
+
+    /* Ajustar tabelas em mobile */
+    .tabela_produtos table,
+    .rotatividade table,
+    .itensFalta_fornecedores table {
+        font-size: 12px;
+    }
+
+    .tabela_produtos th,
+    .tabela_produtos td,
+    .rotatividade th,
+    .rotatividade td {
+        padding: 8px 5px;
+    }
+}
+
+/* Celulares pequenos */
+@media (max-width: 480px) {
+    /* Garantir header mobile */
+    .mobile-logo {
+        display: block !important;
+        height: 50px !important;
+    }
+    .mobile-toggle {
+        display: flex !important;
+    }
+    .main-relatorios {
+        padding: 70px 10px 15px 10px;
+        gap: 15px;
+    }
+
+    /* Responsividade para notificações */
+    @media (max-width: 768px) {
+        .notifications-panel {
+            width: 100%;
+            right: -100%;
+            top: 60px;
+            height: calc(100vh - 60px);
+        }
+
+        .notifications-panel.active {
+            right: 0;
+        }
+
+        .notification-item {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .notification-icon {
+            align-self: center;
+            margin-bottom: 0.5rem;
+        }
     }
 }

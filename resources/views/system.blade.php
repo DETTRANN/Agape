@@ -9,9 +9,9 @@
   </head>
   <body>
     <!-- Mobile Header -->
-    <div class="top-header">
+    <div class="top-header system-header">
       <img class="mobile-logo" src="{{url('frontend/img/logo-agape.png')}}" alt="Agape" onclick="window.location.href='{{url('/')}}'" />
-      <button class="mobile-toggle" id="mobile-toggle">
+      <button class="mobile-toggle" id="mobile-toggle" onclick="toggleSystemSidebar()" aria-label="Abrir menu" aria-controls="sidebar" aria-expanded="false">
         <span></span>
         <span></span>
         <span></span>
@@ -51,10 +51,6 @@
             <div>Voltar</div>
           </div>
           <div class="header-sections">
-            <img src="{{url('frontend/img/icons8-robot-50.png')}}" alt="" />
-            <div>Perfil</div>
-          </div>
-          <div class="header-sections">
             <img src="{{url('frontend/img/configuracoes.png')}}" alt="" />
             <div>Configurações</div>
           </div>
@@ -69,7 +65,7 @@
           <div class="header-sections logout">
             <form action="{{ route('auth.logout') }}" method="POST" style="display: inline;">
               @csrf
-              <button type="submit" style="background: none; border: none; color: inherit; cursor: pointer; font-family: inherit; font-size: inherit;">
+              <button type="submit" onclick="goToLogin()" style="background: none; border: none; color: inherit; cursor: pointer; font-family: inherit; font-size: inherit;">
                 Log out
               </button>
             </form>
@@ -160,7 +156,7 @@
     </div>
 
     <!-- Overlay -->
-    <div class="overlay" id="overlay"></div>
+    <div class="overlay" id="overlay" onclick="closeSystemSidebar()"></div>
 
     <main>
       <nav>
