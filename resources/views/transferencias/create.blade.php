@@ -189,32 +189,32 @@
     </form>
 
     <!-- Main Content -->
-    <main class="main-content-wrapper">
-        <!-- Seção de controles -->
-        <section class="estoque-controls-section">
-            <div class="estoque-controls">
-                <div class="estoque-search-section">
-                    <h1 style="color: white; margin: 0;">Nova Transferência</h1>
-                    <p style="color: #ccc; margin: 5px 0 0 0;">Solicitar transferência de produto entre localidades</p>
+    <main class="transfer-page transfer-create">
+        <!-- Header -->
+        <section class="transfer-header">
+            <div class="transfer-header-content">
+                <div class="transfer-title">
+                    <h1>Nova Transferência</h1>
+                    <p>Solicitar transferência de produto entre localidades</p>
                 </div>
-                <div class="estoque-action-buttons">
+                <div class="transfer-actions">
                     <a href="{{ route('transferencias.index') }}" class="btn-atualizar">Voltar</a>
                 </div>
             </div>
         </section>
 
         <!-- Formulário de Transferência -->
-        <section class="estoque-table-section">
-            <div class="estoque-table-container" style="padding: 2rem;">
-                <form action="{{ route('transferencias.store') }}" method="POST" style="max-width: 800px; margin: 0 auto;">
+        <section class="transfer-form-section">
+            <div class="transfer-form-container">
+                <form action="{{ route('transferencias.store') }}" method="POST" class="transfer-form">
                     @csrf
-                    
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+
+                    <div class="transfer-form-grid">
                         <!-- Coluna Esquerda -->
                         <div>
-                            <div class="form-group" style="margin-bottom: 1.5rem;">
-                                <label for="produto_id" style="color: white; display: block; margin-bottom: 0.5rem; font-weight: 600;">Produto *</label>
-                                <select id="produto_id" name="produto_id" required style="width: 100%; padding: 12px; border: 1px solid #444; border-radius: 8px; background: #2a2d3e; color: white;">
+                            <div class="form-group">
+                                <label for="produto_id">Produto *</label>
+                                <select id="produto_id" name="produto_id" required>
                                     <option value="">Selecione o produto</option>
                                     @foreach($produtos as $produto)
                                     <option value="{{ $produto->id }}" data-localidade="{{ $produto->localidade }}" data-responsavel="{{ $produto->responsavel }}">
@@ -224,32 +224,32 @@
                                 </select>
                             </div>
 
-                            <div class="form-group" style="margin-bottom: 1.5rem;">
-                                <label for="localidade_origem" style="color: white; display: block; margin-bottom: 0.5rem; font-weight: 600;">Localidade Atual</label>
-                                <input type="text" id="localidade_origem" readonly style="width: 100%; padding: 12px; border: 1px solid #444; border-radius: 8px; background: #1a1d2e; color: #ccc;" placeholder="Selecione um produto primeiro">
+                            <div class="form-group">
+                                <label for="localidade_origem">Localidade Atual</label>
+                                <input type="text" id="localidade_origem" readonly placeholder="Selecione um produto primeiro">
                             </div>
 
-                            <div class="form-group" style="margin-bottom: 1.5rem;">
-                                <label for="responsavel_origem" style="color: white; display: block; margin-bottom: 0.5rem; font-weight: 600;">Responsável Atual</label>
-                                <input type="email" id="responsavel_origem" readonly style="width: 100%; padding: 12px; border: 1px solid #444; border-radius: 8px; background: #1a1d2e; color: #ccc;" placeholder="Selecione um produto primeiro">
+                            <div class="form-group">
+                                <label for="responsavel_origem">Responsável Atual</label>
+                                <input type="email" id="responsavel_origem" readonly placeholder="Selecione um produto primeiro">
                             </div>
                         </div>
 
                         <!-- Coluna Direita -->
                         <div>
-                            <div class="form-group" style="margin-bottom: 1.5rem;">
-                                <label for="localidade_destino" style="color: white; display: block; margin-bottom: 0.5rem; font-weight: 600;">Nova Localidade *</label>
-                                <input type="text" id="localidade_destino" name="localidade_destino" required style="width: 100%; padding: 12px; border: 1px solid #444; border-radius: 8px; background: #2a2d3e; color: white;" placeholder="Ex: Sala 201, Depósito B">
+                            <div class="form-group">
+                                <label for="localidade_destino">Nova Localidade *</label>
+                                <input type="text" id="localidade_destino" name="localidade_destino" required placeholder="Ex: Sala 201, Depósito B">
                             </div>
 
-                            <div class="form-group" style="margin-bottom: 1.5rem;">
-                                <label for="responsavel_destino" style="color: white; display: block; margin-bottom: 0.5rem; font-weight: 600;">Novo Responsável *</label>
-                                <input type="email" id="responsavel_destino" name="responsavel_destino" required style="width: 100%; padding: 12px; border: 1px solid #444; border-radius: 8px; background: #2a2d3e; color: white;" placeholder="email@exemplo.com">
+                            <div class="form-group">
+                                <label for="responsavel_destino">Novo Responsável *</label>
+                                <input type="email" id="responsavel_destino" name="responsavel_destino" required placeholder="email@exemplo.com">
                             </div>
 
-                            <div class="form-group" style="margin-bottom: 1.5rem;">
-                                <label for="motivo" style="color: white; display: block; margin-bottom: 0.5rem; font-weight: 600;">Motivo da Transferência</label>
-                                <select id="motivo" name="motivo" style="width: 100%; padding: 12px; border: 1px solid #444; border-radius: 8px; background: #2a2d3e; color: white;">
+                            <div class="form-group">
+                                <label for="motivo">Motivo da Transferência</label>
+                                <select id="motivo" name="motivo">
                                     <option value="">Selecione o motivo</option>
                                     <option value="Reorganização do estoque">Reorganização do estoque</option>
                                     <option value="Mudança de setor">Mudança de setor</option>
@@ -263,19 +263,15 @@
                     </div>
 
                     <!-- Observações (Full Width) -->
-                    <div class="form-group" style="margin-bottom: 2rem;">
-                        <label for="observacoes" style="color: white; display: block; margin-bottom: 0.5rem; font-weight: 600;">Observações</label>
-                        <textarea id="observacoes" name="observacoes" rows="4" style="width: 100%; padding: 12px; border: 1px solid #444; border-radius: 8px; background: #2a2d3e; color: white; resize: vertical;" placeholder="Informações adicionais sobre a transferência..."></textarea>
+                    <div class="form-group">
+                        <label for="observacoes">Observações</label>
+                        <textarea id="observacoes" name="observacoes" rows="4" placeholder="Informações adicionais sobre a transferência..."></textarea>
                     </div>
 
                     <!-- Botões -->
-                    <div style="display: flex; gap: 1rem; justify-content: center;">
-                        <button type="submit" style="background: #28a745; color: white; padding: 12px 24px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; min-width: 150px;">
-                            Solicitar Transferência
-                        </button>
-                        <a href="{{ route('transferencias.index') }}" style="background: #6c757d; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; min-width: 150px; text-align: center; display: inline-block;">
-                            Cancelar
-                        </a>
+                    <div class="transfer-actions">
+                        <button type="submit" class="btn-novo">Solicitar Transferência</button>
+                        <a href="{{ route('transferencias.index') }}" class="btn-atualizar">Cancelar</a>
                     </div>
                 </form>
             </div>
@@ -305,38 +301,6 @@
     });
     </script>
 
-    <style>
-    .form-group label {
-        font-size: 14px;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
     
-    .form-group input, 
-    .form-group select, 
-    .form-group textarea {
-        font-size: 14px;
-        transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    
-    .form-group input:focus, 
-    .form-group select:focus, 
-    .form-group textarea:focus {
-        outline: none;
-        border-color: #ffd700;
-        box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.2);
-    }
-    
-    button[type="submit"]:hover {
-        background: #218838 !important;
-    }
-    
-    @media (max-width: 768px) {
-        .estoque-table-container > form > div:first-child {
-            grid-template-columns: 1fr !important;
-            gap: 1rem !important;
-        }
-    }
-    </style>
 </body>
 </html>

@@ -195,47 +195,64 @@
     </form>
 
     <!-- Main Content -->
-    <main class="main-content-wrapper">
-        <!-- Seção de controles -->
-        <section class="estoque-controls-section">
-            <div class="estoque-controls">
-                <div class="estoque-search-section">
-                    <h1 style="color: white; margin: 0;">Controle de Transferências</h1>
-                </div>
-                <div class="estoque-action-buttons">
-                    <a href="{{ route('transferencias.create') }}" class="btn-novo">Nova Transferência</a>
-                    <a href="{{ route('auditoria.index') }}" class="btn-atualizar">Ver Auditoria</a>
+    <main class="transfer-page">
+        <!-- Header + Stats Combined -->
+        <section class="transfer-top-section">
+            <!-- Header -->
+            <div class="transfer-header">
+                <div class="transfer-header-content">
+                    <div class="transfer-title">
+                        <h1>Controle de Transferências</h1>
+                    </div>
+                    <div class="transfer-actions">
+                        <a href="{{ route('transferencias.create') }}" class="btn-novo">Nova Transferência</a>
+                        <a href="{{ route('auditoria.index') }}" class="btn-atualizar">Ver Auditoria</a>
+                    </div>
                 </div>
             </div>
-        </section>
 
-        <!-- Estatísticas -->
-        <section class="estoque-controls-section" style="padding-top: 0;">
-            <div class="conteiner" style="grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 0 30px;">
-                <div class="itens_estoque_atualizacao">
-                    <div class="card-icon">⏳</div>
-                    <div class="card-content">
-                        <h2>Pendentes</h2>
-                        <p class="card-value">{{ $estatisticas['pendentes'] }}</p>
-                        <span class="card-label">aguardando</span>
+            <!-- Estatísticas -->
+            <div class="transfer-stats">
+                <div class="transfer-stats-grid">
+                <div class="transfer-stat-card stat-pendente">
+                    <div class="stat-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 6v6l4 2"/>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Pendentes</span>
+                        <span class="stat-value">{{ $estatisticas['pendentes'] }}</span>
+                        <span class="stat-description">aguardando ação</span>
                     </div>
                 </div>
                 
-                <div class="itens_estoque_atualizacao">
-                    <div class="card-icon">🚚</div>
-                    <div class="card-content">
-                        <h2>Em Trânsito</h2>
-                        <p class="card-value">{{ $estatisticas['em_transito'] }}</p>
-                        <span class="card-label">em movimento</span>
+                <div class="transfer-stat-card stat-transito">
+                    <div class="stat-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 16V6a2 2 0 0 1 2-2h11l4 4v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <circle cx="7.5" cy="17.5" r="1.5"/>
+                            <circle cx="17.5" cy="17.5" r="1.5"/>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Em Trânsito</span>
+                        <span class="stat-value">{{ $estatisticas['em_transito'] }}</span>
+                        <span class="stat-description">em movimento</span>
                     </div>
                 </div>
                 
-                <div class="itens_estoque_atualizacao">
-                    <div class="card-icon">✅</div>
-                    <div class="card-content">
-                        <h2>Concluídas</h2>
-                        <p class="card-value">{{ $estatisticas['concluidas'] }}</p>
-                        <span class="card-label">finalizadas</span>
+                <div class="transfer-stat-card stat-concluida">
+                    <div class="stat-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 6L9 17l-5-5"/>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Concluídas</span>
+                        <span class="stat-value">{{ $estatisticas['concluidas'] }}</span>
+                        <span class="stat-description">finalizadas</span>
                     </div>
                 </div>
             </div>
@@ -274,44 +291,31 @@
                             <td>{{ $transferencia->responsavel_destino }}</td>
                             <td>{{ $transferencia->codigo_rastreamento ?? '-' }}</td>
                             <td>
-                                <div style="display: flex; gap: 5px;">
-                                    <a href="{{ route('transferencias.show', $transferencia->id) }}" 
-                                       style="background: #007bff; color: white; padding: 5px 10px; border-radius: 4px; text-decoration: none; font-size: 12px;">
-                                        Ver
-                                    </a>
-                                    
+                                <div class="table-actions">
+                                    <a href="{{ route('transferencias.show', $transferencia->id) }}" class="btn btn-sm btn-primary">Ver</a>
+
                                     @if($transferencia->status === 'pendente')
-                                    <form method="POST" action="{{ route('transferencias.iniciar', $transferencia->id) }}" style="display: inline;">
+                                    <form method="POST" action="{{ route('transferencias.iniciar', $transferencia->id) }}" class="inline-form">
                                         @csrf
                                         @method('PUT')
-                                        <button type="submit" 
-                                                style="background: #28a745; color: white; padding: 5px 10px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">
-                                            Iniciar
-                                        </button>
+                                        <button type="submit" class="btn btn-sm btn-success">Iniciar</button>
                                     </form>
                                     @endif
-                                    
+
                                     @if($transferencia->status === 'em_transito')
-                                    <form method="POST" action="{{ route('transferencias.concluir', $transferencia->id) }}" style="display: inline;">
+                                    <form method="POST" action="{{ route('transferencias.concluir', $transferencia->id) }}" class="inline-form">
                                         @csrf
                                         @method('PUT')
-                                        <button type="submit" 
-                                                style="background: #ffc107; color: black; padding: 5px 10px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">
-                                            Concluir
-                                        </button>
+                                        <button type="submit" class="btn btn-sm btn-warning dark-text">Concluir</button>
                                     </form>
                                     @endif
-                                    
+
                                     @if(in_array($transferencia->status, ['pendente', 'em_transito']))
-                                    <form method="POST" action="{{ route('transferencias.cancelar', $transferencia->id) }}" style="display: inline;">
+                                    <form method="POST" action="{{ route('transferencias.cancelar', $transferencia->id) }}" class="inline-form" onsubmit="return confirm('Tem certeza que deseja cancelar esta transferência?')">
                                         @csrf
                                         @method('PUT')
                                         <input type="hidden" name="motivo_cancelamento" value="Cancelado pelo usuário">
-                                        <button type="submit" 
-                                                style="background: #dc3545; color: white; padding: 5px 10px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;"
-                                                onclick="return confirm('Tem certeza que deseja cancelar esta transferência?')">
-                                            Cancelar
-                                        </button>
+                                        <button type="submit" class="btn btn-sm btn-danger">Cancelar</button>
                                     </form>
                                     @endif
                                 </div>
@@ -319,11 +323,10 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="8" style="text-align: center; padding: 2rem; color: var(--cor-texto-secundaria);">
-                                <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
-                                    <img src="{{url('frontend/img/cargo-truck.png')}}" alt="Sem transferências" style="width: 64px; height: 64px; opacity: 0.5;">
-                                    <p style="margin: 0; font-size: 1.1rem;">Nenhuma transferência encontrada</p>
-                                    <p style="margin: 0; font-size: 0.9rem; opacity: 0.7;">Clique em "Nova Transferência" para criar uma</p>
+                            <td colspan="8">
+                                <div class="empty-state">
+                                    <div class="empty-title">Nenhuma transferência encontrada</div>
+                                    <div class="empty-subtitle">Clique em "Nova Transferência" para criar uma</div>
                                 </div>
                             </td>
                         </tr>
@@ -334,18 +337,12 @@
             
             <!-- Paginação -->
             @if($transferencias->hasPages())
-            <div style="padding: 20px; text-align: center;">
+            <div class="pagination-container">
                 {{ $transferencias->links() }}
             </div>
             @endif
         </section>
     </main>
 
-    <style>
-    .status-pendente { background: #ffc107; color: #000; padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
-    .status-em_transito { background: #007bff; color: #fff; padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
-    .status-concluida { background: #28a745; color: #fff; padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
-    .status-cancelada { background: #dc3545; color: #fff; padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
-    </style>
 </body>
 </html>

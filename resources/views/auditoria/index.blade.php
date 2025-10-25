@@ -184,15 +184,15 @@
     </form>
 
     <!-- Main Content -->
-    <main class="main-content-wrapper">
+    <main class="auditoria-page">
         <!-- Seção de controles -->
-        <section class="estoque-controls-section">
-            <div class="estoque-controls">
-                <div class="estoque-search-section">
-                    <h1 style="color: white; margin: 0;">Auditoria de Estoque</h1>
-                    <p style="color: #ccc; margin: 5px 0 0 0;">Histórico completo de todas as alterações</p>
+        <section class="auditoria-header">
+            <div class="auditoria-header-content">
+                <div class="auditoria-title-section">
+                    <h1>Auditoria de Estoque</h1>
+                    <p>Histórico completo de todas as alterações</p>
                 </div>
-                <div class="estoque-action-buttons">
+                <div class="auditoria-actions">
                     <a href="{{ route('auditoria.relatorio') }}" class="btn-atualizar">Relatório Detalhado</a>
                     <a href="{{ route('transferencias.index') }}" class="btn-novo">Ver Transferências</a>
                 </div>
@@ -200,93 +200,108 @@
         </section>
 
         <!-- Estatísticas -->
-        <section class="estoque-controls-section" style="padding-top: 0;">
-            <div class="conteiner" style="grid-template-columns: repeat(4, 1fr); gap: 20px; margin: 0 30px;">
-                <div class="itens_estoque_atualizacao">
-                    <div class="card-icon">📝</div>
-                    <div class="card-content">
-                        <h2>Criações</h2>
-                        <p class="card-value">{{ $estatisticas['criacoes'] }}</p>
-                        <span class="card-label">itens criados</span>
+        <section class="auditoria-stats">
+            <div class="auditoria-stats-grid">
+                <div class="auditoria-stat-card stat-criacao">
+                    <div class="stat-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 5v14M5 12h14"/>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Criações</span>
+                        <span class="stat-value">{{ $estatisticas['criacoes'] }}</span>
+                        <span class="stat-description">itens criados</span>
                     </div>
                 </div>
                 
-                <div class="itens_estoque_atualizacao">
-                    <div class="card-icon">✏️</div>
-                    <div class="card-content">
-                        <h2>Atualizações</h2>
-                        <p class="card-value">{{ $estatisticas['atualizacoes'] }}</p>
-                        <span class="card-label">alterações</span>
+                <div class="auditoria-stat-card stat-atualizacao">
+                    <div class="stat-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Atualizações</span>
+                        <span class="stat-value">{{ $estatisticas['atualizacoes'] }}</span>
+                        <span class="stat-description">alterações registradas</span>
                     </div>
                 </div>
                 
-                <div class="itens_estoque_atualizacao">
-                    <div class="card-icon">🚚</div>
-                    <div class="card-content">
-                        <h2>Transferências</h2>
-                        <p class="card-value">{{ $estatisticas['transferencias'] }}</p>
-                        <span class="card-label">movimentações</span>
+                <div class="auditoria-stat-card stat-transferencia">
+                    <div class="stat-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12H3m18 0l-6-6m6 6l-6 6"/>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Transferências</span>
+                        <span class="stat-value">{{ $estatisticas['transferencias'] }}</span>
+                        <span class="stat-description">movimentações entre locais</span>
                     </div>
                 </div>
                 
-                <div class="itens_estoque_atualizacao">
-                    <div class="card-icon">🗑️</div>
-                    <div class="card-content">
-                        <h2>Exclusões</h2>
-                        <p class="card-value">{{ $estatisticas['exclusoes'] }}</p>
-                        <span class="card-label">itens removidos</span>
+                <div class="auditoria-stat-card stat-exclusao">
+                    <div class="stat-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Exclusões</span>
+                        <span class="stat-value">{{ $estatisticas['exclusoes'] }}</span>
+                        <span class="stat-description">itens removidos</span>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Filtros -->
-        <section class="estoque-controls-section" style="padding-top: 0;">
-            <div class="estoque-controls">
-                <form method="GET" style="display: flex; gap: 15px; align-items: end;">
-                    <div class="search-column-group">
-                        <label for="tipo_operacao" style="color: white;">Tipo de Operação:</label>
-                        <select name="tipo_operacao" id="tipo_operacao" style="padding: 8px;">
-                            <option value="">Todos</option>
-                            <option value="criacao" {{ request('tipo_operacao') == 'criacao' ? 'selected' : '' }}>Criação</option>
-                            <option value="atualizacao" {{ request('tipo_operacao') == 'atualizacao' ? 'selected' : '' }}>Atualização</option>
-                            <option value="transferencia" {{ request('tipo_operacao') == 'transferencia' ? 'selected' : '' }}>Transferência</option>
-                            <option value="exclusao" {{ request('tipo_operacao') == 'exclusao' ? 'selected' : '' }}>Exclusão</option>
-                        </select>
-                    </div>
-                    
-                    <div class="search-column-group">
-                        <label for="produto_id" style="color: white;">Produto:</label>
-                        <select name="produto_id" id="produto_id" style="padding: 8px;">
-                            <option value="">Todos</option>
-                            @foreach($produtos as $produto)
-                            <option value="{{ $produto->id }}" {{ request('produto_id') == $produto->id ? 'selected' : '' }}>
-                                {{ $produto->nome_item }}
-                            </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    
-                    <div class="search-input-group">
-                        <label for="data_inicio" style="color: white;">Data Início:</label>
-                        <input type="date" name="data_inicio" id="data_inicio" value="{{ request('data_inicio') }}" style="padding: 8px;">
-                    </div>
-                    
-                    <div class="search-input-group">
-                        <label for="data_fim" style="color: white;">Data Fim:</label>
-                        <input type="date" name="data_fim" id="data_fim" value="{{ request('data_fim') }}" style="padding: 8px;">
-                    </div>
-                    
-                    <button type="submit" class="btn-atualizar">Filtrar</button>
-                    <a href="{{ route('auditoria.index') }}" class="btn-limpar">Limpar</a>
-                </form>
-            </div>
+        <section class="auditoria-filters">
+            <form method="GET" class="auditoria-filter-form">
+                <div class="search-column-group">
+                    <label for="tipo_operacao">Tipo de Operação:</label>
+                    <select name="tipo_operacao" id="tipo_operacao">
+                        <option value="">Todos</option>
+                        <option value="criacao" {{ request('tipo_operacao') == 'criacao' ? 'selected' : '' }}>Criação</option>
+                        <option value="atualizacao" {{ request('tipo_operacao') == 'atualizacao' ? 'selected' : '' }}>Atualização</option>
+                        <option value="transferencia" {{ request('tipo_operacao') == 'transferencia' ? 'selected' : '' }}>Transferência</option>
+                        <option value="exclusao" {{ request('tipo_operacao') == 'exclusao' ? 'selected' : '' }}>Exclusão</option>
+                    </select>
+                </div>
+                
+                <div class="search-column-group">
+                    <label for="produto_id">Produto:</label>
+                    <select name="produto_id" id="produto_id">
+                        <option value="">Todos</option>
+                        @foreach($produtos as $produto)
+                        <option value="{{ $produto->id }}" {{ request('produto_id') == $produto->id ? 'selected' : '' }}>
+                            {{ $produto->nome_item }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+                
+                <div class="search-input-group">
+                    <label for="data_inicio">Data Início:</label>
+                    <input type="date" name="data_inicio" id="data_inicio" value="{{ request('data_inicio') }}">
+                </div>
+                
+                <div class="search-input-group">
+                    <label for="data_fim">Data Fim:</label>
+                    <input type="date" name="data_fim" id="data_fim" value="{{ request('data_fim') }}">
+                </div>
+                
+                <button type="submit" class="btn-atualizar">Filtrar</button>
+                <a href="{{ route('auditoria.index') }}" class="btn-limpar">Limpar</a>
+            </form>
         </section>
 
         <!-- Lista de Auditoria -->
-        <section class="estoque-table-section">
-            <div class="estoque-table-container">
-                <table class="estoque-table">
+        <section class="auditoria-table-section">
+            <div class="auditoria-table-container">
+                <table class="estoque-table auditoria-table">
                     <thead>
                         <tr>
                             <th>Data/Hora</th>
@@ -374,26 +389,5 @@
             @endif
         </section>
     </main>
-
-    <style>
-    .tipo-criacao { background: #28a745; color: #fff; padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
-    .tipo-atualizacao { background: #007bff; color: #fff; padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
-    .tipo-transferencia { background: #ffc107; color: #000; padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
-    .tipo-exclusao { background: #dc3545; color: #fff; padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
-    
-    .search-input-group, .search-column-group {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-    }
-    
-    .search-input-group input, .search-column-group select {
-        border: 1px solid #444;
-        border-radius: 4px;
-        background: #2a2d3e;
-        color: white;
-        min-width: 120px;
-    }
-    </style>
 </body>
 </html>

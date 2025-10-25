@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sistema</title>
+    <title>Tabela de Estoque</title>
     <link rel="stylesheet" href="{{url('frontend/css/inventory.css')}}" />
     <script src="{{url('frontend/js/script.js')}}" defer></script>
   </head>
@@ -26,7 +26,7 @@
         
         <!-- Menu Principal -->
         <div class="main-menu">
-          <div class="header-sections active" data-section="inicio" onclick="goToSystem()">
+          <div class="header-sections" data-section="inicio" onclick="goToSystem()">
             <img src="{{url('frontend/img/casa-simples-fina.png')}}" alt="" />
             <div>Início</div>
           </div>
@@ -34,14 +34,10 @@
             <img src="{{url('frontend/img/grafico-de-barras.png')}}" alt="" />
             <div>Relatórios</div>
           </div>
-          <div class="header-sections" data-section="estoque" onclick="goToEstoque()">
+          <div class="header-sections active" data-section="estoque" onclick="goToEstoque()">
             <img src="{{url('frontend/img/estoque-pronto.png')}}" alt="" />
             <div>Estoque</div>
           </div>
-
-          <div class="header-sections" data-section="rastreio">
-            <img src="{{url('frontend/img/localizacao.png')}}" alt="" />
-            <div>Rastreio</div>
           <div class="header-sections" data-section="transferencias" onclick="goToTransferencias()">
             <img src="{{url('frontend/img/cargo-truck.png')}}" alt="Transferências" />
             <div>Transferências</div>
@@ -111,11 +107,6 @@
             <img src="{{url('frontend/img/estoque-pronto.png')}}" alt="" />
             <span>Estoque</span>
           </div>
-
-          <div class="sidebar-item">
-            <img src="{{url('frontend/img/localizacao.png')}}" alt="" />
-            <span>Rastreio</span>
-
           <div class="sidebar-item" onclick="goToTransferencias()">
             <img src="{{url('frontend/img/cargo-truck.png')}}" alt="Transferências" />
             <span>Transferências</span>
