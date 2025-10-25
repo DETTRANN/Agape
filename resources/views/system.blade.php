@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Sistema</title>
     <link rel="stylesheet" href="{{url('frontend/css/inventory.css')}}" />
     <script src="{{url('frontend/js/script.js')}}" defer></script>
@@ -54,6 +55,36 @@
             <span style="font-size: 20px;">←</span>
             <div>Voltar</div>
           </div>
+          
+          <!-- Perfil do Usuário com Foto -->
+          <div class="profile-user-section">
+            <div class="profile-avatar-container">
+              <img src="@auth{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : url('frontend/img/user-alien.png') }}@else{{url('frontend/img/user-alien.png')}}@endauth" alt="Avatar" class="profile-user-avatar" id="desktopAvatar" />
+              <label for="desktopAvatarInput" class="avatar-edit-btn" title="Editar foto">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+                </svg>
+              </label>
+              <input type="file" id="desktopAvatarInput" accept="image/*" style="display: none;" onchange="handleAvatarChange(event, 'desktop')" />
+            </div>
+            <div class="profile-user-info">
+              <h3 class="profile-user-name">
+                @auth
+                  {{ Auth::user()->nome }} {{ Auth::user()->sobrenome }}
+                @else
+                  Usuário
+                @endauth
+              </h3>
+              <p class="profile-user-email">
+                @auth
+                  {{ Auth::user()->email }}
+                @else
+                  usuario@exemplo.com
+                @endauth
+              </p>
+            </div>
+          </div>
+          
           <div class="header-sections">
             <img src="{{url('frontend/img/configuracoes.png')}}" alt="" />
             <div>Configurações</div>
@@ -83,7 +114,7 @@
             <div>Notificações</div>
           </div>
           <div class="header-sections header-sections-person" onclick="showProfileMenu()">
-            <img src="{{url('frontend/img/user-alien.png')}}" alt="" />
+            <img src="@auth{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : url('frontend/img/user-alien.png') }}@else{{url('frontend/img/user-alien.png')}}@endauth" alt="" />
             <div>Perfil</div>
           </div>
         </div>
@@ -123,7 +154,7 @@
               <span>Notificações</span>
             </div>
             <div class="sidebar-item" onclick="showMobileProfileMenu()">
-              <img src="{{url('frontend/img/user-alien.png')}}" alt="" />
+              <img src="@auth{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : url('frontend/img/user-alien.png') }}@else{{url('frontend/img/user-alien.png')}}@endauth" alt="" />
               <span>Perfil</span>
             </div>
           </div>
@@ -135,6 +166,36 @@
             <span style="font-size: 20px;">←</span>
             <span>Voltar</span>
           </div>
+          
+          <!-- Perfil do Usuário Mobile com Foto -->
+          <div class="mobile-profile-user-section">
+            <div class="mobile-profile-avatar-container">
+              <img src="@auth{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : url('frontend/img/user-alien.png') }}@else{{url('frontend/img/user-alien.png')}}@endauth" alt="Avatar" class="mobile-profile-user-avatar" id="mobileAvatar" />
+              <label for="mobileAvatarInput" class="mobile-avatar-edit-btn" title="Editar foto">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+                </svg>
+              </label>
+              <input type="file" id="mobileAvatarInput" accept="image/*" style="display: none;" onchange="handleAvatarChange(event, 'mobile')" />
+            </div>
+            <div class="mobile-profile-user-info">
+              <h3 class="mobile-profile-user-name">
+                @auth
+                  {{ Auth::user()->nome }} {{ Auth::user()->sobrenome }}
+                @else
+                  Usuário
+                @endauth
+              </h3>
+              <p class="mobile-profile-user-email">
+                @auth
+                  {{ Auth::user()->email }}
+                @else
+                  usuario@exemplo.com
+                @endauth
+              </p>
+            </div>
+          </div>
+          
           <div class="sidebar-item">
             <img src="{{url('frontend/img/icons8-robot-50.png')}}" alt="" />
             <span>Perfil</span>
@@ -165,6 +226,18 @@
 
     <!-- Overlay -->
     <div class="overlay" id="overlay" onclick="closeSystemSidebar()"></div>
+
+    <!-- Modal de Visualização do Avatar -->
+    <div class="avatar-modal" id="avatarModal" onclick="closeAvatarModal()">
+      <div class="avatar-modal-content" onclick="event.stopPropagation()">
+        <span class="avatar-modal-close" onclick="closeAvatarModal()">&times;</span>
+        <img src="" alt="Avatar" class="avatar-modal-image" id="avatarModalImage">
+        <div class="avatar-modal-info">
+          <h3 id="avatarModalName"></h3>
+          <p id="avatarModalEmail"></p>
+        </div>
+      </div>
+    </div>
 
     <main>
       <nav>

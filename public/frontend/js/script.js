@@ -1850,3 +1850,176 @@ function initNotificationSystem() {
 
     console.log("Sistema de notificações inicializado");
 }
+
+// =====================================
+// SISTEMA DE AVATAR DO USUÁRIO
+// =====================================
+
+// Lidar com mudança de avatar
+function handleAvatarChange(event, type) {
+    const file = event.target.files[0];
+    
+    if (!file) {
+        return;
+    }
+
+    // Validar tipo de arquivo
+    if (!file.type.startsWith('image/')) {
+        alert('Por favor, selecione apenas arquivos de imagem.');
+        event.target.value = '';
+        return;
+    }
+
+    // Validar tamanho do arquivo (máximo 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+        alert('A imagem deve ter no máximo 5MB.');
+        event.target.value = '';
+        return;
+    }
+
+    // Ler e exibir preview da imagem
+    const reader = new FileReader();
+    
+    reader.onload = function(e) {
+        const imageUrl = e.target.result;
+        
+        // Atualizar TODOS os avatares na página
+        updateAllAvatars(imageUrl);
+
+        // Enviar a imagem ao servidor
+        uploadAvatarToServer(file);
+        
+        console.log(`Avatar atualizado via ${type}`);
+    };
+    
+    reader.onerror = function() {
+        alert('Erro ao ler a imagem. Por favor, tente novamente.');
+        event.target.value = '';
+    };
+    
+    reader.readAsDataURL(file);
+}
+
+// Função para atualizar todos os avatares na página
+function updateAllAvatars(imageUrl) {
+    // Atualizar avatar grande desktop
+    const desktopAvatar = document.querySelector('.profile-user-avatar');
+    if (desktopAvatar) {
+        desktopAvatar.src = imageUrl;
+    }
+    
+    // Atualizar avatar grande mobile
+    const mobileAvatar = document.querySelector('.mobile-profile-user-avatar');
+    if (mobileAvatar) {
+        mobileAvatar.src = imageUrl;
+    }
+    
+    // Atualizar avatar do botão inferior desktop
+    const desktopButtonAvatar = document.querySelector('.header-sections-person img');
+    if (desktopButtonAvatar) {
+        desktopButtonAvatar.src = imageUrl;
+    }
+    
+    // Atualizar avatar do botão inferior mobile (sidebar)
+    const mobileButtonAvatar = document.querySelector('.sidebar-bottom img[alt="Perfil"]');
+    if (mobileButtonAvatar) {
+        mobileButtonAvatar.src = imageUrl;
+    }
+    
+    console.log('Todos os avatares atualizados!');
+}
+
+// Função para fazer upload ao servidor
+function uploadAvatarToServer(file) {
+    const formData = new FormData();
+    formData.append('avatar', file);
+    
+    fetch('/user/avatar', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log('Avatar salvo com sucesso:', data);
+            // Atualiza todas as imagens com a URL do servidor
+            updateAllAvatars(data.avatar_url);
+        } else {
+            alert('Erro ao salvar avatar: ' + (data.message || 'Erro desconhecido'));
+        }
+    })
+    .catch(error => {
+        console.error('Erro ao fazer upload do avatar:', error);
+        alert('Erro ao fazer upload do avatar. Por favor, tente novamente.');
+    });
+}
+
+// =====================================
+// MODAL DE VISUALIZAÇÃO DO AVATAR
+// =====================================
+
+function openAvatarModal(avatarSrc, userName, userEmail) {
+    const modal = document.getElementById('avatarModal');
+    const modalImage = document.getElementById('avatarModalImage');
+    const modalName = document.getElementById('avatarModalName');
+    const modalEmail = document.getElementById('avatarModalEmail');
+    
+    if (modal && modalImage) {
+        modalImage.src = avatarSrc;
+        if (modalName) modalName.textContent = userName;
+        if (modalEmail) modalEmail.textContent = userEmail;
+        
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeAvatarModal() {
+    const modal = document.getElementById('avatarModal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+}
+
+// Adicionar event listeners para abrir o modal ao clicar nas fotos
+document.addEventListener('DOMContentLoaded', function() {
+    // Avatar desktop
+    const desktopAvatar = document.getElementById('desktopAvatar');
+    if (desktopAvatar) {
+        desktopAvatar.style.cursor = 'pointer';
+        desktopAvatar.addEventListener('click', function(e) {
+            // Não abrir se clicar no botão de editar
+            if (e.target.classList.contains('avatar-edit-btn')) return;
+            
+            const userName = document.querySelector('.profile-user-name')?.textContent || 'Usuário';
+            const userEmail = document.querySelector('.profile-user-email')?.textContent || '';
+            openAvatarModal(this.src, userName, userEmail);
+        });
+    }
+    
+    // Avatar mobile
+    const mobileAvatar = document.getElementById('mobileAvatar');
+    if (mobileAvatar) {
+        mobileAvatar.style.cursor = 'pointer';
+        mobileAvatar.addEventListener('click', function(e) {
+            // Não abrir se clicar no botão de editar
+            if (e.target.classList.contains('mobile-avatar-edit-btn')) return;
+            
+            const userName = document.querySelector('.mobile-profile-user-name')?.textContent || 'Usuário';
+            const userEmail = document.querySelector('.mobile-profile-user-info .profile-user-email')?.textContent || '';
+            openAvatarModal(this.src, userName, userEmail);
+        });
+    }
+});
+
+// Fechar modal com tecla ESC
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeAvatarModal();
+    }
+});
+

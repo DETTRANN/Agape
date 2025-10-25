@@ -17,6 +17,7 @@ class Cliente extends Authenticatable
         'sobrenome',
         'email',
         'senha',
+        'avatar',
     ];
 
     protected $hidden = [

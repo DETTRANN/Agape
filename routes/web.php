@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\PasswordResetController;
+use App\Http\Controllers\UserAvatarController;
 
 // Página inicial
 Route::get('/', function () {
@@ -63,6 +64,10 @@ Route::middleware(['auth', 'force.auth'])->group(function () {
         Route::get('/produto/{id}', [App\Http\Controllers\AuditoriaController::class, 'show'])->name('show');
         Route::get('/relatorio', [App\Http\Controllers\AuditoriaController::class, 'relatorio'])->name('relatorio');
     });
+
+    // Rotas de Avatar
+    Route::post('/user/avatar', [UserAvatarController::class, 'upload'])->name('user.avatar.upload');
+    Route::delete('/user/avatar', [UserAvatarController::class, 'remove'])->name('user.avatar.remove');
 
     // Redireciona a rota antiga para a nova
     Route::get('/views/system', function () {
