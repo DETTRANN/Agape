@@ -14,9 +14,11 @@ O **Agape** é um sistema completo de gestão de estoque desenvolvido para simpl
 
 ## Funcionalidades Principais
 
--   **Sistema completo de autenticação** - Login, cadastro e proteção de rotas
--   **Gestão de estoque** - CRUD de produtos
--   **Formulário de contato** - Integração com FormSubmit
+-   **Sistema completo de autenticação** — Login, cadastro e proteção de rotas
+-   **Gestão de estoque** — CRUD de produtos e visualização aprimorada
+-   **Transferências de Itens** — criação, listagem, mudança de status (pendente, em trânsito, concluída, cancelada)
+-   **Auditoria de Estoque** — trilha de alterações com filtros e cabeçalho fixo
+-   **Formulário de contato** — Integração com FormSubmit
 
 ## Tecnologias Utilizadas
 
@@ -69,8 +71,11 @@ cd Agape
 # Instale as dependências PHP
 composer install
 
-# Instale as dependências frontend e compile os assets
-npm install && npm run build
+# Instale as dependências frontend
+npm install
+
+# Compile os assets (produção)
+npm run build
 
 # Configure o arquivo de ambiente
 copy .env.example .env
@@ -85,8 +90,10 @@ php artisan key:generate
 # Criar o banco SQLite
 New-Item -Path "database/database.sqlite" -ItemType File -Force
 
-# Rodar as migrações
+# Rodar as migrações (com seed opcional)
 php artisan migrate
+# ou
+php artisan migrate --seed
 
 # Se der erro na migração, delete o banco e recrie:
 Remove-Item "database/database.sqlite" -Force
@@ -129,8 +136,8 @@ php artisan tinker
 #### 5. **Iniciar o Servidor e Verificar**
 
 ```powershell
-# OPÇÃO 1 (Recomendada): Rodar o ambiente completo de desenvolvimento
-# Isto iniciará: servidor Laravel + processamento de filas + logs + Vite dev server
+# OPÇÃO 1 (Recomendada): Rodar o ambiente completo de desenvolvimento (Windows/PowerShell)
+# Inicia: servidor Laravel + filas + logs + Vite (hot reload)
 composer run dev
 
 # OPÇÃO 2 (Alternativa): Iniciar apenas o servidor Laravel
@@ -145,10 +152,15 @@ php artisan serve
 # 3. Acesse http://127.0.0.1:8000/register - deve mostrar a página de cadastro
 ```
 
-### **Diferença entre as opções:**
+### Atalho (Windows): Setup automático
 
--   **`composer run dev`**: Ambiente completo com hot reload de CSS/JS, logs em tempo real e processamento de filas
--   **`php artisan serve`**: Apenas o servidor web Laravel básico
+Para configurar tudo em um passo no Windows, execute o script:
+
+```powershell
+./setup.ps1
+```
+
+O script instala dependências, cria o banco SQLite, executa migrações, limpa caches e cria um usuário de teste (teste@teste.com / 123456).
 
 ### **Verificação Final**
 
@@ -194,36 +206,60 @@ php artisan cache:clear
 # Verificar se há usuários cadastrados
 php artisan tinker
 # \App\Models\Cliente::all();
+
+## Páginas e Navegação (Principais)
+
+- Sistema/Dashboard: `/system`
+- Estoque: `/views/tabela_estoque`
+- Transferências:
+	- Listagem: `/transferencias`
+	- Criar: `/transferencias/criar`
+	- Ver: `/transferencias/{id}`
+	- Ações: `PUT /transferencias/{id}/iniciar`, `PUT /transferencias/{id}/concluir`, `PUT /transferencias/{id}/cancelar`
+- Auditoria: `/auditoria`
+- Relatórios: `/views/relatorios`
+- Autenticação: `/login`, `/register`
+
+## Destaques de UI/UX recentes
+
+- Transferências (Listagem)
+	- Header e cards de estatística lado a lado (50% / 50%)
+	- Cards com mesma altura do header, layout responsivo
+	- Coluna “Ações” adaptativa: “Ver” + “Iniciar/Concluir” na primeira linha; “Cancelar” abaixo em largura total
+	- Botões compactos para evitar scroll horizontal em telas menores
+	- Tabela com largura 97% e centralização
+
+- Transferências (Criação)
+	- Card da esquerda proporcional ao formulário da direita (mesma largura)
+	- Form grid 2 colunas no desktop e 1 coluna no mobile
+
+- Auditoria
+	- Tabela com cabeçalho fixo ao rolar (sticky)
+	- Scroll vertical interno (max-height responsivo)
+	- Filtros por tipo, produto e intervalo de datas
+
+Os estilos vivem em `public/frontend/css/inventory.css` nas seções:
+- Página de Auditoria — “PÁGINA DE AUDITORIA - ESTILOS ESPECÍFICOS”
+- Página de Transferências — “PÁGINA DE TRANSFERÊNCIAS - ESTILOS ESPECÍFICOS”
 ```
 
-## Rotas do Sistema
+## Rotas do Sistema (resumo)
 
-### Rotas Principais
+Veja as rotas completas com:
 
-**Públicas:**
+```powershell
+php artisan route:list
+```
 
--   `/` - Página inicial
--   `/login` - Login
--   `/register` - Cadastro
--   `/views/contato` - Contato
-
-**Protegidas (requer login):**
-
--   `/system` - Dashboard principal
--   `/views/tabela_estoque` - Gestão de estoque
-
-**API (CRUD de produtos):**
-
--   `POST /produtos` - Criar produto
--   `PUT /produtos/{id}` - Atualizar produto
--   `DELETE /produtos/{id}` - Excluir produto
+Principais rotas estão descritas na seção “Páginas e Navegação”.
 
 ## Design Responsivo
 
 Interface otimizada para **desktop** e **dispositivos móveis** com navegação adaptativa.
 
 ## Checklist de Funcionalidades - Segunda Entrega
--   [x] **Design Intuitivo** - Interface moderna e responsiva      
+
+-   [x] **Design Intuitivo** - Interface moderna e responsiva
 -   [x] **Cadastro e Login** - Sistema completo com autenticação
 -   [x] **Redefinição de Senha** - Recuperação via email
 -   [x] **Notificações por Email** - Sistema integrado de comunicação
@@ -234,7 +270,7 @@ Interface otimizada para **desktop** e **dispositivos móveis** com navegação 
 -   [x] **Alertas de Estoque Baixo** - Notificações automáticas
 -   [x] **Gestão de Preços** - Controle financeiro
 -   [ ] **Gráficos e tabelas de estoque** - Sistema completo com autenticação
--   [x] **Controle de Transferências** - Sistema completo de auditoria e transferências de estoque
+-   [x] **Controle de Transferências** - Criação, listagem e fluxo (pendente → em trânsito → concluída/cancelada)
 -   [ ] **Ciclo de inventário** - Sistema integrado de comunicação
 -   [ ] **Relatório sobre venda anuais** - Modelagem de produtos
 -   [ ] **Rastreio** - Listagem ordenada
@@ -249,9 +285,7 @@ Interface otimizada para **desktop** e **dispositivos móveis** com navegação 
 -   [ ] **Gestão de Preços** - Controle financeiro
 -   [ ] **Gestão de Preços** - Controle financeiro
 
-        
-
-## Vídeo mostrandos os 10 requisitos funcionando
+## Vídeo mostrando os requisitos funcionando
 
 https://youtu.be/i0mA892Z5-A
 
