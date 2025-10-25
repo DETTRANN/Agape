@@ -73,6 +73,20 @@ class TransferenciaController extends Controller
             'observacoes' => $request->observacoes,
         ]);
 
+        // Se o motivo for "Venda", marcar produto como "Ocupado"
+        if ($request->motivo === 'Venda') {
+            $produto->update(['status' => 'Ocupado']);
+            
+            // Registrar auditoria da venda
+            $this->auditoriaService->registrarAtualizacao(
+                $produto->id,
+                'status',
+                'Disponível',
+                'Ocupado',
+                'Produto vendido - Transferência ID: ' . $transferencia->id
+            );
+        }
+
         // Registrar auditoria
         $this->auditoriaService->registrarTransferencia(
             $produto->id,

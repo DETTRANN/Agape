@@ -158,6 +158,44 @@ class ProdutoController extends Controller
         // Última atualização (data do item mais recente)
         $ultimaAtualizacao = $produtos->max('updated_at') ?? $produtos->max('created_at') ?? now();
 
+        // ============================================
+        // VENDAS ANUAIS (baseado em transferências)
+        // ============================================
+        $anoAtual = now()->year;
+        
+        // Buscar transferências com motivo "Venda" do ano atual
+        $vendasAnoAtual = \App\Models\Transferencia::whereYear('created_at', $anoAtual)
+            ->where('motivo', 'Venda')
+            ->get();
+        
+        // Total de vendas do ano
+        $totalVendasAno = $vendasAnoAtual->count();
+        
+        // Calcular valor total de vendas (soma dos preços dos produtos vendidos)
+        $valorTotalVendas = 0;
+        foreach ($vendasAnoAtual as $venda) {
+            $produto = $produtos->firstWhere('id', $venda->produto_id);
+            if ($produto) {
+                $valorTotalVendas += $produto->preco;
+            }
+        }
+        
+        // Média de valor por venda
+        $mediaValorVenda = $totalVendasAno > 0 ? $valorTotalVendas / $totalVendasAno : 0;
+        
+        // Produto mais vendido
+        $produtoMaisVendido = $vendasAnoAtual
+            ->groupBy('produto_id')
+            ->map(function($grupo) use ($produtos) {
+                $produto = $produtos->firstWhere('id', $grupo->first()->produto_id);
+                return [
+                    'nome' => $produto ? $produto->nome_item : 'Desconhecido',
+                    'quantidade' => $grupo->count()
+                ];
+            })
+            ->sortByDesc('quantidade')
+            ->first();
+
         // Produtos com maior rotatividade (baseado na quantidade de repetições)
         // Conta quantas vezes cada item disponível aparece
         $produtosRotatividade = $produtos
@@ -211,6 +249,10 @@ class ProdutoController extends Controller
             'totalItens',
             'valorEstoque',
             'ultimaAtualizacao',
+            'totalVendasAno',
+            'valorTotalVendas',
+            'mediaValorVenda',
+            'produtoMaisVendido',
             'produtosRotatividade',
             'itensFalta',
             'principaisFornecedores',

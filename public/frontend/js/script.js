@@ -1972,6 +1972,7 @@ function openAvatarModal(avatarSrc, userName, userEmail) {
         if (modalName) modalName.textContent = userName;
         if (modalEmail) modalEmail.textContent = userEmail;
         
+        modal.style.display = 'flex';
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
     }
@@ -1981,12 +1982,20 @@ function closeAvatarModal() {
     const modal = document.getElementById('avatarModal');
     if (modal) {
         modal.classList.remove('active');
+        modal.style.display = 'none';
         document.body.style.overflow = '';
     }
 }
 
 // Adicionar event listeners para abrir o modal ao clicar nas fotos
 document.addEventListener('DOMContentLoaded', function() {
+    // Garantir que o modal comece oculto
+    const avatarModal = document.getElementById('avatarModal');
+    if (avatarModal) {
+        avatarModal.classList.remove('active');
+        avatarModal.style.display = 'none';
+    }
+    
     // Avatar desktop
     const desktopAvatar = document.getElementById('desktopAvatar');
     if (desktopAvatar) {

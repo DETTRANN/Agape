@@ -55,6 +55,36 @@
             <span style="font-size: 20px;">←</span>
             <div>Voltar</div>
           </div>
+          
+          <!-- Perfil do Usuário Desktop com Foto -->
+          <div class="profile-user-section">
+            <div class="profile-avatar-container">
+              <img src="@auth{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : url('frontend/img/user-alien.png') }}@else{{url('frontend/img/user-alien.png')}}@endauth" alt="Avatar" class="profile-user-avatar" id="desktopAvatar" onclick="openAvatarModal(this.src, '@auth{{ Auth::user()->nome }} {{ Auth::user()->sobrenome }}@else Usuário @endauth', '@auth{{ Auth::user()->email }}@else usuario@exemplo.com @endauth')" style="cursor: pointer;" />
+              <label for="desktopAvatarInput" class="avatar-edit-btn" title="Editar foto">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+                </svg>
+              </label>
+              <input type="file" id="desktopAvatarInput" accept="image/*" style="display: none;" onchange="handleAvatarChange(event, 'desktop')" />
+            </div>
+            <div class="profile-user-info">
+              <h3 class="profile-user-name">
+                @auth
+                  {{ Auth::user()->nome }} {{ Auth::user()->sobrenome }}
+                @else
+                  Usuário
+                @endauth
+              </h3>
+              <p class="profile-user-email">
+                @auth
+                  {{ Auth::user()->email }}
+                @else
+                  usuario@exemplo.com
+                @endauth
+              </p>
+            </div>
+          </div>
+          
           <div class="header-sections">
             <img src="{{url('frontend/img/configuracoes.png')}}" alt="" />
             <div>Configurações</div>
@@ -130,6 +160,35 @@
           </div>
         </div>
 
+        <!-- Perfil do Usuário Mobile com Foto -->
+        <div class="mobile-profile-user-section">
+          <div class="mobile-profile-avatar-container">
+            <img src="@auth{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : url('frontend/img/user-alien.png') }}@else{{url('frontend/img/user-alien.png')}}@endauth" alt="Avatar" class="mobile-profile-user-avatar" id="mobileAvatar" onclick="openAvatarModal(this.src, '@auth{{ Auth::user()->nome }} {{ Auth::user()->sobrenome }}@else Usuário @endauth', '@auth{{ Auth::user()->email }}@else usuario@exemplo.com @endauth')" style="cursor: pointer;" />
+            <label for="mobileAvatarInput" class="mobile-avatar-edit-btn" title="Editar foto">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+              </svg>
+            </label>
+            <input type="file" id="mobileAvatarInput" accept="image/*" style="display: none;" onchange="handleAvatarChange(event, 'mobile')" />
+          </div>
+          <div class="mobile-profile-user-info">
+            <h3 class="mobile-profile-user-name">
+              @auth
+                {{ Auth::user()->nome }} {{ Auth::user()->sobrenome }}
+              @else
+                Usuário
+              @endauth
+            </h3>
+            <p class="mobile-profile-user-email">
+              @auth
+                {{ Auth::user()->email }}
+              @else
+                usuario@exemplo.com
+              @endauth
+            </p>
+          </div>
+        </div>
+
         <!-- Menu do Perfil Mobile (inicialmente oculto) -->
         <div class="sidebar-profile-menu" style="display: none;">
           <div class="sidebar-item sidebar-back-button" onclick="showMobileMainMenu()">
@@ -166,6 +225,18 @@
 
     <!-- Overlay -->
     <div class="overlay" id="overlay" onclick="closeSystemSidebar()"></div>
+
+    <!-- Modal do Avatar -->
+    <div class="avatar-modal" id="avatarModal" onclick="closeAvatarModal()">
+      <div class="avatar-modal-content">
+        <span class="avatar-modal-close" onclick="closeAvatarModal()">×</span>
+        <img src="" alt="Avatar" class="modal-image" id="avatarModalImage" />
+        <div class="modal-info">
+          <h3 class="modal-name" id="avatarModalName">Nome do Usuário</h3>
+          <p class="modal-email" id="avatarModalEmail">email@exemplo.com</p>
+        </div>
+      </div>
+    </div>
 
     <!-- Painel de Notificações -->
     <div class="notifications-panel" id="notificationsPanel">

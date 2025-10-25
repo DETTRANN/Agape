@@ -1077,7 +1077,7 @@ article h1 {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.9);
-    display: none;
+    display: none !important;
     justify-content: center;
     align-items: center;
     z-index: 10000;
@@ -1085,7 +1085,7 @@ article h1 {
 }
 
 .avatar-modal.active {
-    display: flex;
+    display: flex !important;
 }
 
 .avatar-modal-content {
