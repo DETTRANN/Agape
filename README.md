@@ -220,29 +220,6 @@ php artisan tinker
 - Relatórios: `/views/relatorios`
 - Autenticação: `/login`, `/register`
 
-## Destaques de UI/UX recentes
-
-- Transferências (Listagem)
-	- Header e cards de estatística lado a lado (50% / 50%)
-	- Cards com mesma altura do header, layout responsivo
-	- Coluna “Ações” adaptativa: “Ver” + “Iniciar/Concluir” na primeira linha; “Cancelar” abaixo em largura total
-	- Botões compactos para evitar scroll horizontal em telas menores
-	- Tabela com largura 97% e centralização
-
-- Transferências (Criação)
-	- Card da esquerda proporcional ao formulário da direita (mesma largura)
-	- Form grid 2 colunas no desktop e 1 coluna no mobile
-
-- Auditoria
-	- Tabela com cabeçalho fixo ao rolar (sticky)
-	- Scroll vertical interno (max-height responsivo)
-	- Filtros por tipo, produto e intervalo de datas
-
-Os estilos vivem em `public/frontend/css/inventory.css` nas seções:
-- Página de Auditoria — “PÁGINA DE AUDITORIA - ESTILOS ESPECÍFICOS”
-- Página de Transferências — “PÁGINA DE TRANSFERÊNCIAS - ESTILOS ESPECÍFICOS”
-```
-
 ## Rotas do Sistema (resumo)
 
 Veja as rotas completas com:
