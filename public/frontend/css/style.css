@@ -3907,3 +3907,69 @@ login-space {
         padding: 10px 16px;
     }
 }
+
+@media (min-width: 1440px) and (max-width: 1659px) {
+    .right-section img {
+        width: 90%;
+    }
+
+    .left-section h1 {
+        font-size: 55px;
+    }
+
+    .left-section p {
+        font-size: 22px;
+    }
+
+    .btn-comecar {
+        font-size: 18px;
+        padding: 10px 20px;
+    }
+
+    
+
+    .main-second-content nav img {
+        width: 600px;
+    }
+
+    .nav-organizador-estoque h1 {
+        font-size: 40px;
+    }
+
+    .nav-organizador-estoque p {
+        font-size: 18px;
+    }
+
+    .courses-grid {
+        transform: scale(1.1);
+    }
+
+    .left-fifth-content div:nth-child(2) {
+        font-size: 36px;
+    }
+
+    .left-fifth-content div:nth-child(2) + p {
+        font-size: 18px;
+    }
+    
+    .main-fifth-content nav img {
+        width: 620px;
+    }
+
+    .left-sixth-content img {
+        width: 450px;
+    }
+
+    .right-sixth-content h1 {
+        font-size: 45px;
+    }
+
+    .right-sixth-content p {
+        font-size: 19px;
+    }
+
+    .btn-register-now {
+        font-size: 16px;
+        padding: 12px 24px;
+    }
+}

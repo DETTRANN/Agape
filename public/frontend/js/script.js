@@ -1909,11 +1909,13 @@ function initEstoqueDateDefaults() {
 
 // Inicializar funções específicas do estoque quando a página carregar
 document.addEventListener("DOMContentLoaded", function () {
+    // Inicializar sistema de notificações em TODAS as páginas
+    initNotificationSystem();
+
     // Verificar se estamos na página de estoque
     if (window.location.pathname.includes("tabela_estoque")) {
         initEstoqueAlerts();
         initEstoqueDateDefaults();
-        initNotificationSystem();
         initEstoqueEvents(); // Inicializar eventos e menu mobile
     }
 
@@ -1952,25 +1954,63 @@ function toggleNotifications() {
     }
 }
 
-// Fechar notificações quando clicar no overlay
+// Fechar notificações quando clicar no overlay ou fora do painel
 function initNotificationSystem() {
     const overlay = document.getElementById("overlay");
     const panel = document.getElementById("notificationsPanel");
 
-    if (overlay && panel) {
-        overlay.addEventListener("click", function () {
-            if (panel.classList.contains("active")) {
-                toggleNotifications();
-            }
-        });
-
-        // Fechar com tecla ESC
-        document.addEventListener("keydown", function (e) {
-            if (e.key === "Escape" && panel.classList.contains("active")) {
-                toggleNotifications();
-            }
-        });
+    if (!overlay || !panel) {
+        console.log("Painel de notificações não encontrado nesta página");
+        return;
     }
+
+    // Fechar ao clicar no overlay
+    overlay.addEventListener("click", function () {
+        if (panel.classList.contains("active")) {
+            toggleNotifications();
+        }
+    });
+
+    // Fechar com tecla ESC
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && panel.classList.contains("active")) {
+            toggleNotifications();
+        }
+    });
+
+    // Fechar ao clicar fora do painel
+    // Aguardar um pouco para evitar conflito com o clique que abre
+    let clickOutsideHandler = function (e) {
+        // Só processar se o painel estiver aberto
+        if (!panel.classList.contains("active")) {
+            return;
+        }
+
+        // Verificar se clicou dentro do painel
+        const isClickInsidePanel = panel.contains(e.target);
+
+        // Verificar se clicou em um elemento que tem onclick="toggleNotifications()"
+        let element = e.target;
+        let hasToggleClick = false;
+        while (element && element !== document.body) {
+            const onclick = element.getAttribute("onclick");
+            if (onclick && onclick.includes("toggleNotifications")) {
+                hasToggleClick = true;
+                break;
+            }
+            element = element.parentElement;
+        }
+
+        // Se clicou fora E não foi em um botão toggle, fechar
+        if (!isClickInsidePanel && !hasToggleClick) {
+            toggleNotifications();
+        }
+    };
+
+    // Adicionar listener com um pequeno delay para evitar conflito com abertura
+    setTimeout(function () {
+        document.addEventListener("click", clickOutsideHandler);
+    }, 100);
 
     console.log("Sistema de notificações inicializado");
 }

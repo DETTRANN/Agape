@@ -262,14 +262,87 @@
             <button class="close-notifications" onclick="toggleNotifications()">&times;</button>
         </div>
         <div class="notifications-content">
-            <div class="notification-item info">
-                <div class="notification-icon">🚚</div>
+            @if($produtosVencidos && $produtosVencidos->count() > 0)
+            <div class="notification-item alert-warning">
+                <div class="notification-icon">❌</div>
                 <div class="notification-details">
-                    <h4>Nova Transferência</h4>
-                    <p>Preencha os dados para criar uma nova solicitação de transferência.</p>
+                    <h4>Produtos Vencidos!</h4>
+                    <p><strong>{{ $produtosVencidos->count() }}</strong> {{ $produtosVencidos->count() == 1 ? 'produto está vencido' : 'produtos estão vencidos' }}:</p>
+                    <ul style="margin: 8px 0; padding-left: 20px;">
+                        @foreach($produtosVencidos->take(3) as $produto)
+              @php
+                $diasVencido = (int) \Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::parse($produto->data_validade), false);
+              @endphp
+                            <li><strong>{{ $produto->nome_item }}</strong> - Vencido há {{ abs($diasVencido) }} dias</li>
+                        @endforeach
+                        @if($produtosVencidos->count() > 3)
+                            <li><em>E mais {{ $produtosVencidos->count() - 3 }} produto(s)...</em></li>
+                        @endif
+                    </ul>
+                    <p>Verifique estes itens imediatamente!</p>
                     <small>{{ now()->format('d/m/Y H:i') }}</small>
                 </div>
             </div>
+            @endif
+            
+            @if($produtosProximosVencimento && $produtosProximosVencimento->count() > 0)
+            <div class="notification-item alert-warning">
+                <div class="notification-icon">⚠️</div>
+                <div class="notification-details">
+                    <h4>Alerta de Validade Próxima</h4>
+                    <p><strong>{{ $produtosProximosVencimento->count() }}</strong> {{ $produtosProximosVencimento->count() == 1 ? 'produto vencerá' : 'produtos vencerão' }} em breve:</p>
+                    <ul style="margin: 8px 0; padding-left: 20px;">
+                        @foreach($produtosProximosVencimento->take(3) as $produto)
+              @php
+                $diasRestantes = (int) \Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::parse($produto->data_validade), false);
+              @endphp
+                            <li><strong>{{ $produto->nome_item }}</strong> - Vence em {{ $diasRestantes }} {{ $diasRestantes == 1 ? 'dia' : 'dias' }}</li>
+                        @endforeach
+                        @if($produtosProximosVencimento->count() > 3)
+                            <li><em>E mais {{ $produtosProximosVencimento->count() - 3 }} produto(s)...</em></li>
+                        @endif
+                    </ul>
+                    <p>Planeje o uso ou descarte destes itens com antecedência.</p>
+                    <small>{{ now()->format('d/m/Y H:i') }}</small>
+                </div>
+            </div>
+            @endif
+            
+            @if($estoqueAlerta)
+            <div class="notification-item alert-warning">
+                <div class="notification-icon">⚠️</div>
+                <div class="notification-details">
+                    <h4>Alerta de Estoque Baixo</h4>
+                    <p>{{ round($porcentagemOcupados) }}% dos itens estão ocupados ({{ $itensOcupados }}/{{ $totalItens }})</p>
+                    <p>Considere verificar a disponibilidade dos itens ou adicionar novos produtos ao estoque.</p>
+                    <small>{{ now()->format('d/m/Y H:i') }}</small>
+                </div>
+            </div>
+            @endif
+            
+            @if(!$estoqueAlerta && $totalItens > 0)
+            <div class="notification-item info">
+                <div class="notification-icon">✅</div>
+                <div class="notification-details">
+                    <h4>Estoque em Bom Estado</h4>
+                    <p>{{ round($porcentagemOcupados) }}% dos itens estão ocupados ({{ $itensOcupados }}/{{ $totalItens }})</p>
+                    <p>Seu estoque está bem distribuído.</p>
+                    <small>{{ now()->format('d/m/Y H:i') }}</small>
+                </div>
+            </div>
+            @endif
+
+            @if($totalItens == 0)
+            <div class="notification-item info">
+                <div class="notification-icon">📦</div>
+                <div class="notification-details">
+                    <h4>Estoque Vazio</h4>
+                    <p>Você ainda não possui itens no estoque.</p>
+                    <p>Clique em "Novo" para adicionar seu primeiro item.</p>
+                    <small>{{ now()->format('d/m/Y H:i') }}</small>
+                </div>
+            </div>
+            @endif
         </div>
     </div>
 
