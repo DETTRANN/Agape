@@ -257,33 +257,32 @@ Principais rotas estão descritas na seção “Páginas e Navegação”.
 
 Interface otimizada para **desktop** e **dispositivos móveis** com navegação adaptativa.
 
-## Checklist de Funcionalidades - Segunda Entrega
+## Requisitos Funcionais — Terceira Entrega
 
--   [x] **Design Intuitivo** - Interface moderna e responsiva
--   [x] **Cadastro e Login** - Sistema completo com autenticação
--   [x] **Redefinição de Senha** - Recuperação via email
--   [x] **Notificações por Email** - Sistema integrado de comunicação
--   [x] **Gerenciamento de Estoque** - Modelagem de produtos
--   [x] **Ordem Automática** - Listagem ordenada
--   [x] **Filtragem de Produtos** - Busca e filtros
--   [x] **Gestão de Quantidades** - Controle em tempo real
--   [x] **Alertas de Estoque Baixo** - Notificações automáticas
--   [x] **Gestão de Preços** - Controle financeiro
--   [ ] **Gráficos e tabelas de estoque** - Sistema completo com autenticação
--   [x] **Controle de Transferências** - Criação, listagem e fluxo (pendente → em trânsito → concluída/cancelada)
--   [ ] **Ciclo de inventário** - Sistema integrado de comunicação
--   [ ] **Relatório sobre venda anuais** - Modelagem de produtos
--   [ ] **Rastreio** - Listagem ordenada
--   [ ] **Controle de Devoluções** - Busca e filtros
--   [ ] **Gestão de Quantidades** - Controle em tempo real
--   [ ] **Alertas de Estoque Baixo** - Notificações automáticas
--   [ ] **Gestão de Preços** - Controle financeiro
--   [ ] **Rastreio** - Listagem ordenada
--   [ ] **Controle de Devoluções** - Busca e filtros
--   [ ] **Gestão de Quantidades** - Controle em tempo real
--   [ ] **Alertas de Estoque Baixo** - Notificações automáticas
--   [ ] **Gestão de Preços** - Controle financeiro
--   [ ] **Gestão de Preços** - Controle financeiro
+-   [x] RF01: Localização de mercadoria
+-   [ ] RF02: Gerenciamento de quantidade no estoque
+-   [ ] RF03: Gerenciamento de saída de produtos
+-   [x] RF04: Controle de validade
+-   [ ] RF05: Multi usuários com permissão de comando
+-   [x] RF06: Histórico de movimentação
+-   [ ] RF07: Controle da variedade de preços
+-   [ ] RF08: Ordem automática
+-   [x] RF09: O sistema deve registrar todas as alterações no estoque
+-   [ ] RF10: Integração de vendas
+-   [ ] RF11: Validação de estoque
+-   [x] RF12: Gestão de Preços
+-   [x] RF13: Alertas de Estoque Baixo
+-   [ ] RF14: Controle de Devoluções
+-   [x] RF15: Filtragem de produtos
+-   [ ] RF16: Rastreios
+-   [x] RF17: Relatório sobre venda anuais
+-   [ ] RF18: Ciclo de inventário
+-   [x] RF19: Controle de Transferências
+-   [x] RF20: Cadastro e login de usuários
+-   [x] RF21: Notificações por Email
+-   [x] RF22: Redefinição de senha
+-   [x] RF23: Design Intuitivo
+-   [x] RF24: Gráficos e tabelas de estoque
 
 ## Vídeo mostrando os requisitos funcionando
 
