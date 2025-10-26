@@ -4,23 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Produto extends Model
+class CategoriaConfiguracao extends Model
 {
-    protected $table = 'produtos';
+    protected $table = 'categoria_configuracoes';
     
     protected $fillable = [
-        'id_item',
-        'status',
-        'nome_item',
-        'descricao',
-        'categoria',
-        'numero_serie',
-        'preco',
-        'data_posse',
-        'data_validade',
-        'responsavel',
-        'localidade',
-        'observacoes',
+        'nome_categoria',
+        'dias_alerta_validade',
         'user_id'
     ];
 

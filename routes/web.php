@@ -33,15 +33,14 @@ Route::get('/views/register', function () {
 // Rotas protegidas - apenas para usuários autenticados
 Route::middleware(['auth', 'force.auth'])->group(function () {
     // Página do sistema (protegida) - rota principal
-    Route::get('/system', function () {
-        return view('system');
-    })->name('system.page');
+    Route::get('/system', [\App\Http\Controllers\SystemController::class, 'index'])->name('system.page');
 
     // Rotas do estoque
     Route::get('/views/tabela_estoque', [ProdutoController::class, 'index'])->name('tabela_estoque');
     Route::post('/produtos', [ProdutoController::class, 'store'])->name('produtos.store');
     Route::put('/produtos/{id}', [ProdutoController::class, 'update'])->name('produtos.update');
     Route::delete('/produtos/{id}', [ProdutoController::class, 'destroy'])->name('produtos.destroy');
+    Route::post('/categoria-config', [ProdutoController::class, 'salvarConfigCategoria'])->name('categoria.config.save');
 
     // Rota de relatórios
     Route::get('/views/relatorios', [ProdutoController::class, 'relatorios'])->name('relatorios');

@@ -1165,100 +1165,138 @@ function closeSystemSidebar() {
    FUNCIONALIDADES DA TABELA DE ESTOQUE
    =============================================== */
 
-// Função para filtrar a tabela de estoque
+// PERFORMANCE: Debounce function para otimizar chamadas frequentes
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Cache dos elementos da tabela para melhor performance
+let tabelaCache = {
+    searchInput: null,
+    searchColumn: null,
+    rows: null,
+    lastSearchValue: "",
+    lastSearchColumn: "",
+};
+
+function initTabelaCache() {
+    tabelaCache.searchInput = document.getElementById("search-input");
+    tabelaCache.searchColumn = document.getElementById("search-column");
+    tabelaCache.rows = document.querySelectorAll(".estoque-table tbody tr");
+}
+
+// PERFORMANCE: Função otimizada para filtrar a tabela com RequestAnimationFrame
 function filtrarTabela() {
-    const searchInput = document.getElementById("search-input");
-    const searchColumn = document.getElementById("search-column");
-    const rows = document.querySelectorAll(".estoque-table tbody tr");
+    if (
+        !tabelaCache.searchInput ||
+        !tabelaCache.searchColumn ||
+        !tabelaCache.rows
+    ) {
+        initTabelaCache();
+    }
 
-    if (!searchInput || !searchColumn || !rows.length) return;
+    if (!tabelaCache.rows || !tabelaCache.rows.length) return;
 
-    const searchValue = searchInput.value.toLowerCase().trim();
-    const columnToSearch = searchColumn.value;
+    const searchValue = tabelaCache.searchInput.value.toLowerCase().trim();
+    const columnToSearch = tabelaCache.searchColumn.value;
 
-    console.log("Pesquisando por:", searchValue, "na coluna:", columnToSearch);
+    // Evitar reprocessamento desnecessário
+    if (
+        searchValue === tabelaCache.lastSearchValue &&
+        columnToSearch === tabelaCache.lastSearchColumn
+    ) {
+        return;
+    }
 
-    rows.forEach((row) => {
-        let cell;
-        switch (columnToSearch) {
-            case "id_item":
-                cell = row.cells[0]; // ID
-                break;
-            case "status":
-                cell = row.cells[1]; // Status
-                break;
-            case "nome":
-                cell = row.cells[2]; // Nome Item
-                break;
-            case "descricao":
-                cell = row.cells[3]; // Descrição
-                break;
-            case "categoria":
-                cell = row.cells[4]; // Categoria
-                break;
-            case "serie":
-                cell = row.cells[5]; // Número de Série
-                break;
-            case "preco":
-                cell = row.cells[6]; // Preço
-                break;
-            case "data":
-                cell = row.cells[7]; // Data de Posse
-                break;
-            case "responsavel":
-                cell = row.cells[8]; // Responsável
-                break;
-            case "localidade":
-                cell = row.cells[9]; // Localidade
-                break;
-            case "observacoes":
-                cell = row.cells[10]; // Observações
-                break;
-            default:
-                cell = null;
-        }
+    tabelaCache.lastSearchValue = searchValue;
+    tabelaCache.lastSearchColumn = columnToSearch;
 
-        if (cell) {
-            const text = cell.textContent.toLowerCase().trim();
-            const matches = searchValue === "" || text.includes(searchValue);
-            row.style.display = matches ? "" : "none";
+    // PERFORMANCE: Usar requestAnimationFrame para suavizar a renderização
+    requestAnimationFrame(() => {
+        const columnMap = {
+            id_item: 0,
+            status: 1,
+            nome: 2,
+            descricao: 3,
+            categoria: 4,
+            serie: 5,
+            preco: 6,
+            data: 7,
+            validade: 8,
+            responsavel: 9,
+            localidade: 10,
+            observacoes: 11,
+        };
 
-            if (columnToSearch === "id_item") {
-                console.log("ID da linha:", text, "corresponde:", matches);
+        const cellIndex = columnMap[columnToSearch];
+
+        // PERFORMANCE: Usar DocumentFragment para batch updates
+        tabelaCache.rows.forEach((row) => {
+            const cell = row.cells[cellIndex];
+
+            if (cell) {
+                const text = cell.textContent.toLowerCase().trim();
+                const matches =
+                    searchValue === "" || text.includes(searchValue);
+                row.style.display = matches ? "" : "none";
             }
-        }
+        });
     });
 }
 
-// Função para limpar a pesquisa da tabela
+// PERFORMANCE: Limpar pesquisa otimizada
 function limparPesquisa() {
     const searchInput = document.getElementById("search-input");
-    const rows = document.querySelectorAll(".estoque-table tbody tr");
 
     if (searchInput) {
         searchInput.value = "";
     }
 
-    rows.forEach((row) => {
-        row.style.display = "";
+    // Limpar cache
+    tabelaCache.lastSearchValue = "";
+    tabelaCache.lastSearchColumn = "";
+
+    // PERFORMANCE: Usar requestAnimationFrame para batch update
+    requestAnimationFrame(() => {
+        if (!tabelaCache.rows) {
+            initTabelaCache();
+        }
+
+        if (tabelaCache.rows) {
+            tabelaCache.rows.forEach((row) => {
+                row.style.display = "";
+            });
+        }
     });
 }
 
-// Funções para controle do modal de novo produto
+// PERFORMANCE: Funções otimizadas para controle do modal de novo produto
 function abrirModal() {
     const modal = document.getElementById("modalNovoProduto");
     const overlay = document.getElementById("overlay");
 
     if (modal && overlay) {
-        modal.style.display = "flex";
-        overlay.classList.add("active");
-        document.body.style.overflow = "hidden";
+        // PERFORMANCE: requestAnimationFrame para animação suave
+        requestAnimationFrame(() => {
+            modal.style.display = "flex";
+            overlay.classList.add("active");
+            document.body.style.overflow = "hidden";
 
-        // Foco no primeiro campo do formulário
-        const primeiroInput = modal.querySelector("input");
-        if (primeiroInput) {
-            setTimeout(() => primeiroInput.focus(), 100);
-        }
+            // Foco no primeiro campo do formulário
+            const primeiroInput = modal.querySelector("input, select");
+            if (primeiroInput) {
+                // PERFORMANCE: Delay mínimo para garantir que modal está visível
+                requestAnimationFrame(() => primeiroInput.focus());
+            }
+        });
     }
 }
 
@@ -1267,10 +1305,78 @@ function fecharModal() {
     const overlay = document.getElementById("overlay");
 
     if (modal && overlay) {
-        modal.style.display = "none";
-        overlay.classList.remove("active");
-        document.body.style.overflow = "";
+        // PERFORMANCE: requestAnimationFrame para animação suave
+        requestAnimationFrame(() => {
+            modal.style.display = "none";
+            overlay.classList.remove("active");
+            document.body.style.overflow = "";
+        });
     }
+}
+
+// PERFORMANCE: Funções otimizadas para modal de configuração de categorias
+function abrirModalConfigCategorias() {
+    const modal = document.getElementById("modalConfigCategorias");
+    const overlay = document.getElementById("overlay");
+
+    if (modal && overlay) {
+        requestAnimationFrame(() => {
+            modal.style.display = "flex";
+            overlay.classList.add("active");
+            document.body.style.overflow = "hidden";
+            // Inicializar toggles de "Sem validade"
+            initSemValidadeToggles();
+        });
+    }
+}
+
+function fecharModalConfigCategorias() {
+    const modal = document.getElementById("modalConfigCategorias");
+    const overlay = document.getElementById("overlay");
+
+    if (modal && overlay) {
+        requestAnimationFrame(() => {
+            modal.style.display = "none";
+            overlay.classList.remove("active");
+            document.body.style.overflow = "";
+        });
+    }
+}
+
+// Inicializa e sincroniza checkboxes "Sem validade" com inputs de dias
+function initSemValidadeToggles() {
+    const modal = document.getElementById("modalConfigCategorias");
+    if (!modal) return;
+
+    const forms = modal.querySelectorAll("form.form-categoria-config");
+    forms.forEach((form) => {
+        const chk = form.querySelector('input[name="sem_validade"]');
+        const inputDias = form.querySelector(
+            'input[name="dias_alerta_validade"]'
+        );
+        if (!inputDias) return;
+
+        const applyState = () => {
+            const checked = chk && chk.checked;
+            if (checked) {
+                inputDias.setAttribute("disabled", "disabled");
+                inputDias.removeAttribute("required");
+            } else {
+                inputDias.removeAttribute("disabled");
+                inputDias.setAttribute("required", "required");
+            }
+        };
+
+        // Estado inicial
+        applyState();
+
+        // Evento de mudança
+        if (chk && !chk.__bound) {
+            chk.addEventListener("change", applyState);
+            // Marcar para evitar múltiplos bindings
+            chk.__bound = true;
+        }
+    });
 }
 
 /* ===============================================
@@ -1414,18 +1520,24 @@ function initEstoqueMobile() {
     });
 }
 
-// Função para inicializar eventos da tabela de estoque
+// PERFORMANCE: Função otimizada para inicializar eventos da tabela de estoque
 function initEstoqueEvents() {
-    // Event listeners para filtro de pesquisa
+    // Inicializar cache da tabela
+    initTabelaCache();
+
+    // Event listeners para filtro de pesquisa com DEBOUNCE
     const searchInput = document.getElementById("search-input");
     const searchColumn = document.getElementById("search-column");
     const btnLimpar = document.querySelector(".btn-limpar");
     const btnNovo = document.querySelector(".btn-novo");
 
+    // PERFORMANCE: Debounce de 150ms para input (reduz chamadas enquanto digita)
     if (searchInput) {
-        searchInput.addEventListener("input", filtrarTabela);
+        const debouncedFilter = debounce(filtrarTabela, 150);
+        searchInput.addEventListener("input", debouncedFilter);
     }
 
+    // PERFORMANCE: Filtro imediato no change (usuário já escolheu)
     if (searchColumn) {
         searchColumn.addEventListener("change", filtrarTabela);
     }
@@ -1442,24 +1554,32 @@ function initEstoqueEvents() {
     document.addEventListener("keydown", function (e) {
         if (e.key === "Escape") {
             const modal = document.getElementById("modalNovoProduto");
-            if (modal && modal.style.display === "block") {
+            const modalConfig = document.getElementById(
+                "modalConfigCategorias"
+            );
+
+            if (modal && modal.style.display === "flex") {
                 fecharModal();
+            } else if (modalConfig && modalConfig.style.display === "flex") {
+                fecharModalConfigCategorias();
             }
         }
     });
 
     // Prevenir fechamento do modal ao clicar dentro do conteúdo
-    const modalContent = document.querySelector(".modal-content");
-    if (modalContent) {
-        modalContent.addEventListener("click", function (e) {
+    const modalContent = document.querySelectorAll(".modal-content");
+    modalContent.forEach((content) => {
+        content.addEventListener("click", function (e) {
             e.stopPropagation();
         });
-    }
+    });
 
     // Inicializar menu mobile de estoque
     initEstoqueMobile();
 
-    console.log("Eventos da tabela de estoque inicializados com sucesso!");
+    console.log(
+        "✅ Eventos da tabela de estoque inicializados com performance otimizada!"
+    );
 }
 
 /* ===============================================
@@ -1807,22 +1927,26 @@ document.addEventListener("DOMContentLoaded", function () {
 // SISTEMA DE NOTIFICAÇÕES
 // =====================================
 
-// Controlar painel de notificações
+// PERFORMANCE: Controlar painel de notificações com animação otimizada
 function toggleNotifications() {
     const panel = document.getElementById("notificationsPanel");
     const overlay = document.getElementById("overlay");
 
     if (panel && overlay) {
-        // Usar requestAnimationFrame para suavizar animações
+        // PERFORMANCE: Usar requestAnimationFrame para suavizar animações
         requestAnimationFrame(() => {
-            panel.classList.toggle("active");
-            overlay.classList.toggle("active");
+            const isActive = panel.classList.contains("active");
 
-            // Evitar scroll do body quando painel estiver aberto
-            if (panel.classList.contains("active")) {
-                document.body.style.overflow = "hidden";
-            } else {
+            if (isActive) {
+                // Fechar
+                panel.classList.remove("active");
+                overlay.classList.remove("active");
                 document.body.style.overflow = "";
+            } else {
+                // Abrir
+                panel.classList.add("active");
+                overlay.classList.add("active");
+                document.body.style.overflow = "hidden";
             }
         });
     }
@@ -1858,103 +1982,113 @@ function initNotificationSystem() {
 // Lidar com mudança de avatar
 function handleAvatarChange(event, type) {
     const file = event.target.files[0];
-    
+
     if (!file) {
         return;
     }
 
     // Validar tipo de arquivo
-    if (!file.type.startsWith('image/')) {
-        alert('Por favor, selecione apenas arquivos de imagem.');
-        event.target.value = '';
+    if (!file.type.startsWith("image/")) {
+        alert("Por favor, selecione apenas arquivos de imagem.");
+        event.target.value = "";
         return;
     }
 
     // Validar tamanho do arquivo (máximo 5MB)
     if (file.size > 5 * 1024 * 1024) {
-        alert('A imagem deve ter no máximo 5MB.');
-        event.target.value = '';
+        alert("A imagem deve ter no máximo 5MB.");
+        event.target.value = "";
         return;
     }
 
     // Ler e exibir preview da imagem
     const reader = new FileReader();
-    
-    reader.onload = function(e) {
+
+    reader.onload = function (e) {
         const imageUrl = e.target.result;
-        
+
         // Atualizar TODOS os avatares na página
         updateAllAvatars(imageUrl);
 
         // Enviar a imagem ao servidor
         uploadAvatarToServer(file);
-        
+
         console.log(`Avatar atualizado via ${type}`);
     };
-    
-    reader.onerror = function() {
-        alert('Erro ao ler a imagem. Por favor, tente novamente.');
-        event.target.value = '';
+
+    reader.onerror = function () {
+        alert("Erro ao ler a imagem. Por favor, tente novamente.");
+        event.target.value = "";
     };
-    
+
     reader.readAsDataURL(file);
 }
 
 // Função para atualizar todos os avatares na página
 function updateAllAvatars(imageUrl) {
     // Atualizar avatar grande desktop
-    const desktopAvatar = document.querySelector('.profile-user-avatar');
+    const desktopAvatar = document.querySelector(".profile-user-avatar");
     if (desktopAvatar) {
         desktopAvatar.src = imageUrl;
     }
-    
+
     // Atualizar avatar grande mobile
-    const mobileAvatar = document.querySelector('.mobile-profile-user-avatar');
+    const mobileAvatar = document.querySelector(".mobile-profile-user-avatar");
     if (mobileAvatar) {
         mobileAvatar.src = imageUrl;
     }
-    
+
     // Atualizar avatar do botão inferior desktop
-    const desktopButtonAvatar = document.querySelector('.header-sections-person img');
+    const desktopButtonAvatar = document.querySelector(
+        ".header-sections-person img"
+    );
     if (desktopButtonAvatar) {
         desktopButtonAvatar.src = imageUrl;
     }
-    
+
     // Atualizar avatar do botão inferior mobile (sidebar)
-    const mobileButtonAvatar = document.querySelector('.sidebar-bottom img[alt="Perfil"]');
+    const mobileButtonAvatar = document.querySelector(
+        '.sidebar-bottom img[alt="Perfil"]'
+    );
     if (mobileButtonAvatar) {
         mobileButtonAvatar.src = imageUrl;
     }
-    
-    console.log('Todos os avatares atualizados!');
+
+    console.log("Todos os avatares atualizados!");
 }
 
 // Função para fazer upload ao servidor
 function uploadAvatarToServer(file) {
     const formData = new FormData();
-    formData.append('avatar', file);
-    
-    fetch('/user/avatar', {
-        method: 'POST',
+    formData.append("avatar", file);
+
+    fetch("/user/avatar", {
+        method: "POST",
         body: formData,
         headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-        }
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
+                .content,
+        },
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            console.log('Avatar salvo com sucesso:', data);
-            // Atualiza todas as imagens com a URL do servidor
-            updateAllAvatars(data.avatar_url);
-        } else {
-            alert('Erro ao salvar avatar: ' + (data.message || 'Erro desconhecido'));
-        }
-    })
-    .catch(error => {
-        console.error('Erro ao fazer upload do avatar:', error);
-        alert('Erro ao fazer upload do avatar. Por favor, tente novamente.');
-    });
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.success) {
+                console.log("Avatar salvo com sucesso:", data);
+                // Atualiza todas as imagens com a URL do servidor
+                updateAllAvatars(data.avatar_url);
+            } else {
+                alert(
+                    "Erro ao salvar avatar: " +
+                        (data.message || "Erro desconhecido")
+                );
+            }
+        })
+        .catch((error) => {
+            console.error("Erro ao fazer upload do avatar:", error);
+            alert(
+                "Erro ao fazer upload do avatar. Por favor, tente novamente."
+            );
+        });
 }
 
 // =====================================
@@ -1962,73 +2096,81 @@ function uploadAvatarToServer(file) {
 // =====================================
 
 function openAvatarModal(avatarSrc, userName, userEmail) {
-    const modal = document.getElementById('avatarModal');
-    const modalImage = document.getElementById('avatarModalImage');
-    const modalName = document.getElementById('avatarModalName');
-    const modalEmail = document.getElementById('avatarModalEmail');
-    
+    const modal = document.getElementById("avatarModal");
+    const modalImage = document.getElementById("avatarModalImage");
+    const modalName = document.getElementById("avatarModalName");
+    const modalEmail = document.getElementById("avatarModalEmail");
+
     if (modal && modalImage) {
         modalImage.src = avatarSrc;
         if (modalName) modalName.textContent = userName;
         if (modalEmail) modalEmail.textContent = userEmail;
-        
-        modal.style.display = 'flex';
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
+
+        modal.style.display = "flex";
+        modal.classList.add("active");
+        document.body.style.overflow = "hidden";
     }
 }
 
 function closeAvatarModal() {
-    const modal = document.getElementById('avatarModal');
+    const modal = document.getElementById("avatarModal");
     if (modal) {
-        modal.classList.remove('active');
-        modal.style.display = 'none';
-        document.body.style.overflow = '';
+        modal.classList.remove("active");
+        modal.style.display = "none";
+        document.body.style.overflow = "";
     }
 }
 
 // Adicionar event listeners para abrir o modal ao clicar nas fotos
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener("DOMContentLoaded", function () {
     // Garantir que o modal comece oculto
-    const avatarModal = document.getElementById('avatarModal');
+    const avatarModal = document.getElementById("avatarModal");
     if (avatarModal) {
-        avatarModal.classList.remove('active');
-        avatarModal.style.display = 'none';
+        avatarModal.classList.remove("active");
+        avatarModal.style.display = "none";
     }
-    
+
     // Avatar desktop
-    const desktopAvatar = document.getElementById('desktopAvatar');
+    const desktopAvatar = document.getElementById("desktopAvatar");
     if (desktopAvatar) {
-        desktopAvatar.style.cursor = 'pointer';
-        desktopAvatar.addEventListener('click', function(e) {
+        desktopAvatar.style.cursor = "pointer";
+        desktopAvatar.addEventListener("click", function (e) {
             // Não abrir se clicar no botão de editar
-            if (e.target.classList.contains('avatar-edit-btn')) return;
-            
-            const userName = document.querySelector('.profile-user-name')?.textContent || 'Usuário';
-            const userEmail = document.querySelector('.profile-user-email')?.textContent || '';
+            if (e.target.classList.contains("avatar-edit-btn")) return;
+
+            const userName =
+                document.querySelector(".profile-user-name")?.textContent ||
+                "Usuário";
+            const userEmail =
+                document.querySelector(".profile-user-email")?.textContent ||
+                "";
             openAvatarModal(this.src, userName, userEmail);
         });
     }
-    
+
     // Avatar mobile
-    const mobileAvatar = document.getElementById('mobileAvatar');
+    const mobileAvatar = document.getElementById("mobileAvatar");
     if (mobileAvatar) {
-        mobileAvatar.style.cursor = 'pointer';
-        mobileAvatar.addEventListener('click', function(e) {
+        mobileAvatar.style.cursor = "pointer";
+        mobileAvatar.addEventListener("click", function (e) {
             // Não abrir se clicar no botão de editar
-            if (e.target.classList.contains('mobile-avatar-edit-btn')) return;
-            
-            const userName = document.querySelector('.mobile-profile-user-name')?.textContent || 'Usuário';
-            const userEmail = document.querySelector('.mobile-profile-user-info .profile-user-email')?.textContent || '';
+            if (e.target.classList.contains("mobile-avatar-edit-btn")) return;
+
+            const userName =
+                document.querySelector(".mobile-profile-user-name")
+                    ?.textContent || "Usuário";
+            const userEmail =
+                document.querySelector(
+                    ".mobile-profile-user-info .profile-user-email"
+                )?.textContent || "";
             openAvatarModal(this.src, userName, userEmail);
         });
     }
 });
 
 // Fechar modal com tecla ESC
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
+document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
         closeAvatarModal();
     }
 });
-

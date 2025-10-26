@@ -261,6 +261,24 @@
         @csrf
     </form>
 
+    <!-- Painel de Notificações -->
+    <div class="notifications-panel" id="notificationsPanel">
+        <div class="notifications-header">
+            <h3>Notificações do Sistema</h3>
+            <button class="close-notifications" onclick="toggleNotifications()">&times;</button>
+        </div>
+        <div class="notifications-content">
+            <div class="notification-item info">
+                <div class="notification-icon">🚚</div>
+                <div class="notification-details">
+                    <h4>Transferências Ativas</h4>
+                    <p>Acompanhe o status de todas as transferências em andamento.</p>
+                    <small>{{ now()->format('d/m/Y H:i') }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Main Content -->
     <main class="transfer-page">
         <!-- Header + Stats Combined -->
@@ -328,7 +346,7 @@
         <!-- Lista de Transferências -->
         <section class="estoque-table-section">
             <div class="estoque-table-container">
-                <table class="estoque-table">
+                <table class="estoque-table transferencias-table">
                     <thead>
                         <tr>
                             <th>Produto</th>

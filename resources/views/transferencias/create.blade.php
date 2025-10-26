@@ -255,6 +255,24 @@
         @csrf
     </form>
 
+    <!-- Painel de Notificações -->
+    <div class="notifications-panel" id="notificationsPanel">
+        <div class="notifications-header">
+            <h3>Notificações do Sistema</h3>
+            <button class="close-notifications" onclick="toggleNotifications()">&times;</button>
+        </div>
+        <div class="notifications-content">
+            <div class="notification-item info">
+                <div class="notification-icon">🚚</div>
+                <div class="notification-details">
+                    <h4>Nova Transferência</h4>
+                    <p>Preencha os dados para criar uma nova solicitação de transferência.</p>
+                    <small>{{ now()->format('d/m/Y H:i') }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Main Content -->
     <main class="transfer-page transfer-create">
         <!-- Header -->

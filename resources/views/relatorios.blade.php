@@ -225,7 +225,7 @@
             </div>
             <!-- Notificações e Perfil -->
             <div class="bottom-section">
-                <div class="header-sections header-sections-notification">
+                <div class="header-sections header-sections-notification" onclick="toggleNotifications()">
                     <img src="{{url('frontend/img/notificacao.png')}}" alt="" />
                     <div>Notificações</div>
                 </div>
@@ -236,6 +236,24 @@
             </div>
         </section>
     </header>
+
+    <!-- Painel de Notificações -->
+    <div class="notifications-panel" id="notificationsPanel">
+        <div class="notifications-header">
+            <h3>Notificações do Sistema</h3>
+            <button class="close-notifications" onclick="toggleNotifications()">&times;</button>
+        </div>
+        <div class="notifications-content">
+            <div class="notification-item info">
+                <div class="notification-icon">📊</div>
+                <div class="notification-details">
+                    <h4>Relatórios Atualizados</h4>
+                    <p>Todos os relatórios estão atualizados e disponíveis para consulta.</p>
+                    <small>{{ now()->format('d/m/Y H:i') }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
 
   <main class="main-relatorios">
 
@@ -310,28 +328,56 @@
           <h2 class="vendas-anuais__title">Relatório de Vendas Anuais {{ now()->year }}</h2>
           <div class="vendas-anuais__content">
             <div class="vendas-stat">
-              <span class="vendas-icon">📈</span>
+              <div class="vendas-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="img" focusable="false">
+                  <path d="M3 3v18h18" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M7 15l4-4 3 3 5-5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="7" cy="15" r="0.5"/>
+                  <circle cx="11" cy="11" r="0.5"/>
+                  <circle cx="14" cy="14" r="0.5"/>
+                  <circle cx="19" cy="9" r="0.5"/>
+                </svg>
+              </div>
               <div>
                 <p class="vendas-label">Total de Vendas</p>
                 <p class="vendas-value">{{ $totalVendasAno ?? 0 }}</p>
               </div>
             </div>
             <div class="vendas-stat">
-              <span class="vendas-icon">�</span>
+              <div class="vendas-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="img" focusable="false">
+                  <rect x="3" y="6" width="18" height="12" rx="2" ry="2"/>
+                  <circle cx="9" cy="12" r="2.5"/>
+                  <path d="M16 10h3M16 14h3" stroke-linecap="round"/>
+                </svg>
+              </div>
               <div>
                 <p class="vendas-label">Valor Total</p>
                 <p class="vendas-value">R$ {{ number_format($valorTotalVendas ?? 0, 2, ',', '.') }}</p>
               </div>
             </div>
             <div class="vendas-stat">
-              <span class="vendas-icon">�</span>
+              <div class="vendas-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="img" focusable="false">
+                  <path d="M4 7h10a3 3 0 0 1 0 6H7"/>
+                  <path d="M7 13h7a3 3 0 0 1 0 6H4"/>
+                  <path d="M4 7h5" stroke-linecap="round"/>
+                </svg>
+              </div>
               <div>
                 <p class="vendas-label">Ticket Médio</p>
                 <p class="vendas-value">R$ {{ number_format($mediaValorVenda ?? 0, 2, ',', '.') }}</p>
               </div>
             </div>
             <div class="vendas-stat">
-              <span class="vendas-icon">�</span>
+              <div class="vendas-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="img" focusable="false">
+                  <path d="M8 6h8v4a4 4 0 0 1-4 4H8V6z"/>
+                  <path d="M8 6H6a2 2 0 0 0-2 2v1a4 4 0 0 0 4 4h0"/>
+                  <path d="M16 6h2a2 2 0 0 1 2 2v1a4 4 0 0 1-4 4h0"/>
+                  <path d="M10 14l-1 6h6l-1-6"/>
+                </svg>
+              </div>
               <div>
                 <p class="vendas-label">Mais Vendido</p>
                 <p class="vendas-value" style="font-size: 14px;">{{ isset($produtoMaisVendido) ? $produtoMaisVendido['nome'] : 'Nenhum' }}</p>

@@ -109,7 +109,7 @@
 
         <!-- Notificações e Perfil -->
         <div class="bottom-section">
-          <div class="header-sections header-sections-notification">
+          <div class="header-sections header-sections-notification" onclick="toggleNotifications()">
             <img src="{{url('frontend/img/notificacao.png')}}" alt="" />
             <div>Notificações</div>
           </div>
@@ -149,7 +149,7 @@
           
           <!-- Bottom section mobile -->
           <div class="sidebar-bottom">
-            <div class="sidebar-item">
+            <div class="sidebar-item" onclick="toggleNotifications()">
               <img src="{{url('frontend/img/notificacao.png')}}" alt="" />
               <span>Notificações</span>
             </div>
@@ -245,6 +245,52 @@
             <button class="close-notifications" onclick="toggleNotifications()">&times;</button>
         </div>
         <div class="notifications-content">
+            @if($produtosVencidos && $produtosVencidos->count() > 0)
+            <div class="notification-item alert-warning">
+                <div class="notification-icon">❌</div>
+                <div class="notification-details">
+                    <h4>Produtos Vencidos!</h4>
+                    <p><strong>{{ $produtosVencidos->count() }}</strong> {{ $produtosVencidos->count() == 1 ? 'produto está vencido' : 'produtos estão vencidos' }}:</p>
+                    <ul style="margin: 8px 0; padding-left: 20px;">
+                        @foreach($produtosVencidos->take(3) as $produto)
+              @php
+                $diasVencido = (int) \Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::parse($produto->data_validade), false);
+              @endphp
+                            <li><strong>{{ $produto->nome_item }}</strong> - Vencido há {{ abs($diasVencido) }} dias</li>
+                        @endforeach
+                        @if($produtosVencidos->count() > 3)
+                            <li><em>E mais {{ $produtosVencidos->count() - 3 }} produto(s)...</em></li>
+                        @endif
+                    </ul>
+                    <p>Verifique estes itens imediatamente!</p>
+                    <small>{{ now()->format('d/m/Y H:i') }}</small>
+                </div>
+            </div>
+            @endif
+            
+            @if($produtosProximosVencimento && $produtosProximosVencimento->count() > 0)
+            <div class="notification-item alert-warning">
+                <div class="notification-icon">⚠️</div>
+                <div class="notification-details">
+                    <h4>Alerta de Validade Próxima</h4>
+                    <p><strong>{{ $produtosProximosVencimento->count() }}</strong> {{ $produtosProximosVencimento->count() == 1 ? 'produto vencerá' : 'produtos vencerão' }} em breve:</p>
+                    <ul style="margin: 8px 0; padding-left: 20px;">
+                        @foreach($produtosProximosVencimento->take(3) as $produto)
+              @php
+                $diasRestantes = (int) \Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::parse($produto->data_validade), false);
+              @endphp
+                            <li><strong>{{ $produto->nome_item }}</strong> - Vence em {{ $diasRestantes }} {{ $diasRestantes == 1 ? 'dia' : 'dias' }}</li>
+                        @endforeach
+                        @if($produtosProximosVencimento->count() > 3)
+                            <li><em>E mais {{ $produtosProximosVencimento->count() - 3 }} produto(s)...</em></li>
+                        @endif
+                    </ul>
+                    <p>Planeje o uso ou descarte destes itens com antecedência.</p>
+                    <small>{{ now()->format('d/m/Y H:i') }}</small>
+                </div>
+            </div>
+            @endif
+            
             @if($estoqueAlerta)
             <div class="notification-item alert-warning">
                 <div class="notification-icon">⚠️</div>
@@ -309,6 +355,7 @@
                             <option value="serie">Número de Série</option>
                             <option value="preco">Preço</option>
                             <option value="data">Data de Posse</option>
+                            <option value="validade">Validade</option>
                             <option value="responsavel">Responsável</option>
                             <option value="localidade">Localidade</option>
                             <option value="observacoes">Observações</option>
@@ -320,6 +367,7 @@
                 </div>
                 <div class="estoque-action-buttons">
                     <button class="btn-atualizar" onclick="window.location.reload()">Atualizar</button>
+                    <button class="btn-config-categorias" onclick="abrirModalConfigCategorias()">Configurar Alertas</button>
                     <button class="btn-novo">Novo</button>
                 </div>
             </div>
@@ -339,6 +387,7 @@
                             <th>Número de Série</th>
                             <th>Preço</th>
                             <th>Data de Posse</th>
+                            <th>Validade</th>
                             <th>Responsável</th>
                             <th>Localidade</th>
                             <th>Observações</th>
@@ -359,13 +408,32 @@
                             <td>{{ $produto->numero_serie ?? 'N/A' }}</td>
                             <td>R$ {{ number_format($produto->preco, 2, ',', '.') }}</td>
                             <td>{{ \Carbon\Carbon::parse($produto->data_posse)->format('d/m/Y') }}</td>
+                            <td>
+                                @if($produto->data_validade)
+                  @php
+                    $validade = \Carbon\Carbon::parse($produto->data_validade);
+                    $hoje = \Carbon\Carbon::now();
+                    $diasRestantes = (int) $hoje->diffInDays($validade, false);
+                  @endphp
+                                    <span class="{{ $diasRestantes <= 7 && $diasRestantes >= 0 ? 'validade-proxima' : ($diasRestantes < 0 ? 'validade-vencida' : '') }}">
+                                        {{ $validade->format('d/m/Y') }}
+                                        @if($diasRestantes <= 7 && $diasRestantes >= 0)
+                                            <br><small style="color: #ff9800;">⚠️ Vence em {{ $diasRestantes }} dias</small>
+                                        @elseif($diasRestantes < 0)
+                                            <br><small style="color: #f44336;">❌ Vencido há {{ abs($diasRestantes) }} dias</small>
+                                        @endif
+                                    </span>
+                                @else
+                                    <span style="color: var(--cor-texto-secundaria);">Sem validade</span>
+                                @endif
+                            </td>
                             <td>{{ $produto->responsavel }}</td>
                             <td>{{ $produto->localidade ?? 'N/A' }}</td>
                             <td>{{ Str::limit($produto->observacoes, 30) ?? 'N/A' }}</td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="11" style="text-align: center; padding: 2rem; color: var(--cor-texto-secundaria);">
+                            <td colspan="12" style="text-align: center; padding: 2rem; color: var(--cor-texto-secundaria);">
                                 <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
                                     <img src="{{url('frontend/img/estoque-pronto.png')}}" alt="Sem itens" style="width: 64px; height: 64px; opacity: 0.5;">
                                     <p style="margin: 0; font-size: 1.1rem;">Nenhum item encontrado no estoque</p>
@@ -427,6 +495,12 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="data_validade">Data de Validade (Opcional)</label>
+                    <input type="date" id="data_validade" name="data_validade" placeholder="Deixe em branco se não houver validade">
+                    <small style="color: var(--cor-texto-secundaria); font-size: 0.85rem;">Você será notificado quando faltar 7 dias para o vencimento</small>
+                </div>
+
+                <div class="form-group">
                     <label for="responsavel">Responsável *</label>
                     <input type="email" id="responsavel" name="responsavel" required placeholder="email@exemplo.com">
                 </div>
@@ -446,6 +520,62 @@
                     <button type="button" class="btn-cancelar" onclick="fecharModal()">Cancelar</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- Modal de Configuração de Alertas por Categoria -->
+    <div class="modal" id="modalConfigCategorias" style="display: none;">
+        <div class="modal-content">
+            <h2>⚙️ Configurar Alertas de Validade por Categoria</h2>
+            <p style="color: var(--cor-texto-secundaria); margin-bottom: 20px;">
+                Defina quantos dias antes do vencimento você deseja ser alertado para cada categoria de produto.
+                <br><strong>Padrão: 30 dias</strong>
+            </p>
+            
+            @if($categorias && $categorias->count() > 0)
+                @foreach($categorias as $categoria)
+                    <form action="{{ route('categoria.config.save') }}" method="POST" class="form-categoria-config">
+                        @csrf
+                        <input type="hidden" name="nome_categoria" value="{{ $categoria }}">
+                        
+            @php
+              $valorConfig = $configsCategorias[$categoria] ?? 30;
+              $semValidade = ($valorConfig === 0);
+            @endphp
+            <div class="form-group-inline">
+              <label for="dias_{{ Str::slug($categoria) }}">
+                <strong>{{ $categoria }}</strong>
+              </label>
+              <div class="input-group-dias">
+                <label style="display:flex; align-items:center; gap:8px; margin-right:12px; font-weight: 500;">
+                  <input type="checkbox" name="sem_validade" id="sem_validade_{{ Str::slug($categoria) }}" value="1" {{ $semValidade ? 'checked' : '' }}>
+                  <span>Sem validade (não gerar alertas)</span>
+                </label>
+                <input 
+                  type="number" 
+                  id="dias_{{ Str::slug($categoria) }}" 
+                  name="dias_alerta_validade" 
+                  min="1" 
+                  max="365" 
+                  value="{{ $semValidade ? 30 : $valorConfig }}"
+                  {{ $semValidade ? 'disabled' : 'required' }}
+                  step="1"
+                >
+                <span class="input-suffix">dias antes</span>
+                <button type="submit" class="btn-salvar-mini">Salvar</button>
+              </div>
+            </div>
+                    </form>
+                @endforeach
+            @else
+                <p style="text-align: center; color: var(--cor-texto-secundaria); padding: 40px;">
+                    Nenhuma categoria encontrada. Adicione produtos ao estoque para configurar alertas.
+                </p>
+            @endif
+
+            <div class="form-buttons" style="margin-top: 30px;">
+                <button type="button" class="btn-cancelar" onclick="fecharModalConfigCategorias()">Fechar</button>
+            </div>
         </div>
     </div>
 

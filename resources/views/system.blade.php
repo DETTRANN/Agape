@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{url('frontend/css/inventory.css')}}" />
     <script src="{{url('frontend/js/script.js')}}" defer></script>
   </head>
-  <body>
+  <body class="system-page">
     <!-- Mobile Header -->
     <div class="top-header system-header">
       <img class="mobile-logo" src="{{url('frontend/img/logo-agape.png')}}" alt="Agape" onclick="window.location.href='{{url('/')}}'" />
@@ -109,7 +109,7 @@
 
         <!-- Notificações e Perfil -->
         <div class="bottom-section">
-          <div class="header-sections header-sections-notification">
+          <div class="header-sections header-sections-notification" onclick="toggleNotifications()">
             <img src="{{url('frontend/img/notificacao.png')}}" alt="" />
             <div>Notificações</div>
           </div>
@@ -149,7 +149,7 @@
           
           <!-- Bottom section mobile -->
           <div class="sidebar-bottom">
-            <div class="sidebar-item">
+            <div class="sidebar-item" onclick="toggleNotifications()">
               <img src="{{url('frontend/img/notificacao.png')}}" alt="" />
               <span>Notificações</span>
             </div>
@@ -239,6 +239,24 @@
       </div>
     </div>
 
+    <!-- Painel de Notificações -->
+    <div class="notifications-panel" id="notificationsPanel">
+        <div class="notifications-header">
+            <h3>Notificações do Sistema</h3>
+            <button class="close-notifications" onclick="toggleNotifications()">&times;</button>
+        </div>
+        <div class="notifications-content">
+            <div class="notification-item info">
+                <div class="notification-icon">✅</div>
+                <div class="notification-details">
+                    <h4>Sistema Operacional</h4>
+                    <p>Todos os módulos estão funcionando normalmente.</p>
+                    <small>{{ now()->format('d/m/Y H:i') }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <main>
       <nav>
         <section class="section-title-1">
@@ -263,7 +281,7 @@
           <img src="{{url('frontend/img/caixas.png')}}" alt="" />
         </section>
         <section>
-          <p><span class="item-count-stock">0</span> Itens cadastrados</p>
+          <p><span class="item-count-stock">{{ $produtosAtivos ?? 0 }}</span> Itens cadastrados</p>
         </section>
         <section>
           <button class="btn-stock" onclick="goToEstoque()">Consultar Estoque</button>
@@ -277,20 +295,105 @@
           <img src="{{url('frontend/img/entrega-rapida (1).png')}}" alt="" />
         </section>
         <section>
-          <p><span class="item-count-tracking">0</span> entregas a caminhho</p>
+          <p><span class="item-count-tracking">{{ $entregasHoje ?? 0 }}</span> entregas a caminhho</p>
         </section>
         <section>
           <button class="btn-tracking">Acompanhar Rastreio</button>
         </section>
       </nav>
     </main>
-    <article>
-      <nav>
-        <section>
-          <h1>Histórico de Transferências</h1>
-        </section>
-        <section></section>
-      </nav>
-    </article>
+
+    <!-- Seção de Atividades Recentes -->
+    <section class="atividades-recentes">      
+      <div class="atividades-grid">
+        <!-- Card: Última Atualização de Estoque -->
+        <div class="atividade-card">
+          <div class="atividade-icon estoque-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+              <line x1="12" y1="22.08" x2="12" y2="12"></line>
+            </svg>
+          </div>
+          <div class="atividade-content">
+            <h3>Estoque Atualizado</h3>
+            <p><span class="item-count-stock">{{ $produtosAtivos ?? 0 }}</span> itens cadastrados</p>
+            <small class="atividade-time">Última sincronização: Agora</small>
+          </div>
+        </div>
+
+        <!-- Card: Transferências Pendentes -->
+        <div class="atividade-card">
+          <div class="atividade-icon transfer-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <polyline points="19 12 12 19 5 12"></polyline>
+            </svg>
+          </div>
+          <div class="atividade-content">
+            <h3>Transferências</h3>
+            <p><span id="pending-transfers">{{ $transferenciasAtivas ?? 0 }}</span> movimentações ativas</p>
+            <small class="atividade-time">Acompanhe em tempo real</small>
+          </div>
+          <button class="atividade-action" onclick="goToTransferencias()">Ver Todas</button>
+        </div>
+
+        <!-- Card: Relatórios Disponíveis -->
+        <div class="atividade-card">
+          <div class="atividade-icon relatorios-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="20" x2="18" y2="10"></line>
+              <line x1="12" y1="20" x2="12" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
+          </div>
+          <div class="atividade-content">
+            <h3>Relatórios</h3>
+            <p>Dados atualizados disponíveis</p>
+            <small class="atividade-time">Gerados hoje</small>
+          </div>
+          <button class="atividade-action" onclick="goToRelatorios()">Acessar</button>
+        </div>
+
+        <!-- Card: Auditoria -->
+        <div class="atividade-card">
+          <div class="atividade-icon auditoria-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+          </div>
+          <div class="atividade-content">
+            <h3>Auditoria</h3>
+            <p>Logs e histórico completo</p>
+            <small class="atividade-time">Monitoramento ativo</small>
+          </div>
+          <button class="atividade-action" onclick="goToAuditoria()">Visualizar</button>
+        </div>
+      </div>
+
+      <!-- Resumo Rápido -->
+      <div class="resumo-rapido">
+        <div class="resumo-item">
+          <span class="resumo-label">Produtos Ativos</span>
+          <span class="resumo-value"><span class="item-count-stock">{{ $produtosAtivos ?? 0 }}</span></span>
+        </div>
+        <div class="resumo-item">
+          <span class="resumo-label">Entregas Hoje</span>
+          <span class="resumo-value"><span class="item-count-tracking">{{ $entregasHoje ?? 0 }}</span></span>
+        </div>
+        <div class="resumo-item">
+          <span class="resumo-label">Status do Sistema</span>
+          <span class="resumo-value status-online">
+            <span class="status-indicator"></span>
+            Online
+          </span>
+        </div>
+      </div>
+    </section>
+
   </body>
 </html>
