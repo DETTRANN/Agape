@@ -260,23 +260,23 @@ Interface otimizada para **desktop** e **dispositivos móveis** com navegação 
 ## Requisitos Funcionais — Terceira Entrega
 
 -   [x] RF01: Localização de mercadoria
--   [ ] RF02: Gerenciamento de quantidade no estoque
--   [ ] RF03: Gerenciamento de saída de produtos
+-   [x] RF02: Gerenciamento de quantidade no estoque
+-   [x] RF03: Gerenciamento de saída de produtos
 -   [x] RF04: Controle de validade
--   [ ] RF05: Multi usuários com permissão de comando
+-   [x] RF05: Multi usuários com permissão de comando
 -   [x] RF06: Histórico de movimentação
--   [ ] RF07: Controle da variedade de preços
--   [ ] RF08: Ordem automática
+-   [x] RF07: Controle da variedade de preços
+-   [x] RF08: Ordem automática
 -   [x] RF09: O sistema deve registrar todas as alterações no estoque
--   [ ] RF10: Integração de vendas
--   [ ] RF11: Validação de estoque
+-   [x] RF10: Integração de vendas
+-   [x] RF11: Validação de estoque
 -   [x] RF12: Gestão de Preços
 -   [x] RF13: Alertas de Estoque Baixo
--   [ ] RF14: Controle de Devoluções
+-   [x] RF14: Controle de Devoluções
 -   [x] RF15: Filtragem de produtos
--   [ ] RF16: Rastreios
+-   [x] RF16: Rastreios
 -   [x] RF17: Relatório sobre venda anuais
--   [ ] RF18: Ciclo de inventário
+-   [x] RF18: Ciclo de inventário
 -   [x] RF19: Controle de Transferências
 -   [x] RF20: Cadastro e login de usuários
 -   [x] RF21: Notificações por Email
