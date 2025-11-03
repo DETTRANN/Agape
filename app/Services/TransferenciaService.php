@@ -164,7 +164,7 @@ class TransferenciaService
     /**
      * Cancela uma transferência
      */
-    public function cancelarTransferencia(int $id, string $motivo = null): array
+    public function cancelarTransferencia(int $id, ?string $motivo = null): array
     {
         $transferencia = $this->buscarTransferenciaDoUsuario($id);
 
