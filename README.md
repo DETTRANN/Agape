@@ -240,7 +240,7 @@ Interface otimizada para **desktop** e **dispositivos móveis** com navegação 
 -   [x] RF02: Gerenciamento de quantidade no estoque
 -   [x] RF03: Gerenciamento de saída de produtos
 -   [x] RF04: Controle de validade
--   [x] RF05: Multi usuários com permissão de comando
+-   [x] RF05: Multi usuários 
 -   [x] RF06: Histórico de movimentação
 -   [x] RF07: Controle da variedade de preços
 -   [x] RF08: Ordem automática
