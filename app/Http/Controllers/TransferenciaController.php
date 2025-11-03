@@ -2,46 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Transferencia;
-use App\Models\Produto;
-use App\Services\AuditoriaService;
+use App\Services\TransferenciaService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class TransferenciaController extends Controller
 {
-    protected $auditoriaService;
+    protected $transferenciaService;
 
-    public function __construct(AuditoriaService $auditoriaService)
+    public function __construct(TransferenciaService $transferenciaService)
     {
-        $this->auditoriaService = $auditoriaService;
+        $this->transferenciaService = $transferenciaService;
     }
 
+    /**
+     * Lista transferências com paginação
+     */
     public function index()
     {
-        $transferencias = Transferencia::where('user_id', Auth::id())
-            ->with(['produto'])
-            ->orderBy('created_at', 'desc')
-            ->paginate(20);
-
-        $estatisticas = [
-            'pendentes' => Transferencia::porUsuario(Auth::id())->pendentes()->count(),
-            'em_transito' => Transferencia::porUsuario(Auth::id())->emTransito()->count(),
-            'concluidas' => Transferencia::porUsuario(Auth::id())->concluidas()->count(),
-        ];
+        $transferencias = $this->transferenciaService->buscarTransferenciasDoUsuario();
+        $estatisticas = $this->transferenciaService->calcularEstatisticasDoUsuario();
 
         return view('transferencias.index', compact('transferencias', 'estatisticas'));
     }
 
+    /**
+     * Mostra formulário de criação de transferência
+     */
     public function create()
     {
-        $produtos = Produto::where('user_id', Auth::id())
-            ->where('status', 'Disponível')
-            ->get();
-
+        $produtos = $this->transferenciaService->buscarProdutosDisponiveis();
         return view('transferencias.create', compact('produtos'));
     }
 
+    /**
+     * Cria uma nova transferência
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -52,128 +47,60 @@ class TransferenciaController extends Controller
             'observacoes' => 'nullable|string',
         ]);
 
-        // Obter produto
-        $produto = Produto::findOrFail($request->produto_id);
-
-        // Verificar se o produto pertence ao usuário
-        if ($produto->user_id != Auth::id()) {
-            return redirect()->back()->with('error', 'Produto não encontrado.');
+        try {
+            $this->transferenciaService->criarTransferencia($request->all());
+            return redirect()->route('transferencias.index')
+                ->with('success', 'Transferência solicitada com sucesso!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
-        // Criar transferência
-        $transferencia = Transferencia::create([
-            'produto_id' => $request->produto_id,
-            'user_id' => Auth::id(),
-            'localidade_origem' => $produto->localidade ?? 'Não informado',
-            'localidade_destino' => $request->localidade_destino,
-            'responsavel_origem' => $produto->responsavel,
-            'responsavel_destino' => $request->responsavel_destino,
-            'data_solicitacao' => now(),
-            'motivo' => $request->motivo,
-            'observacoes' => $request->observacoes,
-        ]);
-
-        // Se o motivo for "Venda", marcar produto como "Ocupado"
-        if ($request->motivo === 'Venda') {
-            $produto->update(['status' => 'Ocupado']);
-            
-            // Registrar auditoria da venda
-            $this->auditoriaService->registrarAtualizacao(
-                $produto->id,
-                'status',
-                'Disponível',
-                'Ocupado',
-                'Produto vendido - Transferência ID: ' . $transferencia->id
-            );
-        }
-
-        // Registrar auditoria
-        $this->auditoriaService->registrarTransferencia(
-            $produto->id,
-            $produto->localidade ?? 'Não informado',
-            $request->localidade_destino,
-            'Transferência solicitada - ' . ($request->motivo ?? 'Sem motivo especificado')
-        );
-
-        return redirect()->route('transferencias.index')
-            ->with('success', 'Transferência solicitada com sucesso!');
     }
 
+    /**
+     * Exibe uma transferência específica
+     */
     public function show($id)
     {
-        $transferencia = Transferencia::where('user_id', Auth::id())
-            ->with(['produto'])
-            ->findOrFail($id);
-
+        $transferencia = $this->transferenciaService->buscarTransferenciaDoUsuario($id);
         return view('transferencias.show', compact('transferencia'));
     }
 
+    /**
+     * Inicia uma transferência pendente
+     */
     public function iniciarTransferencia($id)
     {
-        $transferencia = Transferencia::where('user_id', Auth::id())
-            ->findOrFail($id);
-
-        if ($transferencia->status !== 'pendente') {
-            return redirect()->back()->with('error', 'Apenas transferências pendentes podem ser iniciadas.');
+        try {
+            $resultado = $this->transferenciaService->iniciarTransferencia($id);
+            return redirect()->back()->with('success', $resultado['message']);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
-        $transferencia->iniciarTransferencia();
-
-        // Registrar auditoria
-        $this->auditoriaService->registrarAtualizacao(
-            $transferencia->produto_id,
-            'status_transferencia',
-            'pendente',
-            'em_transito',
-            'Transferência iniciada - Código: ' . $transferencia->codigo_rastreamento
-        );
-
-        return redirect()->back()->with('success', 'Transferência iniciada! Código de rastreamento: ' . $transferencia->codigo_rastreamento);
     }
 
+    /**
+     * Conclui uma transferência em trânsito
+     */
     public function concluirTransferencia($id)
     {
-        $transferencia = Transferencia::where('user_id', Auth::id())
-            ->findOrFail($id);
-
-        if ($transferencia->status !== 'em_transito') {
-            return redirect()->back()->with('error', 'Apenas transferências em trânsito podem ser concluídas.');
+        try {
+            $resultado = $this->transferenciaService->concluirTransferencia($id);
+            return redirect()->back()->with('success', $resultado['message']);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
-        $transferencia->concluirTransferencia();
-
-        // Registrar auditoria
-        $this->auditoriaService->registrarAtualizacao(
-            $transferencia->produto_id,
-            'status_transferencia',
-            'em_transito',
-            'concluida',
-            'Transferência concluída - Produto agora em: ' . $transferencia->localidade_destino
-        );
-
-        return redirect()->back()->with('success', 'Transferência concluída com sucesso!');
     }
 
+    /**
+     * Cancela uma transferência
+     */
     public function cancelarTransferencia(Request $request, $id)
     {
-        $transferencia = Transferencia::where('user_id', Auth::id())
-            ->findOrFail($id);
-
-        if (in_array($transferencia->status, ['concluida', 'cancelada'])) {
-            return redirect()->back()->with('error', 'Esta transferência não pode ser cancelada.');
+        try {
+            $resultado = $this->transferenciaService->cancelarTransferencia($id, $request->motivo_cancelamento);
+            return redirect()->back()->with('success', $resultado['message']);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
-        $transferencia->cancelarTransferencia($request->motivo_cancelamento);
-
-        // Registrar auditoria
-        $this->auditoriaService->registrarAtualizacao(
-            $transferencia->produto_id,
-            'status_transferencia',
-            $transferencia->status,
-            'cancelada',
-            'Transferência cancelada - ' . ($request->motivo_cancelamento ?? 'Sem motivo especificado')
-        );
-
-        return redirect()->back()->with('success', 'Transferência cancelada.');
     }
 }

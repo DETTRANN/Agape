@@ -2,41 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\EstatisticasService;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-use App\Models\Produto;
-use App\Models\Transferencia;
 
 class SystemController extends Controller
 {
+    protected $estatisticasService;
+
+    public function __construct(EstatisticasService $estatisticasService)
+    {
+        $this->estatisticasService = $estatisticasService;
+    }
+
+    /**
+     * Exibe dashboard do sistema com estatísticas
+     */
     public function index()
     {
-        $userId = Auth::id();
-
-        // Produtos ativos: se existir status 'Ativo' (ou 'ativo'), usa, senão usa total do usuário
-        $ativosPossiveis = ['Ativo', 'ativo', 'Disponível', 'Disponivel'];
-        $produtosAtivos = Produto::where('user_id', $userId)
-            ->whereIn('status', $ativosPossiveis)
-            ->count();
-
-        if ($produtosAtivos === 0) {
-            $produtosAtivos = Produto::where('user_id', $userId)->count();
-        }
-
-        // Transferências ativas: pendente ou em_transito
-        $transferenciasAtivas = Transferencia::porUsuario($userId)
-            ->whereIn('status', ['pendente', 'em_transito'])
-            ->count();
-
-        // Entregas hoje: transferências concluídas hoje
-        $entregasHoje = Transferencia::porUsuario($userId)
-            ->whereDate('data_conclusao', now()->toDateString())
-            ->count();
+        $estatisticas = $this->estatisticasService->calcularEstatisticasTransferencias(Auth::id());
 
         return view('system', [
-            'produtosAtivos' => $produtosAtivos,
-            'transferenciasAtivas' => $transferenciasAtivas,
-            'entregasHoje' => $entregasHoje,
+            'produtosAtivos' => $estatisticas['produtos_ativos'],
+            'transferenciasAtivas' => $estatisticas['transferencias_ativas'],
+            'entregasHoje' => $estatisticas['entregas_hoje'],
         ]);
     }
 }

@@ -11,93 +11,34 @@ class ProdutoController extends Controller
 {
     protected $produtoRepository;
     protected $auditoriaService;
+    protected $produtoService;
 
-    public function __construct(ProdutoRepositoryInterface $produtoRepository, AuditoriaService $auditoriaService)
-    {
+    public function __construct(
+        ProdutoRepositoryInterface $produtoRepository, 
+        AuditoriaService $auditoriaService,
+        \App\Services\ProdutoService $produtoService
+    ) {
         $this->produtoRepository = $produtoRepository;
         $this->auditoriaService = $auditoriaService;
+        $this->produtoService = $produtoService;
     }
 
+    /**
+     * Lista produtos do estoque com estatísticas
+     */
     public function index()
     {
-        $produtos = $this->produtoRepository->findByUser(Auth::id());
-        if (!$produtos) {
-            $produtos = collect(); // Retorna uma coleção vazia se não houver produtos
-        }
-
-        // Calcular estatísticas do estoque
-        $totalItens = $produtos->count();
-        $itensOcupados = $produtos->where('status', 'Ocupado')->count();
-        $porcentagemOcupados = $totalItens > 0 ? ($itensOcupados / $totalItens) * 100 : 0;
-        
-        // Determinar se há alerta de estoque baixo (50% ou mais ocupados)
-        $estoqueAlerta = $porcentagemOcupados >= 50;
-        
-        // Buscar configurações de categorias para o usuário
-        $configsCategorias = \App\Models\CategoriaConfiguracao::where('user_id', Auth::id())
-            ->pluck('dias_alerta_validade', 'nome_categoria')
-            ->toArray();
-        
-        // Verificar produtos próximos do vencimento (usando prazo configurado por categoria ou 30 dias padrão)
-        $produtosProximosVencimento = $produtos->filter(function($produto) use ($configsCategorias) {
-            if (!$produto->data_validade) {
-                return false;
-            }
-            $hoje = \Carbon\Carbon::now();
-            $validade = \Carbon\Carbon::parse($produto->data_validade);
-            $diasRestantes = $hoje->diffInDays($validade, false);
-            
-            // Buscar prazo configurado para a categoria ou usar 30 dias como padrão
-            // Regra: quando configurado como 0 dias, significa "sem validade" (não gerar alertas)
-            $diasAlerta = array_key_exists($produto->categoria, $configsCategorias)
-                ? $configsCategorias[$produto->categoria]
-                : 30;
-
-            if ($diasAlerta === 0) {
-                // Configuração "Sem validade" para esta categoria -> não alerta proximidade
-                return false;
-            }
-            
-            return $diasRestantes >= 0 && $diasRestantes <= $diasAlerta;
-        });
-        
-        // Verificar produtos vencidos
-        $produtosVencidos = $produtos->filter(function($produto) {
-            if (!$produto->data_validade) {
-                return false;
-            }
-            $hoje = \Carbon\Carbon::now();
-            $validade = \Carbon\Carbon::parse($produto->data_validade);
-            return $validade->isPast();
-        });
-        
-        // Obter categorias únicas dos produtos para configuração
-        $categorias = $produtos->pluck('categoria')->unique()->values();
-        
-        return view('tabela_estoque', compact(
-            'produtos', 
-            'totalItens', 
-            'itensOcupados', 
-            'porcentagemOcupados', 
-            'estoqueAlerta',
-            'produtosProximosVencimento',
-            'produtosVencidos',
-            'categorias',
-            'configsCategorias'
-        ));
+        $dadosEstoque = $this->produtoService->gerarDadosEstoque();
+        return view('tabela_estoque', $dadosEstoque);
     }
 
+    /**
+     * Cria um novo produto
+     */
     public function store(Request $request)
     {
         if (!Auth::check()) {
             return redirect()->route('auth.login.form')->with('error', 'Você precisa estar autenticado para realizar esta ação.');
-        }
-
-        $userId = Auth::id();
-        
-        // Verificar se o usuário existe (agora usando Cliente)
-        if (!$userId || !\App\Models\Cliente::find($userId)) {
-            return redirect()->route('auth.login.form')->with('error', 'Sessão inválida. Faça login novamente.');
         }
 
         $request->validate([
@@ -114,34 +55,23 @@ class ProdutoController extends Controller
             'observacoes' => 'nullable|string'
         ]);
 
-        $data = $request->only([
-            'status',
-            'nome_item', 
-            'descricao',
-            'categoria',
-            'numero_serie',
-            'preco',
-            'data_posse',
-            'data_validade',
-            'responsavel',
-            'localidade',
-            'observacoes'
-        ]);
-        
-        // Gerar próximo ID sequencial para este usuário específico
-        $ultimoIdDoUsuario = \App\Models\Produto::where('user_id', $userId)->max('id_item');
-        $proximoNumero = $ultimoIdDoUsuario ? (int)$ultimoIdDoUsuario + 1 : 1;
-        $data['id_item'] = (string)$proximoNumero;
-        $data['user_id'] = $userId;
-
-        $produto = $this->produtoRepository->create($data);
-
-        // Registrar auditoria de criação
-        $this->auditoriaService->registrarCriacao($produto->id, 'Produto criado: ' . $produto->nome_item);
-
-        return redirect()->back()->with('success', 'Produto adicionado com sucesso!');
+        try {
+            $data = $request->only([
+                'status', 'nome_item', 'descricao', 'categoria',
+                'numero_serie', 'preco', 'data_posse', 'data_validade',
+                'responsavel', 'localidade', 'observacoes'
+            ]);
+            
+            $this->produtoService->criarProduto($data);
+            return redirect()->back()->with('success', 'Produto adicionado com sucesso!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
+    /**
+     * Atualiza um produto existente
+     */
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -158,44 +88,30 @@ class ProdutoController extends Controller
             'observacoes' => 'nullable|string'
         ]);
 
-        // Obter produto anterior para auditoria
-        $produtoAnterior = $this->produtoRepository->find($id);
-        $produto = $this->produtoRepository->update($id, $request->all());
-
-        // Registrar alterações na auditoria
-        if ($produtoAnterior) {
-            $dadosNovos = $request->all();
-            foreach ($dadosNovos as $campo => $valorNovo) {
-                $valorAnterior = $produtoAnterior->$campo ?? null;
-                if ($valorAnterior != $valorNovo) {
-                    $this->auditoriaService->registrarAtualizacao(
-                        $id,
-                        $campo,
-                        $valorAnterior,
-                        $valorNovo,
-                        "Campo '{$campo}' alterado"
-                    );
-                }
-            }
+        try {
+            $this->produtoService->atualizarProduto($id, $request->all());
+            return redirect()->back()->with('success', 'Produto atualizado com sucesso!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
-        return redirect()->back()->with('success', 'Produto atualizado com sucesso!');
     }
 
+    /**
+     * Remove um produto
+     */
     public function destroy($id)
     {
-        // Obter produto antes da exclusão para auditoria
-        $produto = $this->produtoRepository->find($id);
-        
-        if ($produto) {
-            // Registrar auditoria de exclusão
-            $this->auditoriaService->registrarExclusao($id, 'Produto removido: ' . $produto->nome_item);
+        try {
+            $this->produtoService->removerProduto($id);
+            return redirect()->back()->with('success', 'Produto removido com sucesso!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
-        
-        $this->produtoRepository->delete($id);
-        return redirect()->back()->with('success', 'Produto removido com sucesso!');
     }
 
+    /**
+     * Salva configuração de categoria
+     */
     public function salvarConfigCategoria(Request $request)
     {
         $request->validate([
@@ -204,23 +120,20 @@ class ProdutoController extends Controller
             'dias_alerta_validade' => 'required_without:sem_validade|nullable|integer|min:1|max:365'
         ]);
 
-        $userId = Auth::id();
-        
-        // Interpretar a opção "Sem validade": armazenar 0 como sentinela para desativar alertas
-        $dias = $request->boolean('sem_validade') ? 0 : (int) $request->input('dias_alerta_validade', 30);
-        
-        // Atualizar ou criar configuração
-        \App\Models\CategoriaConfiguracao::updateOrCreate(
-            [
-                'nome_categoria' => $request->nome_categoria,
-                'user_id' => $userId
-            ],
-            [
-                'dias_alerta_validade' => $dias
-            ]
-        );
-
-        return redirect()->back()->with('success', 'Configuração de alerta salva com sucesso!');
+        try {
+            $semValidade = $request->boolean('sem_validade');
+            $diasAlerta = (int) $request->input('dias_alerta_validade', 30);
+            
+            $this->produtoService->salvarConfigCategoria(
+                $request->nome_categoria,
+                $semValidade,
+                $diasAlerta
+            );
+            
+            return redirect()->back()->with('success', 'Configuração de alerta salva com sucesso!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     public function relatorios()

@@ -16,7 +16,14 @@ class AppServiceProvider extends ServiceProvider
 
 public function register(): void
 {
+    // Registrar Repositories
     $this->app->bind(AuthRepositoryInterface::class, AuthRepository::class);
+    
+    // Registrar Services
+    $this->app->singleton(\App\Services\TransferenciaService::class);
+    $this->app->singleton(\App\Services\EstatisticasService::class);
+    $this->app->singleton(\App\Services\AuditoriaService::class);
+    $this->app->singleton(\App\Services\ProdutoService::class);
 }
 
 
