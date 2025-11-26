@@ -204,24 +204,7 @@
               <div class="loading-spinner"></div>
             </div>
           </button>
-
-          <div class="checkbox-contact">
-            <input 
-              type="checkbox" 
-              id="termos"
-              name="termos"
-              class="checkbox-validacao" 
-              autocomplete="off"
-              required 
-            />
-            <label for="termos">
-              Ao enviar esta mensagem, você concorda com nossos
-              <a href="#" class="contact-text-color-form">
-                Termos de Serviço e Política de Privacidade
-              </a>
-            </label>
-          </div>
-
+          
           <div class="contact-alternative">
             <div>Ou entre em contato através de:</div>
             <div class="contact-social-links">

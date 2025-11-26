@@ -110,3 +110,7 @@ Route::get('/force-logout', function () {
 Route::get('/views/contato', function () {
     return view('contato');
 })->name('contato');
+
+Route::get('/views/termos-privacidade', function () {
+    return view('termos-privacidade');
+})->name('termos.privacidade');

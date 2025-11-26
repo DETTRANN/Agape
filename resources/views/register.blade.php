@@ -125,7 +125,7 @@
         <input type="checkbox" name="aceito_termos" value="1" class="checkbox-validacao" required />
         <div>
             Ao clicar em continuar, você concorda com nossos
-            <a href="#" class="Register-text-color-form">
+            <a href="{{ url('views/termos-privacidade') }}" class="Register-text-color-form">
                 Termos de Serviço e Política de Privacidade
             </a>
         </div>

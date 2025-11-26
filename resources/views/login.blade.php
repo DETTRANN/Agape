@@ -121,7 +121,7 @@
             <input type="checkbox" class="checkbox-validacao" />
             <div>
               Ao clicar em continuar, você concorda com nossos
-              <a href="{{ url('views/register') }}" class="Login-text-color-form">
+              <a href="{{ url('views/termos-privacidade') }}" class="Login-text-color-form">
                 Termos de Serviço e Política de Privacidade
               </a>
             </div>

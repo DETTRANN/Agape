@@ -95,7 +95,9 @@
           </div>
           <div class="header-sections">
             <img src="{{url('frontend/img/termos-e-condicoes.png')}}" alt="" />
-            <div>Termos de Uso</div>
+            <a href="{{ url('views/termos-privacidade') }}">
+                Termos de Uso
+              </a>
           </div>
           <div class="header-sections logout">
             <form action="{{ route('auth.logout') }}" method="POST" style="display: inline;">

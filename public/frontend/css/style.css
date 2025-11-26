@@ -2047,7 +2047,6 @@ login-space {
 
 .contact-alternative {
     text-align: center;
-    margin-top: 10px;
 }
 
 .contact-space {
@@ -2531,6 +2530,121 @@ login-space {
 .new-password-right img {
     width: 350px;
     max-width: 100%;
+}
+
+
+/* Página de Termos e Privacidade */
+
+.page-termos {
+    background: #000 !important;
+    color: #fff;
+}
+
+.main-terms-privacy {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    margin-top: 40px;
+    height: 90vh;
+    background-color: var(--primary-black);
+    color: var(--primary-white);
+    padding: 0 3%;
+    width: 100%;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.h1-page-termos {
+    font-size: 20px;
+    font-weight: 300;
+    align-self: flex-end;
+    margin-right: 7.8%;
+}
+
+.terms-privacy-introduction {
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 75%;
+    height: 70vh;
+}
+
+.terms-privacy-introduction-left {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.terms-privacy-introduction-left h1 {
+    font-size: 40px;
+    font-weight: 700;
+    align-self: flex-start;
+}
+
+.terms-privacy-introduction-left p {
+    font-size: 18px;
+    text-align: justify;
+}
+
+.terms-privacy-introduction-right {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.andes-landings-title__misc {
+    background-color: var(--primary-white);
+    border-radius: 5px;
+    height: 8px;
+    margin-bottom: 32px;
+    width: 40px;
+}
+
+
+.main-terms-privacy-2 {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    height: 10vh;
+    background-color: var(--primary-black);
+    color: var(--primary-white);
+    padding: 0 3%;
+    width: 100%;
+    flex-direction: column;
+    gap: 90px;
+}
+
+.terms-privacy-acceptance {
+    width: 70%;
+    margin-right: 5%;
+}
+
+.terms-privacy-acceptance-nav h2{
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+.terms-privacy-acceptance-nav p {
+    font-size: 18px;
+    text-align: justify;
+}
+
+.terms-privacy-acceptance-nav li {
+    font-size: 18px;
+}
+
+.terms-privacy-acceptance-nav ul ~ {
+    font-size: 18px;
+    text-align: justify;
+}
+
+.margin-bottom-20 {
+    padding-bottom: 60px;
 }
 
 /* ===============================================

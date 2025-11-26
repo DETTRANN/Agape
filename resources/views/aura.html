@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contato - Agape</title>
+    <link rel="stylesheet" href="{{url('frontend/css/style.css')}}" />
+    <script src="{{url('frontend/js/script.js')}}" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet" />
+</head>
+
+<body class="Nunito-Font page-termos">
+    <!-- Mobile Header -->
+    <div class="top-header">
+        <img class="mobile-logo-system" src="{{ url('frontend/img/logo-agape.png') }}" alt="Agape"
+            onclick="window.location.href='{{ url('/') }}'" />
+        <button class="mobile-toggle" id="mobile-toggle-auth">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+
+    <!-- Desktop Header -->
+    <header id="header-menu">
+        <!-- Logo Mobile -->
+        <img src="{{url('frontend/img/logo-agape.png')}}" alt="Agape" class="mobile-logo"
+            onclick="window.location.href='{{url('/')}}'" />
+
+        <div class="left-menu">
+            <img src="{{url('frontend/img/logo-agape.png')}}" alt="" />
+            <a href="{{url('/')}}">Início</a>
+            <a href="{{url('/')}}">Funcionalidades</a>
+            <a href="{{url('/')}}">Sobre</a>
+            <a href="{{url('views/contato')}}">Contato</a>
+        </div>
+        <div class="right-menu">
+            <a href="{{ route('auth.login.form') }}" class="btn-logar Nunito-Font">Log In</a>
+            <button onclick="goToCadastro()" type="submit" class="btn-cadastrar">
+                Cadastrar
+            </button>
+        </div>
+
+        <!-- Botão Hamburger Mobile -->
+        <div class="hamburger-menu" id="hamburger-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+
+    <!-- Mobile Sidebar -->
+    <div class="sidebar" id="sidebar-auth">
+        <div class="sidebar-content">
+            <div class="sidebar-item" onclick="window.location.href='{{ url('/') }}'">
+                <span>Início</span>
+            </div>
+            <div class="sidebar-item" onclick="window.location.href='{{ url('/') }}'">
+                <span>Funcionalidades</span>
+            </div>
+            <div class="sidebar-item" onclick="window.location.href='{{ url('/') }}'">
+                <span>Sobre</span>
+            </div>
+            <div class="sidebar-item" onclick="window.location.href='{{ url('views/contato') }}'">
+                <span>Contato</span>
+            </div>
+
+            <!-- Botões estéticos como antes -->
+            <div class="sidebar-buttons">
+                <a href="{{ route('auth.login.form') }}" class="sidebar-btn-login">Log In</a>
+                <button onclick="goToCadastro()" class="sidebar-btn-register">Cadastrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay-auth"></div>
+
+    <!-- Menu Lateral Mobile -->
+    <div class="mobile-menu" id="mobile-menu">
+        <div class="mobile-menu-header">
+            <img src="{{url('frontend/img/logo-agape.png')}}" alt="Agape" />
+            <button class="close-btn" id="close-btn">&times;</button>
+        </div>
+        <nav class="mobile-menu-nav">
+            <a href="{{url('/')}}">Início</a>
+            <a href="{{url('/')}}">Funcionalidades</a>
+            <a href="{{url('/')}}">Sobre</a>
+            <a href="{{url('views/contato')}}">Contato</a>
+        </nav>
+        <div class="mobile-menu-buttons">
+            <a href="{{ route('auth.login.form') }}" class="mobile-btn-login">Log In</a>
+            <button onclick="goToCadastro()" class="mobile-btn-register">Cadastrar</button>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="mobile-menu-overlay" id="mobile-overlay"></div>
+
+    <main class="main-terms-privacy">
+        <h1 class="h1-page-termos">Política de Uso - Empresa Ágape</h1>
+        <section class="terms-privacy-introduction">
+            <nav class="terms-privacy-introduction-left">
+                <h1>Resumo Declaração de privacidade</h1>
+                <div>
+                    <p> A Empresa Ágape oferece soluções de gerenciamento de estoque destinadas a facilitar o controle
+                        de
+                        produtos, movimentações e registros internos de empresas contratantes. Este documento apresenta
+                        a
+                        Política de Uso do sistema da Ágape, estabelecendo regras, direitos e responsabilidades de ambas
+                        as
+                        partes.</p>
+                </div>
+            </nav>
+
+            <nav class="terms-privacy-introduction-right">
+                <img width="80%" height="auto" src="{{url('frontend/img/img-termos-de-uso.jpg')}}" alt="">
+            </nav>
+        </section>
+    </main>
+
+    <main class="main-terms-privacy-2">
+        <section class="terms-privacy-acceptance">
+            <nav class="terms-privacy-acceptance-nav">
+                <div class="andes-landings-title__misc"></div>
+                <h2>Aceitação dos Termos</h2>
+                <p>
+                    Ao utilizar o sistema da Ágape, o usuário concorda integralmente com os termos e condições descritos
+                    neste documento. Caso o usuário não concorde com qualquer cláusula desta política, deverá abster-se
+                    de utilizar os serviços oferecidos.
+                </p>
+            </nav>
+        </section>
+
+        <section class="terms-privacy-acceptance">
+            <nav class="terms-privacy-acceptance-nav">
+                <div class="andes-landings-title__misc"></div>
+                <h2>Aceitação dos Termos</h2>
+                <p>
+                    Ao utilizar o sistema da Ágape, o usuário concorda integralmente com os termos e condições descritos
+                    neste documento. Caso o usuário não concorde com qualquer cláusula desta política, deverá abster-se
+                    de utilizar os serviços oferecidos.
+                </p>
+            </nav>
+        </section>
+    </main>
+
+</body>
+
+</html>

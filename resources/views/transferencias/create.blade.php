@@ -116,7 +116,9 @@
                 </div>
                 <div class="header-sections">
                     <img src="{{url('frontend/img/termos-e-condicoes.png')}}" alt="Termos" />
-                    <div>Termos de Uso</div>
+                    <a href="{{ url('views/termos-privacidade') }}">
+                        Termos de Uso
+                    </a>
                 </div>
                 <div class="header-sections logout" onclick="document.getElementById('logout-form').submit();">
                     <div>Sair</div>
