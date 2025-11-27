@@ -35,4 +35,10 @@ class Produto extends Model
     {
         return $this->belongsTo(\App\Models\Cliente::class, 'user_id');
     }
+
+    // Relacionamento com transferências
+    public function transferencias()
+    {
+        return $this->hasMany(\App\Models\Transferencia::class, 'produto_id');
+    }
 }

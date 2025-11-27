@@ -298,7 +298,8 @@
                 <div class="andes-landings-title__misc"></div>
                 <h2>13. Cancelamento de Conta</h2>
                 <p>
-                    O cancelamento deverá ser solicitado formalmente e poderá levar até 7 dias úteis para ser processado.                </p>
+                    O cancelamento deverá ser solicitado formalmente e poderá levar até 7 dias úteis para ser processado.               
+                </p>
             </nav>
         </section>
 

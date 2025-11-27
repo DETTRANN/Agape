@@ -36,58 +36,17 @@ public function register(): void
         View::composer('*', function ($view) {
             try {
                 $userId = Auth::id();
-
-                // Repositório de produtos (respeita o escopo do usuário)
-                $produtoRepository = app(ProdutoRepositoryInterface::class);
-                $produtos = $produtoRepository->findByUser($userId) ?? collect();
-
-                // Estatísticas básicas
-                $totalItens = $produtos->count();
-                $itensOcupados = $produtos->where('status', 'Ocupado')->count();
-                $porcentagemOcupados = $totalItens > 0 ? ($itensOcupados / $totalItens) * 100 : 0;
-                $estoqueAlerta = $porcentagemOcupados >= 50;
-
-                // Configurações de categorias (dias alerta por categoria)
-                $configsCategorias = CategoriaConfiguracao::where('user_id', $userId)
-                    ->pluck('dias_alerta_validade', 'nome_categoria')
-                    ->toArray();
-
-                // Produtos próximos do vencimento (usa config por categoria; 30 dias padrão; 0 = sem validade)
-                $produtosProximosVencimento = $produtos->filter(function ($produto) use ($configsCategorias) {
-                    if (!$produto->data_validade) {
-                        return false;
-                    }
-                    $hoje = \Carbon\Carbon::now();
-                    $validade = \Carbon\Carbon::parse($produto->data_validade);
-                    $diasRestantes = $hoje->diffInDays($validade, false);
-
-                    $diasAlerta = array_key_exists($produto->categoria, $configsCategorias)
-                        ? $configsCategorias[$produto->categoria]
-                        : 30;
-
-                    if ($diasAlerta === 0) {
-                        return false;
-                    }
-
-                    return $diasRestantes >= 0 && $diasRestantes <= $diasAlerta;
-                });
-
-                // Produtos vencidos
-                $produtosVencidos = $produtos->filter(function ($produto) {
-                    if (!$produto->data_validade) {
-                        return false;
-                    }
-                    $validade = \Carbon\Carbon::parse($produto->data_validade);
-                    return $validade->isPast();
-                });
+                // Centraliza cálculo nas estatísticas (DRY)
+                $estatisticas = app(\App\Services\EstatisticasService::class)
+                    ->calcularEstatisticasProdutos($userId ?? 0);
 
                 $view->with([
-                    'produtosVencidos' => $produtosVencidos,
-                    'produtosProximosVencimento' => $produtosProximosVencimento,
-                    'totalItens' => $totalItens,
-                    'itensOcupados' => $itensOcupados,
-                    'porcentagemOcupados' => $porcentagemOcupados,
-                    'estoqueAlerta' => $estoqueAlerta,
+                    'produtosVencidos' => $estatisticas['produtos_vencidos'] ?? collect(),
+                    'produtosProximosVencimento' => $estatisticas['produtos_proximos_vencimento'] ?? collect(),
+                    'totalItens' => $estatisticas['total_itens'] ?? 0,
+                    'itensOcupados' => $estatisticas['itens_ocupados'] ?? 0,
+                    'porcentagemOcupados' => $estatisticas['porcentagem_ocupados'] ?? 0,
+                    'estoqueAlerta' => $estatisticas['estoque_alerta'] ?? false,
                 ]);
             } catch (\Throwable $e) {
                 // Em caso de erro, não interromper renderização; nenhuma variável é compartilhada

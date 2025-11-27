@@ -49,6 +49,20 @@ class ProdutoRepository implements ProdutoRepositoryInterface
 
     public function findByUser($userId)
     {
-        return $this->model->where('user_id', $userId)->get();
+        // Excluir produtos que estejam em transferência ativa (em_transito)
+        // ou que tenham sido vendidos (transferência concluida com motivo 'Venda')
+        return $this->model
+            ->where('user_id', $userId)
+            ->whereDoesntHave('transferencias', function ($q) use ($userId) {
+                $q->where('user_id', $userId)
+                  ->where(function ($q2) {
+                      $q2->whereIn('status', ['em_transito'])
+                         ->orWhere(function ($q3) {
+                             $q3->where('status', 'concluida')
+                                ->where('motivo', 'Venda');
+                         });
+                  });
+            })
+            ->get();
     }
 }

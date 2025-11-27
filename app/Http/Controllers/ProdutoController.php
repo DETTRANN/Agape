@@ -157,22 +157,20 @@ class ProdutoController extends Controller
         // ============================================
         $anoAtual = now()->year;
         
-        // Buscar transferências com motivo "Venda" do ano atual
-        $vendasAnoAtual = \App\Models\Transferencia::whereYear('created_at', $anoAtual)
+        // Buscar transferências do USUÁRIO com motivo "Venda" do ano atual
+        $vendasAnoAtual = \App\Models\Transferencia::porUsuario(Auth::id())
+            ->whereYear('created_at', $anoAtual)
             ->where('motivo', 'Venda')
+            ->with('produto')
             ->get();
         
         // Total de vendas do ano
         $totalVendasAno = $vendasAnoAtual->count();
         
         // Calcular valor total de vendas (soma dos preços dos produtos vendidos)
-        $valorTotalVendas = 0;
-        foreach ($vendasAnoAtual as $venda) {
-            $produto = $produtos->firstWhere('id', $venda->produto_id);
-            if ($produto) {
-                $valorTotalVendas += $produto->preco;
-            }
-        }
+        $valorTotalVendas = $vendasAnoAtual->reduce(function($total, $venda) {
+            return $total + ($venda->produto ? (float)$venda->produto->preco : 0);
+        }, 0);
         
         // Média de valor por venda
         $mediaValorVenda = $totalVendasAno > 0 ? $valorTotalVendas / $totalVendasAno : 0;
