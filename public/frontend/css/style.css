@@ -2544,9 +2544,7 @@ login-space {
     max-width: 100%;
 }
 
-
 /* Página de Termos e Privacidade */
-
 .page-termos {
     background: #000 !important;
     color: #fff;
@@ -2574,7 +2572,7 @@ login-space {
 }
 
 .terms-privacy-introduction {
-    display: flex; 
+    display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
@@ -2617,7 +2615,6 @@ login-space {
     width: 40px;
 }
 
-
 .main-terms-privacy-2 {
     display: flex;
     align-items: center;
@@ -2636,7 +2633,7 @@ login-space {
     margin-right: 5%;
 }
 
-.terms-privacy-acceptance-nav h2{
+.terms-privacy-acceptance-nav h2 {
     font-size: 32px;
     margin-bottom: 15px;
 }
@@ -4072,7 +4069,7 @@ login-space {
 
     #carrossel,
     .main-third-content h1,
-    #barraItens  {
+    #barraItens {
         transform: scale(0.9);
     }
 
@@ -4087,7 +4084,7 @@ login-space {
     .left-fifth-content div:nth-child(2) + p {
         font-size: 18px;
     }
-    
+
     .main-fifth-content nav img {
         width: 620px;
     }
@@ -4109,14 +4106,15 @@ login-space {
         padding: 12px 24px;
     }
 
-    .main-left-Register, .main-right-Register {
+    .main-left-Register,
+    .main-right-Register {
         transform: scale(0.85);
         transform-origin: center;
         margin-top: -3.5%;
     }
 
     .main-Register {
-        gap: 1px; 
+        gap: 1px;
     }
 
     .main-left-Register {
@@ -4129,15 +4127,15 @@ login-space {
         justify-content: flex-end;
     }
 
-    .main-right-login, 
+    .main-right-login,
     .main-left-login {
         transform: scale(0.9);
         transform-origin: center;
     }
 
-    .main-right-contact, 
+    .main-right-contact,
     .main-left-contact {
         transform: scale(0.9);
-        transform-origin: top ;
+        transform-origin: top;
     }
 }
