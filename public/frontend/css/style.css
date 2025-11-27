@@ -205,13 +205,13 @@ footer {
     background-color: black;
     display: flex;
     justify-content: space-around;
-    align-items: flex-start;
-    padding: 40px 11%;
+    align-items: center;
+    padding: 50px 11%;
     margin-top: 0;
     font-family: "Nunito", sans-serif;
     border-top: 2px solid white;
     flex-wrap: wrap;
-    max-width: 100%;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -227,8 +227,8 @@ footer {
 }
 
 .Right-footer {
-    flex: 0 1 350px;
-    min-width: 300px;
+    flex: 0 1 200px;
+    min-width: 200px;
     max-width: 400px;
 }
 
@@ -251,6 +251,17 @@ footer h2 {
 }
 
 .Left-footer div:hover {
+    color: #ffd300;
+}
+
+.Right-footer div {
+    margin-bottom: 10px;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.Right-footer div:hover {
     color: #ffd300;
 }
 
@@ -870,6 +881,7 @@ footer h2 {
     background-color: black;
     padding: 40px 5% 80px 5%;
     font-family: "Nunito", sans-serif;
+    transform: scale(1.1);
 }
 
 .top-courses-header {
@@ -1153,7 +1165,7 @@ footer h2 {
 }
 
 .left-sixth-content img {
-    width: 600px;
+    width: 500px;
     height: auto;
     cursor: pointer;
     transition: transform 0.3s ease;
@@ -4024,11 +4036,12 @@ login-space {
 
 @media (min-width: 1440px) and (max-width: 1659px) {
     .right-section img {
-        width: 90%;
+        width: 80%;
+        margin-right: 10%;
     }
 
     .left-section h1 {
-        font-size: 55px;
+        font-size: 50px;
     }
 
     .left-section p {
@@ -4039,8 +4052,6 @@ login-space {
         font-size: 18px;
         padding: 10px 20px;
     }
-
-    
 
     .main-second-content nav img {
         width: 600px;
@@ -4054,8 +4065,19 @@ login-space {
         font-size: 18px;
     }
 
+    .main-third-content {
+        gap: -10px;
+        padding: 50px;
+    }
+
+    #carrossel,
+    .main-third-content h1,
+    #barraItens  {
+        transform: scale(0.9);
+    }
+
     .courses-grid {
-        transform: scale(1.1);
+        transform: scale(1.05);
     }
 
     .left-fifth-content div:nth-child(2) {
@@ -4085,5 +4107,37 @@ login-space {
     .btn-register-now {
         font-size: 16px;
         padding: 12px 24px;
+    }
+
+    .main-left-Register, .main-right-Register {
+        transform: scale(0.85);
+        transform-origin: center;
+        margin-top: -3.5%;
+    }
+
+    .main-Register {
+        gap: 1px; 
+    }
+
+    .main-left-Register {
+        justify-content: none;
+        margin-left: 6%;
+        margin-right: -3%;
+    }
+
+    .main-left-Register img {
+        justify-content: flex-end;
+    }
+
+    .main-right-login, 
+    .main-left-login {
+        transform: scale(0.9);
+        transform-origin: center;
+    }
+
+    .main-right-contact, 
+    .main-left-contact {
+        transform: scale(0.9);
+        transform-origin: top ;
     }
 }

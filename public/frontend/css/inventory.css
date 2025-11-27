@@ -3675,6 +3675,7 @@ header {
     max-width: 1300px;
     margin: 0 auto;
     width: 100%;
+    margin-top: -0.3%;
 }
 
 /* Header da página */
@@ -4484,7 +4485,7 @@ header {
     max-width: 100%;
     gap: 25px !important;
     transform: scale(0.98);
-    margin-top: 1%;
+    margin-top: 0;
 }
 
 /* Header da página de auditoria */

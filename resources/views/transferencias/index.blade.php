@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
     <script src="{{url('frontend/js/script.js')}}" defer></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
+
 <body>
     <!-- Alert Messages -->
     @if($errors->any())
@@ -18,7 +20,7 @@
         <strong>Erro nos dados:</strong>
         <ul>
             @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
+            <li>{{ $error }}</li>
             @endforeach
         </ul>
     </div>
@@ -38,7 +40,8 @@
 
     <!-- Mobile Header -->
     <div class="top-header">
-        <img class="mobile-logo" src="{{url('frontend/img/logo-agape.png')}}" alt="Agape" onclick="window.location.href='{{url('/')}}'" />
+        <img class="mobile-logo" src="{{url('frontend/img/logo-agape.png')}}" alt="Agape"
+            onclick="window.location.href='{{url('/')}}'" />
         <button class="mobile-toggle" id="mobile-toggle">
             <span></span>
             <span></span>
@@ -49,9 +52,10 @@
     <!-- Desktop Header -->
     <header>
         <section class="header-left">
-            <img class="img-logo" src="{{url('frontend/img/logo-agape.png')}}" alt="Agape Logo" onclick="window.location.href='{{url('/')}}'" />
+            <img class="img-logo" src="{{url('frontend/img/logo-agape.png')}}" alt="Agape Logo"
+                onclick="window.location.href='{{url('/')}}'" />
             <div class="logo-separator"></div>
-            
+
             <!-- Menu Principal -->
             <div class="main-menu">
                 <div class="header-sections" data-section="inicio" onclick="goToSystem()">
@@ -82,36 +86,41 @@
                     <span style="font-size: 20px;">←</span>
                     <div>Voltar</div>
                 </div>
-                
+
                 <!-- Perfil do Usuário Desktop com Foto -->
                 <div class="profile-user-section">
                     <div class="profile-avatar-container">
-                        <img src="@auth{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : url('frontend/img/user-alien.png') }}@else{{url('frontend/img/user-alien.png')}}@endauth" alt="Avatar" class="profile-user-avatar" id="desktopAvatar" onclick="openAvatarModal(this.src, '@auth{{ Auth::user()->nome }} {{ Auth::user()->sobrenome }}@else Usuário @endauth', '@auth{{ Auth::user()->email }}@else usuario@exemplo.com @endauth')" style="cursor: pointer;" />
+                        <img src="@auth{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : url('frontend/img/user-alien.png') }}@else{{url('frontend/img/user-alien.png')}}@endauth"
+                            alt="Avatar" class="profile-user-avatar" id="desktopAvatar"
+                            onclick="openAvatarModal(this.src, '@auth{{ Auth::user()->nome }} {{ Auth::user()->sobrenome }}@else Usuário @endauth', '@auth{{ Auth::user()->email }}@else usuario@exemplo.com @endauth')"
+                            style="cursor: pointer;" />
                         <label for="desktopAvatarInput" class="avatar-edit-btn" title="Editar foto">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
                             </svg>
                         </label>
-                        <input type="file" id="desktopAvatarInput" accept="image/*" style="display: none;" onchange="handleAvatarChange(event, 'desktop')" />
+                        <input type="file" id="desktopAvatarInput" accept="image/*" style="display: none;"
+                            onchange="handleAvatarChange(event, 'desktop')" />
                     </div>
                     <div class="profile-user-info">
                         <h3 class="profile-user-name">
                             @auth
-                                {{ Auth::user()->nome }} {{ Auth::user()->sobrenome }}
+                            {{ Auth::user()->nome }} {{ Auth::user()->sobrenome }}
                             @else
-                                Usuário
+                            Usuário
                             @endauth
                         </h3>
                         <p class="profile-user-email">
                             @auth
-                                {{ Auth::user()->email }}
+                            {{ Auth::user()->email }}
                             @else
-                                usuario@exemplo.com
+                            usuario@exemplo.com
                             @endauth
                         </p>
                     </div>
                 </div>
-                
+
                 <div class="header-sections">
                     <img src="{{url('frontend/img/configuracoes.png')}}" alt="Configurações" />
                     <div>Configurações</div>
@@ -170,7 +179,7 @@
                     <img src="{{url('frontend/img/icons8-robot-50.png')}}" alt="Auditoria" />
                     <span>Auditoria</span>
                 </div>
-                
+
                 <!-- Bottom section mobile -->
                 <div class="sidebar-bottom">
                     <div class="sidebar-item" onclick="toggleNotifications()">
@@ -187,27 +196,32 @@
             <!-- Perfil do Usuário Mobile com Foto -->
             <div class="mobile-profile-user-section">
                 <div class="mobile-profile-avatar-container">
-                    <img src="@auth{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : url('frontend/img/user-alien.png') }}@else{{url('frontend/img/user-alien.png')}}@endauth" alt="Avatar" class="mobile-profile-user-avatar" id="mobileAvatar" onclick="openAvatarModal(this.src, '@auth{{ Auth::user()->nome }} {{ Auth::user()->sobrenome }}@else Usuário @endauth', '@auth{{ Auth::user()->email }}@else usuario@exemplo.com @endauth')" style="cursor: pointer;" />
+                    <img src="@auth{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : url('frontend/img/user-alien.png') }}@else{{url('frontend/img/user-alien.png')}}@endauth"
+                        alt="Avatar" class="mobile-profile-user-avatar" id="mobileAvatar"
+                        onclick="openAvatarModal(this.src, '@auth{{ Auth::user()->nome }} {{ Auth::user()->sobrenome }}@else Usuário @endauth', '@auth{{ Auth::user()->email }}@else usuario@exemplo.com @endauth')"
+                        style="cursor: pointer;" />
                     <label for="mobileAvatarInput" class="mobile-avatar-edit-btn" title="Editar foto">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
                         </svg>
                     </label>
-                    <input type="file" id="mobileAvatarInput" accept="image/*" style="display: none;" onchange="handleAvatarChange(event, 'mobile')" />
+                    <input type="file" id="mobileAvatarInput" accept="image/*" style="display: none;"
+                        onchange="handleAvatarChange(event, 'mobile')" />
                 </div>
                 <div class="mobile-profile-user-info">
                     <h3 class="mobile-profile-user-name">
                         @auth
-                            {{ Auth::user()->nome }} {{ Auth::user()->sobrenome }}
+                        {{ Auth::user()->nome }} {{ Auth::user()->sobrenome }}
                         @else
-                            Usuário
+                        Usuário
                         @endauth
                     </h3>
                     <p class="mobile-profile-user-email">
                         @auth
-                            {{ Auth::user()->email }}
+                        {{ Auth::user()->email }}
                         @else
-                            usuario@exemplo.com
+                        usuario@exemplo.com
                         @endauth
                     </p>
                 </div>
@@ -275,16 +289,18 @@
                 <div class="notification-icon">❌</div>
                 <div class="notification-details">
                     <h4>Produtos Vencidos!</h4>
-                    <p><strong>{{ $produtosVencidos->count() }}</strong> {{ $produtosVencidos->count() == 1 ? 'produto está vencido' : 'produtos estão vencidos' }}:</p>
+                    <p><strong>{{ $produtosVencidos->count() }}</strong> {{ $produtosVencidos->count() == 1 ? 'produto
+                        está vencido' : 'produtos estão vencidos' }}:</p>
                     <ul style="margin: 8px 0; padding-left: 20px;">
                         @foreach($produtosVencidos->take(3) as $produto)
-              @php
-                $diasVencido = (int) \Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::parse($produto->data_validade), false);
-              @endphp
-                            <li><strong>{{ $produto->nome_item }}</strong> - Vencido há {{ abs($diasVencido) }} dias</li>
+                        @php
+                        $diasVencido = (int)
+                        \Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::parse($produto->data_validade), false);
+                        @endphp
+                        <li><strong>{{ $produto->nome_item }}</strong> - Vencido há {{ abs($diasVencido) }} dias</li>
                         @endforeach
                         @if($produtosVencidos->count() > 3)
-                            <li><em>E mais {{ $produtosVencidos->count() - 3 }} produto(s)...</em></li>
+                        <li><em>E mais {{ $produtosVencidos->count() - 3 }} produto(s)...</em></li>
                         @endif
                     </ul>
                     <p>Verifique estes itens imediatamente!</p>
@@ -292,22 +308,26 @@
                 </div>
             </div>
             @endif
-            
+
             @if($produtosProximosVencimento && $produtosProximosVencimento->count() > 0)
             <div class="notification-item alert-warning">
                 <div class="notification-icon">⚠️</div>
                 <div class="notification-details">
                     <h4>Alerta de Validade Próxima</h4>
-                    <p><strong>{{ $produtosProximosVencimento->count() }}</strong> {{ $produtosProximosVencimento->count() == 1 ? 'produto vencerá' : 'produtos vencerão' }} em breve:</p>
+                    <p><strong>{{ $produtosProximosVencimento->count() }}</strong> {{
+                        $produtosProximosVencimento->count() == 1 ? 'produto vencerá' : 'produtos vencerão' }} em breve:
+                    </p>
                     <ul style="margin: 8px 0; padding-left: 20px;">
                         @foreach($produtosProximosVencimento->take(3) as $produto)
-              @php
-                $diasRestantes = (int) \Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::parse($produto->data_validade), false);
-              @endphp
-                            <li><strong>{{ $produto->nome_item }}</strong> - Vence em {{ $diasRestantes }} {{ $diasRestantes == 1 ? 'dia' : 'dias' }}</li>
+                        @php
+                        $diasRestantes = (int)
+                        \Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::parse($produto->data_validade), false);
+                        @endphp
+                        <li><strong>{{ $produto->nome_item }}</strong> - Vence em {{ $diasRestantes }} {{ $diasRestantes
+                            == 1 ? 'dia' : 'dias' }}</li>
                         @endforeach
                         @if($produtosProximosVencimento->count() > 3)
-                            <li><em>E mais {{ $produtosProximosVencimento->count() - 3 }} produto(s)...</em></li>
+                        <li><em>E mais {{ $produtosProximosVencimento->count() - 3 }} produto(s)...</em></li>
                         @endif
                     </ul>
                     <p>Planeje o uso ou descarte destes itens com antecedência.</p>
@@ -315,25 +335,27 @@
                 </div>
             </div>
             @endif
-            
+
             @if($estoqueAlerta)
             <div class="notification-item alert-warning">
                 <div class="notification-icon">⚠️</div>
                 <div class="notification-details">
                     <h4>Alerta de Estoque Baixo</h4>
-                    <p>{{ round($porcentagemOcupados) }}% dos itens estão ocupados ({{ $itensOcupados }}/{{ $totalItens }})</p>
+                    <p>{{ round($porcentagemOcupados) }}% dos itens estão ocupados ({{ $itensOcupados }}/{{ $totalItens
+                        }})</p>
                     <p>Considere verificar a disponibilidade dos itens ou adicionar novos produtos ao estoque.</p>
                     <small>{{ now()->format('d/m/Y H:i') }}</small>
                 </div>
             </div>
             @endif
-            
+
             @if(!$estoqueAlerta && $totalItens > 0)
             <div class="notification-item info">
                 <div class="notification-icon">✅</div>
                 <div class="notification-details">
                     <h4>Estoque em Bom Estado</h4>
-                    <p>{{ round($porcentagemOcupados) }}% dos itens estão ocupados ({{ $itensOcupados }}/{{ $totalItens }})</p>
+                    <p>{{ round($porcentagemOcupados) }}% dos itens estão ocupados ({{ $itensOcupados }}/{{ $totalItens
+                        }})</p>
                     <p>Seu estoque está bem distribuído.</p>
                     <small>{{ now()->format('d/m/Y H:i') }}</small>
                 </div>
@@ -374,48 +396,54 @@
             <!-- Estatísticas -->
             <div class="transfer-stats">
                 <div class="transfer-stats-grid">
-                <div class="transfer-stat-card stat-pendente">
-                    <div class="stat-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10"/>
-                            <path d="M12 6v6l4 2"/>
-                        </svg>
+                    <div class="transfer-stat-card stat-pendente">
+                        <div class="stat-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10" />
+                                <path d="M12 6v6l4 2" />
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">Pendentes</span>
+                            <span class="stat-value">{{ $estatisticas['pendentes'] }}</span>
+                            <span class="stat-description">aguardando ação</span>
+                        </div>
                     </div>
-                    <div class="stat-info">
-                        <span class="stat-label">Pendentes</span>
-                        <span class="stat-value">{{ $estatisticas['pendentes'] }}</span>
-                        <span class="stat-description">aguardando ação</span>
+
+                    <div class="transfer-stat-card stat-transito">
+                        <div class="stat-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M3 16V6a2 2 0 0 1 2-2h11l4 4v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                                <circle cx="7.5" cy="17.5" r="1.5" />
+                                <circle cx="17.5" cy="17.5" r="1.5" />
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">Em Trânsito</span>
+                            <span class="stat-value">{{ $estatisticas['em_transito'] }}</span>
+                            <span class="stat-description">em movimento</span>
+                        </div>
+                    </div>
+
+                    <div class="transfer-stat-card stat-concluida">
+                        <div class="stat-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M20 6L9 17l-5-5" />
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">Concluídas</span>
+                            <span class="stat-value">{{ $estatisticas['concluidas'] }}</span>
+                            <span class="stat-description">finalizadas</span>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="transfer-stat-card stat-transito">
-                    <div class="stat-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M3 16V6a2 2 0 0 1 2-2h11l4 4v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                            <circle cx="7.5" cy="17.5" r="1.5"/>
-                            <circle cx="17.5" cy="17.5" r="1.5"/>
-                        </svg>
-                    </div>
-                    <div class="stat-info">
-                        <span class="stat-label">Em Trânsito</span>
-                        <span class="stat-value">{{ $estatisticas['em_transito'] }}</span>
-                        <span class="stat-description">em movimento</span>
-                    </div>
-                </div>
-                
-                <div class="transfer-stat-card stat-concluida">
-                    <div class="stat-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20 6L9 17l-5-5"/>
-                        </svg>
-                    </div>
-                    <div class="stat-info">
-                        <span class="stat-label">Concluídas</span>
-                        <span class="stat-value">{{ $estatisticas['concluidas'] }}</span>
-                        <span class="stat-description">finalizadas</span>
-                    </div>
-                </div>
-            </div>
         </section>
 
         <!-- Lista de Transferências -->
@@ -452,10 +480,13 @@
                             <td>{{ $transferencia->codigo_rastreamento ?? '-' }}</td>
                             <td>
                                 <div class="table-actions">
-                                    <a href="{{ route('transferencias.show', $transferencia->id) }}" class="btn btn-sm btn-primary">Ver</a>
+                                    <a href="{{ route('transferencias.show', $transferencia->id) }}"
+                                        class="btn btn-sm btn-primary">Ver</a>
 
                                     @if($transferencia->status === 'pendente')
-                                    <form method="POST" action="{{ route('transferencias.iniciar', $transferencia->id) }}" class="inline-form">
+                                    <form method="POST"
+                                        action="{{ route('transferencias.iniciar', $transferencia->id) }}"
+                                        class="inline-form">
                                         @csrf
                                         @method('PUT')
                                         <button type="submit" class="btn btn-sm btn-success">Iniciar</button>
@@ -463,7 +494,9 @@
                                     @endif
 
                                     @if($transferencia->status === 'em_transito')
-                                    <form method="POST" action="{{ route('transferencias.concluir', $transferencia->id) }}" class="inline-form">
+                                    <form method="POST"
+                                        action="{{ route('transferencias.concluir', $transferencia->id) }}"
+                                        class="inline-form">
                                         @csrf
                                         @method('PUT')
                                         <button type="submit" class="btn btn-sm btn-warning dark-text">Concluir</button>
@@ -471,7 +504,10 @@
                                     @endif
 
                                     @if(in_array($transferencia->status, ['pendente', 'em_transito']))
-                                    <form method="POST" action="{{ route('transferencias.cancelar', $transferencia->id) }}" class="inline-form" onsubmit="return confirm('Tem certeza que deseja cancelar esta transferência?')">
+                                    <form method="POST"
+                                        action="{{ route('transferencias.cancelar', $transferencia->id) }}"
+                                        class="inline-form"
+                                        onsubmit="return confirm('Tem certeza que deseja cancelar esta transferência?')">
                                         @csrf
                                         @method('PUT')
                                         <input type="hidden" name="motivo_cancelamento" value="Cancelado pelo usuário">
@@ -494,7 +530,7 @@
                     </tbody>
                 </table>
             </div>
-            
+
             <!-- Paginação -->
             @if($transferencias->hasPages())
             <div class="pagination-container">
@@ -505,4 +541,5 @@
     </main>
 
 </body>
+
 </html>
