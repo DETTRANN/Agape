@@ -368,7 +368,7 @@
                     </div>
                 </div>
                 <div class="estoque-action-buttons">
-                    <button class="btn-atualizar" onclick="window.location.reload()">Atualizar</button>
+                    <button class="btn-atualizar" onclick="atualizarItemSelecionado()">Atualizar</button>
                     <button class="btn-config-categorias" onclick="abrirModalConfigCategorias()">Configurar Alertas</button>
                     <button class="btn-novo">Novo</button>
                 </div>
@@ -393,6 +393,7 @@
                             <th>Responsável</th>
                             <th>Localidade</th>
                             <th>Observações</th>
+                            <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -416,13 +417,14 @@
                     $validade = \Carbon\Carbon::parse($produto->data_validade);
                     $hoje = \Carbon\Carbon::now();
                     $diasRestantes = (int) $hoje->diffInDays($validade, false);
+                    $horasRestantes = $hoje->diffInHours($validade, false) % 24;
                   @endphp
                                     <span class="{{ $diasRestantes <= 7 && $diasRestantes >= 0 ? 'validade-proxima' : ($diasRestantes < 0 ? 'validade-vencida' : '') }}">
                                         {{ $validade->format('d/m/Y') }}
                                         @if($diasRestantes <= 7 && $diasRestantes >= 0)
-                                            <br><small style="color: #ff9800;">⚠️ Vence em {{ $diasRestantes }} dias</small>
+                                            <br><small style="color: #ff9800;">⚠️ Vence em {{ $diasRestantes }} {{ $diasRestantes == 1 ? 'dia' : 'dias' }} e {{ abs($horasRestantes) }}h</small>
                                         @elseif($diasRestantes < 0)
-                                            <br><small style="color: #f44336;">❌ Vencido há {{ abs($diasRestantes) }} dias</small>
+                                            <br><small style="color: #f44336;">❌ Vencido há {{ abs($diasRestantes) }} {{ abs($diasRestantes) == 1 ? 'dia' : 'dias' }} e {{ abs($horasRestantes) }}h</small>
                                         @endif
                                     </span>
                                 @else
@@ -432,10 +434,20 @@
                             <td>{{ $produto->responsavel }}</td>
                             <td>{{ $produto->localidade ?? 'N/A' }}</td>
                             <td>{{ Str::limit($produto->observacoes, 30) ?? 'N/A' }}</td>
+                            <td>
+                                <button type="button" 
+                                        class="btn-excluir-item" 
+                                        onclick="confirmarExclusao({{ $produto->id }}, '{{ addslashes($produto->nome_item) }}')"
+                                        title="Excluir item">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="18" height="18">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="12" style="text-align: center; padding: 2rem; color: var(--cor-texto-secundaria);">
+                            <td colspan="13" style="text-align: center; padding: 2rem; color: var(--cor-texto-secundaria);">
                                 <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
                                     <img src="{{url('frontend/img/estoque-pronto.png')}}" alt="Sem itens" style="width: 64px; height: 64px; opacity: 0.5;">
                                     <p style="margin: 0; font-size: 1.1rem;">Nenhum item encontrado no estoque</p>
@@ -581,6 +593,218 @@
         </div>
     </div>
 
+        @if(isset($produtoEdicao))
+        <!-- Modal de Edição de Produto -->
+        <div id="modal-editar-produto" class="modal" style="display: block;">
+          <div class="modal-content" style="max-width: 720px;">
+            <span class="close" onclick="fecharModalEditar()">&times;</span>
+            <h2>Editar Produto #{{ $produtoEdicao->id_item ?? $produtoEdicao->id }}</h2>
+
+            <form method="POST" action="{{ route('produtos.update', $produtoEdicao->id) }}">
+              @csrf
+              @method('PUT')
+
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>Status</label>
+                  <select name="status" required>
+                    @php($statusLista = ['Disponível','Ocupado','Manutenção','Vencido'])
+                    @foreach($statusLista as $s)
+                      <option value="{{ $s }}" {{ $produtoEdicao->status === $s ? 'selected' : '' }}>{{ $s }}</option>
+                    @endforeach
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label>Nome do Item</label>
+                  <input type="text" name="nome_item" value="{{ $produtoEdicao->nome_item }}" required>
+                </div>
+
+                <div class="form-group">
+                  <label>Descrição</label>
+                  <input type="text" name="descricao" value="{{ $produtoEdicao->descricao }}" required>
+                </div>
+
+                <div class="form-group">
+                  <label>Categoria</label>
+                  <input type="text" name="categoria" value="{{ $produtoEdicao->categoria }}" required>
+                </div>
+
+                <div class="form-group">
+                  <label>Número de Série</label>
+                  <input type="text" name="numero_serie" value="{{ $produtoEdicao->numero_serie }}">
+                </div>
+
+                <div class="form-group">
+                  <label>Preço</label>
+                  <input type="number" step="0.01" name="preco" value="{{ number_format($produtoEdicao->preco, 2, '.', '') }}" required>
+                </div>
+
+                <div class="form-group">
+                  <label>Data de Posse</label>
+                  <input type="date" name="data_posse" value="{{ \Carbon\Carbon::parse($produtoEdicao->data_posse)->format('Y-m-d') }}" required>
+                </div>
+
+                <div class="form-group">
+                  <label>Validade</label>
+                  <input type="date" name="data_validade" value="{{ $produtoEdicao->data_validade ? \Carbon\Carbon::parse($produtoEdicao->data_validade)->format('Y-m-d') : '' }}">
+                </div>
+
+                <div class="form-group">
+                  <label>Responsável</label>
+                  <input type="email" name="responsavel" value="{{ $produtoEdicao->responsavel }}" required>
+                </div>
+
+                <div class="form-group">
+                  <label>Localidade</label>
+                  <input type="text" name="localidade" value="{{ $produtoEdicao->localidade }}">
+                </div>
+
+                <div class="form-group" style="grid-column: 1 / -1;">
+                  <label>Observações</label>
+                  <textarea name="observacoes" rows="3">{{ $produtoEdicao->observacoes }}</textarea>
+                </div>
+              </div>
+
+              <div class="form-buttons" style="margin-top: 16px;">
+                <button type="button" class="btn-cancelar" onclick="fecharModalEditar()">Cancelar</button>
+                <button type="submit" class="btn-salvar">Salvar alterações</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        @endif
+
+    <script>
+    // Variável para armazenar o item selecionado
+    let itemSelecionado = null;
+
+    // Adicionar evento de clique nas linhas da tabela
+    document.addEventListener('DOMContentLoaded', function() {
+      const tbody = document.querySelector('table tbody');
+      if (!tbody) return;
+
+      tbody.addEventListener('click', function(e) {
+        const linha = e.target.closest('tr.estoque-row');
+        if (!linha) return;
+
+        // Toggle: se já está selecionada, desmarca; senão, marca única
+        if (linha.classList.contains('selected')) {
+          linha.classList.remove('selected');
+          itemSelecionado = null;
+          return;
+        }
+
+        document.querySelectorAll('tr.estoque-row.selected').forEach(l => l.classList.remove('selected'));
+        linha.classList.add('selected');
+
+        // Armazena dados do produto selecionado
+        const idCell = linha.querySelector('td:nth-child(1)');
+        itemSelecionado = {
+          id: idCell ? idCell.textContent.trim() : null
+        };
+      });
+    });
+
+    // Função para atualizar item selecionado
+    function atualizarItemSelecionado(event) {
+      if (event && typeof event.preventDefault === 'function') {
+        event.preventDefault();
+      }
+        if (!itemSelecionado) {
+            alert('Por favor, selecione um item na tabela primeiro.');
+            return;
+        }
+        
+        // Se houver qualquer modal aberto, fechar visualmente antes do redirect
+        document.querySelectorAll('.modal').forEach(m => {
+          m.style.display = 'none';
+        });
+
+        // Recarrega a página passando o ID do item para editar
+        const searchParams = new URLSearchParams(window.location.search);
+        searchParams.set('editar', itemSelecionado.id);
+      // Pequeno atraso para permitir repaint do fechamento do modal
+      setTimeout(function() {
+        window.location.search = searchParams.toString();
+      }, 50);
+    }
+
+    function fecharModalEditar() {
+      const params = new URLSearchParams(window.location.search);
+      params.delete('editar');
+      window.location.search = params.toString();
+    }
+
+    function confirmarExclusao(produtoId, nomeItem) {
+      if (confirm(`Tem certeza que deseja excluir o item "${nomeItem}"?\n\nEsta ação não pode ser desfeita.`)) {
+        // Criar form invisível para enviar DELETE
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = `/produtos/${produtoId}`;
+        
+        const csrfInput = document.createElement('input');
+        csrfInput.type = 'hidden';
+        csrfInput.name = '_token';
+        csrfInput.value = '{{ csrf_token() }}';
+        
+        const methodInput = document.createElement('input');
+        methodInput.type = 'hidden';
+        methodInput.name = '_method';
+        methodInput.value = 'DELETE';
+        
+        form.appendChild(csrfInput);
+        form.appendChild(methodInput);
+        document.body.appendChild(form);
+        form.submit();
+      }
+    }
+    </script>
+
+    <style>
+    .modal .close {
+      cursor: pointer;
+    }
+
+    .btn-excluir-item {
+      background: transparent;
+      border: 1px solid #f44336;
+      color: #f44336;
+      padding: 8px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+    }
+
+    .btn-excluir-item:hover {
+      background: #f44336;
+      color: white;
+      transform: scale(1.05);
+    }
+
+    .btn-excluir-item svg {
+      display: block;
+    }
+    .estoque-row {
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      position: relative;
+    }
+
+    tbody tr.estoque-row:hover {
+      background-color: rgba(255, 211, 0, 0.1) !important;
+    }
+
+    tbody tr.estoque-row.selected {
+      background-color: rgba(255, 211, 0, 0.2) !important;
+      border-left: 3px solid var(--cor-primaria);
+    }
+    </style>
    
   </body>
 </html>

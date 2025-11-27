@@ -28,6 +28,39 @@ class ProdutoRepository implements ProdutoRepositoryInterface
         return $this->model->find($id);
     }
 
+    /**
+     * Busca produto por identificador visível na tabela (id_item) ou id interno
+     */
+    public function findById($id)
+    {
+        // Alguns lugares usam id_item (código do item exibido na tabela)
+        // Tenta primeiro por id_item, se não achar, tenta pelo id padrão
+        $byItem = $this->model->where('id_item', $id)->first();
+        if ($byItem) {
+            return $byItem;
+        }
+        return $this->model->find($id);
+    }
+
+    /**
+     * Busca produto por id_item ou id, restrito ao usuário
+     */
+    public function findByIdForUser($userId, $id)
+    {
+        $byItem = $this->model
+            ->where('user_id', $userId)
+            ->where('id_item', $id)
+            ->first();
+        if ($byItem) {
+            return $byItem;
+        }
+
+        return $this->model
+            ->where('user_id', $userId)
+            ->where('id', $id)
+            ->first();
+    }
+
     public function update($id, array $data)
     {
         $produto = $this->model->find($id);
@@ -49,19 +82,12 @@ class ProdutoRepository implements ProdutoRepositoryInterface
 
     public function findByUser($userId)
     {
-        // Excluir produtos que estejam em transferência ativa (em_transito)
-        // ou que tenham sido vendidos (transferência concluida com motivo 'Venda')
+        // Excluir apenas produtos que estejam em transferência ativa ou concluída
         return $this->model
             ->where('user_id', $userId)
             ->whereDoesntHave('transferencias', function ($q) use ($userId) {
                 $q->where('user_id', $userId)
-                  ->where(function ($q2) {
-                      $q2->whereIn('status', ['em_transito'])
-                         ->orWhere(function ($q3) {
-                             $q3->where('status', 'concluida')
-                                ->where('motivo', 'Venda');
-                         });
-                  });
+                  ->whereIn('status', ['em_transito', 'concluida']);
             })
             ->get();
     }

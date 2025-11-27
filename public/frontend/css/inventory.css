@@ -1319,6 +1319,7 @@ article h1 {
         transform: scale(0.83);
         transform-origin: top center;
         overflow: hidden;
+          margin-top: -1.2% !important;
     }
 
     /* Relatórios: manter o grid principal em uma única linha com scroll horizontal */

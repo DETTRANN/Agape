@@ -480,8 +480,12 @@
                             <td>{{ $transferencia->codigo_rastreamento ?? '-' }}</td>
                             <td>
                                 <div class="table-actions">
-                                    <a href="{{ route('transferencias.show', $transferencia->id) }}"
-                                        class="btn btn-sm btn-primary">Ver</a>
+                                    @if($transferencia->status === 'concluida')
+                                        <span class="btn btn-sm" style="background: #4caf50; color: white; cursor: default;">Concluído</span>
+                                    @else
+                                        <a href="{{ route('transferencias.show', $transferencia->id) }}"
+                                            class="btn btn-sm btn-primary">Ver</a>
+                                    @endif
 
                                     @if($transferencia->status === 'pendente')
                                     <form method="POST"

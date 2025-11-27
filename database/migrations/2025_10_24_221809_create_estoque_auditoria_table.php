@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('estoque_auditoria', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('produto_id');
+            $table->unsignedBigInteger('produto_id')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->string('tipo_operacao'); // 'criacao', 'atualizacao', 'exclusao', 'transferencia'
             $table->string('campo_alterado')->nullable(); // Campo que foi alterado
@@ -23,8 +23,8 @@ return new class extends Migration
             $table->text('observacoes')->nullable();
             $table->timestamps();
 
-            // Foreign keys
-            $table->foreign('produto_id')->references('id')->on('produtos')->onDelete('cascade');
+            // Foreign keys - SET NULL para manter histórico mesmo após exclusão
+            $table->foreign('produto_id')->references('id')->on('produtos')->onDelete('set null');
             $table->foreign('user_id')->references('id')->on('clientes')->onDelete('cascade');
             
             // Índices para melhor performance

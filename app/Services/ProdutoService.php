@@ -110,11 +110,22 @@ class ProdutoService
         // Obter produto antes da exclusão para auditoria
         $produto = $this->produtoRepository->find($id);
         
-        if ($produto) {
-            // Registrar auditoria de exclusão
-            $this->auditoriaService->registrarExclusao($id, 'Produto removido: ' . $produto->nome_item);
+        if (!$produto) {
+            throw new \Exception('Produto não encontrado para exclusão.');
         }
         
+        // Armazenar informações antes de deletar
+        $produtoId = $produto->id;
+        $nomeItem = $produto->nome_item;
+        
+        // IMPORTANTE: Registrar auditoria ANTES de deletar
+        try {
+            $this->auditoriaService->registrarExclusao($produtoId, 'Produto removido: ' . $nomeItem);
+        } catch (\Exception $e) {
+            \Log::error('Erro ao registrar auditoria de exclusão: ' . $e->getMessage());
+        }
+        
+        // Agora deletar o produto
         return $this->produtoRepository->delete($id);
     }
 

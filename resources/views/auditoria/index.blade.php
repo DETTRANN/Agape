@@ -353,7 +353,7 @@
                     <p>Histórico completo de todas as alterações</p>
                 </div>
                 <div class="auditoria-actions">
-                    <a href="{{ route('auditoria.relatorio') }}" class="btn-atualizar">Relatório Detalhado</a>
+
                     <a href="{{ route('transferencias.index') }}" class="btn-novo">Ver Transferências</a>
                 </div>
             </div>
@@ -479,8 +479,8 @@
                         @forelse($auditorias as $auditoria)
                         <tr>
                             <td>
-                                <strong>{{ $auditoria->created_at->format('d/m/Y') }}</strong><br>
-                                <small style="opacity: 0.7;">{{ $auditoria->created_at->format('H:i:s') }}</small>
+                                <strong>{{ $auditoria->created_at->timezone('America/Sao_Paulo')->format('d/m/Y') }}</strong><br>
+                                <small style="opacity: 0.7;">{{ $auditoria->created_at->timezone('America/Sao_Paulo')->format('H:i:s') }}</small>
                             </td>
                             <td>
                                 @if($auditoria->produto)

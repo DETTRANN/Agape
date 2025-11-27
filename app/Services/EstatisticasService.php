@@ -12,7 +12,13 @@ class EstatisticasService
      */
     public function calcularEstatisticasProdutos(int $userId): array
     {
-        $produtos = Produto::where('user_id', $userId)->get();
+        // Excluir produtos que estejam em transferência ativa ou concluída
+        $produtos = Produto::where('user_id', $userId)
+            ->whereDoesntHave('transferencias', function ($q) use ($userId) {
+                $q->where('user_id', $userId)
+                  ->whereIn('status', ['em_transito', 'concluida']);
+            })
+            ->get();
 
         if ($produtos->isEmpty()) {
             return [

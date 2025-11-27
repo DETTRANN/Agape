@@ -370,10 +370,10 @@
           <img src="{{url('frontend/img/entrega-rapida (1).png')}}" alt="" />
         </section>
         <section>
-          <p><span class="item-count-tracking">{{ $entregasHoje ?? 0 }}</span> entregas a caminhho</p>
+          <p><span class="item-count-tracking">{{ $entregasHoje ?? 0 }}</span> entregas realizadas</p>
         </section>
         <section>
-          <button class="btn-tracking">Acompanhar Rastreio</button>
+          <button class="btn-tracking" onclick="goToTransferencias()">Acompanhar Rastreio</button>
         </section>
       </nav>
     </main>

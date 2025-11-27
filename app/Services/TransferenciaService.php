@@ -47,6 +47,9 @@ class TransferenciaService
     {
         return Produto::where('user_id', Auth::id())
             ->where('status', 'Disponível')
+            ->whereDoesntHave('transferencias', function ($q) {
+                $q->whereIn('status', ['pendente', 'em_transito', 'concluida']);
+            })
             ->get();
     }
 
@@ -60,6 +63,11 @@ class TransferenciaService
         // Verificar se o produto pertence ao usuário
         if ($produto->user_id != Auth::id()) {
             throw new \Exception('Produto não encontrado.');
+        }
+
+        // Bloquear venda de produtos vencidos
+        if (($dados['motivo'] ?? null) === 'Venda' && $produto->status === 'Vencido') {
+            throw new \Exception('Não é possível vender produtos vencidos. Use o motivo "Produto Vencido" para descarte.');
         }
 
         // Criar transferência

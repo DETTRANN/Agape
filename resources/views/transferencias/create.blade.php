@@ -412,6 +412,7 @@
                                 <select id="motivo" name="motivo">
                                     <option value="">Selecione o motivo</option>
                                     <option value="Venda">Venda</option>
+                                    <option value="Produto Vencido">Produto Vencido</option>
                                     <option value="Reorganização do estoque">Reorganização do estoque</option>
                                     <option value="Mudança de setor">Mudança de setor</option>
                                     <option value="Manutenção preventiva">Manutenção preventiva</option>

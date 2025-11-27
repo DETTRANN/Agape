@@ -26,9 +26,26 @@ class ProdutoController extends Controller
     /**
      * Lista produtos do estoque com estatísticas
      */
-    public function index()
+    public function index(Request $request)
     {
         $dadosEstoque = $this->produtoService->gerarDadosEstoque();
+
+        // Se veio parâmetro ?editar={id}, buscar produto e enviar para a view
+        $idEdicao = $request->query('editar');
+        if ($idEdicao) {
+            try {
+                $produtoParaEditar = $this->produtoRepository->findByIdForUser(Auth::id(), $idEdicao);
+                if ($produtoParaEditar) {
+                    $dadosEstoque['produtoEdicao'] = $produtoParaEditar;
+                } else {
+                    // Feedback leve caso não encontre
+                    session()->flash('error', 'Item para edição não encontrado.');
+                }
+            } catch (\Exception $e) {
+                session()->flash('error', 'Erro ao carregar item para edição: ' . $e->getMessage());
+            }
+        }
+
         return view('tabela_estoque', $dadosEstoque);
     }
 
@@ -175,18 +192,39 @@ class ProdutoController extends Controller
         // Média de valor por venda
         $mediaValorVenda = $totalVendasAno > 0 ? $valorTotalVendas / $totalVendasAno : 0;
         
-        // Produto mais vendido
+        // Produto mais vendido (ou mais caro das vendas se não houver vendas repetidas)
         $produtoMaisVendido = $vendasAnoAtual
             ->groupBy('produto_id')
             ->map(function($grupo) use ($produtos) {
                 $produto = $produtos->firstWhere('id', $grupo->first()->produto_id);
                 return [
                     'nome' => $produto ? $produto->nome_item : 'Desconhecido',
-                    'quantidade' => $grupo->count()
+                    'quantidade' => $grupo->count(),
+                    'preco' => $produto ? (float)$produto->preco : 0
                 ];
             })
             ->sortByDesc('quantidade')
             ->first();
+
+        // Se não há produto com mais de 1 venda, mostrar o mais caro das vendas
+        if (!$produtoMaisVendido || $produtoMaisVendido['quantidade'] <= 1) {
+            $produtoMaisCaroVendido = $vendasAnoAtual
+                ->map(function($venda) {
+                    return [
+                        'nome' => $venda->produto ? $venda->produto->nome_item : 'Desconhecido',
+                        'preco' => $venda->produto ? (float)$venda->produto->preco : 0
+                    ];
+                })
+                ->sortByDesc('preco')
+                ->first();
+
+            if ($produtoMaisCaroVendido) {
+                $produtoMaisVendido = [
+                    'nome' => $produtoMaisCaroVendido['nome'],
+                    'quantidade' => 0 // Indica que é fallback (mais caro das vendas)
+                ];
+            }
+        }
 
         // Produtos com maior rotatividade (baseado na quantidade de repetições)
         // Conta quantas vezes cada item disponível aparece
@@ -203,9 +241,9 @@ class ProdutoController extends Controller
             ->take(5)
             ->values();
 
-        // Itens em falta (status "Manutenção" ou "Ocupado")
+        // Itens em falta (status "Manutenção", "Ocupado" ou "Vencido")
         $itensFalta = $produtos
-            ->whereIn('status', ['Manutenção', 'Ocupado'])
+            ->whereIn('status', ['Manutenção', 'Ocupado', 'Vencido'])
             ->groupBy('nome_item')
             ->map(function($grupo) {
                 return [
